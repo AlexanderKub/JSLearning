@@ -10,8 +10,13 @@
   <script>
   var FirstNumber = prompt('Введите первое число:', 0);
   var SecondNumber = prompt('Введите второе число:', 0);
+  
+  function CountSum(a, b){
+	return Number(a) + Number(b);
+  };
+  
   alert('Сумма: ' + FirstNumber + '+' +SecondNumber + '=' 
-		  + (Number(FirstNumber)+Number(SecondNumber)))
+		  + CountSum(FirstNumber,SecondNumber));
   </script>
 </body>
 
