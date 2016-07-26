@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Система учета заявок</title>
+  <link rel="stylesheet" media="screen" href="CSS/style.css">
+</head>
+
+<body>
+<div id="LogonWindow" class="WindowClass">
+<form id="LoginForm" class="FormsStyle">
+    <h1>Войти</h1>
+    <fieldset id="inputs">
+        <input id="username" placeholder="Логин" autofocus required type="text">   
+        <input id="password" placeholder="Пароль" required type="password">
+    </fieldset>
+    <fieldset id="actions">
+        <input class='btn' value="Войти" type="submit">
+        <a href="" id="RegHref">Зарегистрироваться</a>
+    </fieldset>
+</form>
+</div>
+
+<div id="RegWindow" class="WindowClass">
+<form id="RegistrationForm" class="FormsStyle">
+    <h1>Регистрация</h1>
+    <fieldset id="inputs">
+        <input id="username" placeholder="Логин" autofocus required type="text">   
+        <input id="password" placeholder="Пароль" required type="password">
+        <input id="name" placeholder="Имя" required type="text"> 
+    </fieldset>
+    <button class='btn' type="submit">Регистрация</button>
+    <div class="RightsAllight">
+    	<button type="button" class='btn' 
+    		onClick='SetWindow("LogonWindow");'>&laquo;Назад</button>
+    </div>
+</form>
+</div>
+
+<div id="MainWindow" class="WindowClass">
+	<h1>Система учёта заявок</h1>
+	<div id="MenuBar">
+	 	<a href="#" id="MB1">Заявки</a><a href="#" id="MB2">Пользователи</a>
+	 	<div class="RightsAllight">
+		 	<div id="StatusBar">Статус</div>
+		 	<a href="">Выйти</a>
+	 	</div>
+	</div>
+	
+	<div id="AppsFrame" class="FrameClass" style="margin-left:2%; margin-right:2%;">
+		<div id="AppsFrameMsg"></div>
+			<p>
+				Список заявок:
+				<button class="btn" id="AddAppsBtn" 
+					onclick="SetFrame('CreateAppsFrame');"
+					style="float:right;">
+					Добавить заявку
+				</button>
+			</p>
+	</div>
+	
+	<div id="DetailAppsFrame" class="FrameClass" style="margin-left:25%; margin-right:25%;">
+			<div id="DetailAppsFrameMsg"></div>
+			<p id="DetailFrameLabel">
+				Детальная информация:
+				<button class="btn" id="BackAppsBtn" 
+					onclick="SetFrame('AppsFrame');"
+					style="float:right;"> &laquo;Назад
+				</button>
+			</p>
+			<div id=DetailFrameTable></div>
+			<textarea id="CommArea" placeholder='Написать комментарий..' 
+			rows="2" onkeyup="TextAreaResize(event, 15, 2);"></textarea>
+			<div id="CommAreaDiv"></div>
+			<br><button class='btn' onclick="AddComment();">Отправить</button>
+			<div id=DetailFrameComments></div>
+	</div>
+	
+	<div id="CreateAppsFrame" class="FrameClass">
+		<form id="NewAppForm" style=" margin-left: 22%;">
+			<fieldset>
+				<table>
+					<tr>
+						<td colspan="4"><h1>Создание заявки</h1></td>
+					</tr>
+				    <tr> 
+					     <td  width="140">Название:</td>
+					     <td width="250">
+					     	<input type="text" name="appname" 
+					     	style="width:220px;" required>
+					    </td>
+					     <td align="right" width="100" id="NewAppFormDTRow">Дата:</td>
+					     <td width="160">
+					     	<input type="datetime-local" name="appdate"
+						  	style="width:220px;" required>
+						 </td>
+				    </tr>
+				    <tr id="NewAppFormCERow">
+				    	<td >Клиент:</td>
+				    	<td>	        
+						  <select id="ClientSelect" name="appclient" 
+						  	style="width:222px;" required>
+						  </select>
+						</td> 
+				    	<td align="right">Исполнитель:</td> 
+				    	<td>
+					      <select id="ExecutorSelect" name="appexecut" 
+					      	style="width:222px;" required>
+						    <option value="null">-пусто-</option>
+						  </select>
+				    	</td> 
+				    </tr>
+				    <tr>
+				    	<td>Описание:</td>
+				    	<td colspan="3"></td>
+				    </tr>
+				    <tr>
+				    	<td colspan="4">
+					    	<textarea rows="10" style="width:99%" name="appdisc" 
+					    	required></textarea>
+				    	</td>
+				    </tr> 
+				    <tr>
+					    <td >Предельный срок:</td>
+					    <td>
+					      <input type="datetime-local" name="appdeaddate"
+						  	style="width:220px;" required>
+					    </td>
+					    <td align="right">Приоритет:</td>
+				    	<td>
+				    	  <select name="appprior" style="width:222px;" required>
+							<option value="0">Низкий</option>
+							<option value="1">Средний</option>
+							<option value="2">Высокий</option>
+						  </select>
+				    	</td>
+				    </tr>
+				    <tr id="NewAppFormDSRow">
+					    <td>Предпологаемый срок:</td>
+					    <td>
+						  <input type="datetime-local" name="appestdate" 
+						  	style="width:220px;" required>
+					    </td>
+					    <td align="right">Готовность(%):</td>
+				    	<td>
+							 <input type="number" name="status" min="0" max="100" 
+							 style="width:220px;" required>
+				    	</td>
+				    </tr>
+				    <tr>
+				    	<td colspan="3"></td>
+				    	<td align="right" >
+				    		<input type="button"  class='btn' value="&laquo;Назад" 
+				    			onclick="SetFrame('AppsFrame');">
+				    		<input type="submit"  class='btn' value="Создать">
+				    	</td>
+				    </tr>
+			   </table>
+			</fieldset>
+		</form>
+	</div>
+	
+	<div id="UsersFrame" class="FrameClass">
+		<div id="UsersMenu"  class="SideMenu">
+		</div>
+		<div id="UsersContent" class="main-content">
+            <p> Просмотр и изменение информации о пользователях.
+            <a href="#" onclick="AddNewUserFormShow(true);">
+            	Добавить пользователя</a>
+            </p>
+            <div id="UsersContentEdit">
+            </div>
+            <form id="AddEditUserForm" class="FormsStyle">
+			    <fieldset id="inputs">
+			        <input id="username" placeholder="Логин" autofocus 
+			        	required type="text">   
+			        <input id="password" placeholder="Пароль" 
+			        	required type="text">
+			        <input id="name" placeholder="Имя" required type="text"> 
+			        <select class="myselect" name="roleselect">
+						<option value="2">Клиент</option>
+						<option value="1">Исполнитель</option>
+						<option value="0">Администратор</option>
+					</select>
+			    </fieldset>
+			    <input class='btn' value="Добавить" type="submit">
+			</form>
+    	</div>
+	</div>
+</div>
+
+<script src="Lib/Framework.js"></script>
+<script src="Lib/Main.js"></script>
+
+</body>
+
+</html>
