@@ -1,0 +1,103 @@
+<div id='AppsDetail'>
+	<table class='simple-little-table' cellspacing='0'>
+		<tr>
+			<td>Название:</td>
+			<td><%=data.inRec.Name%></td>
+		</tr>
+		
+		<tr>
+			<td>Дата:</td>
+			<td><%=new Date(Date.parse(data.inRec.Date)).toUTCString()%></td>
+		</tr>
+				
+		<tr>
+			<td>Клиент:</td>
+			<td><% if(UserExist(data.inRec.Client)){%>
+					<%=GetUser(data.inRec.Client).name%>
+				<%}else{%>
+					Client
+				<% } %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>Исполнитель:</td>
+			<td>
+				<% if(UserInfo.role>0){ %>
+					<% if(UserExist(data.inRec.Executor)){ %>
+							<%=GetUser(data.inRec.Executor).name %>
+						<% }else{ %>
+							Executor
+						<% } %>
+				<% }else{ %>
+					<select id='editappexecut'><option value='null'>-пусто-</option>
+					<% for (var x in data.inList) { %>
+						<option value='<%=data.inList[x].login.toLowerCase()%>'
+						
+						<% if(data.inRec.Executor && data.inRec.Executor.toLowerCase()==
+							data.inList[x].login.toLowerCase()){ %>
+								selected='selected'
+							<% } %>
+							>
+							<%=data.inList[x].name %>
+						</option>
+					<% } %>
+				<% } %>
+				</select>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>Приоритет:</td>
+			<td>
+				<% (data.inRec.Priority==0? print("Низкий"):
+				(data.inRec.Priority==1?print("Средний"):print("Высокий"))) %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>Предельный срок:</td>
+			<td>
+			<% if(UserInfo.role>0){%>
+				<%=new Date(Date.parse(data.inRec.Deadline)).toUTCString()%>
+			<% }else{ %>
+				<input type="datetime-local" id="editappdeadline" 
+				value="<%=data.inRec.Deadline%>">
+			<% } %>
+			</td>
+		</tr>
+				
+		<tr>
+			<td>Предпологаемый срок:</td>
+			<td>
+				<% if(UserInfo.role==2){%>
+					<%=new Date(Date.parse(data.inRec.Estimated)).toUTCString()%>
+				<%}else{ %>
+					<input type="datetime-local" id="editappestimated"
+					value="<%=data.inRec.Estimated%>">
+				<%} %>
+			</td>
+		</tr>
+		
+		<% if(UserInfo.role==2){ %>
+			<tr>
+				<td>Завершено:</td>
+				<td> <%=data.inRec.Progress %>%</td>
+			</tr>
+		<% }else{ %>
+			<tr>
+				<td>Завершено:</td><td><input type='number' 
+				value='<%=data.inRec.Progress %>' min='0' max='100' 
+				id='editappstatus'>
+				</input>%
+				</td>
+			</tr>
+		<% } %>
+		
+		<tr>
+			<td colspan='2' style='vertical-align: top;'>
+				Описание:<br><%=data.inRec.Discription%>
+			</td>
+		</tr>
+	</table>
+</div>

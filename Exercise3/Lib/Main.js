@@ -3,17 +3,18 @@ var MyFramework = require('./Framework');
 var LoginModule = require('./LoginModule');
 var RegisterModule = require('./RegisterModule');
 var UsersPanelModule = require('./UsersPanelModule');
-var AppsModule = require('./AppsModule');
+var AppsModule = require('./RestoreAppsModule');
 
-var LoginForm = $("LoginForm");
-var RegForm = $("RegistrationForm");
-var AddNewUserForm = $("AddEditUserForm");
-var AddNewAppForm=$("NewAppForm");
-
-global.LoginForm=LoginForm;
-global.RegForm=RegForm;
-global.AddNewUserForm=AddNewUserForm;
-global.AddNewAppForm=AddNewAppForm;
+var Tpl = require('../Templates/Authorization.ejs');
+$('#page').append(Tpl);
+var Tpl = require('../Templates/Registration.ejs');
+$('#page').append(Tpl);
+var Tpl = require('../Templates/MainWindow.ejs');
+$('#page').append(Tpl);
+var Tpl = require('../Templates/UsersWindow.ejs');
+$('#MainWindow').append(Tpl);
+var Tpl = require('../Templates/AppsWindow.ejs');
+$('#MainWindow').append(Tpl);
 
 SetWindow("LogonWindow");
 LoginModule();
@@ -22,15 +23,14 @@ UsersPanelModule();
 AppsModule();
 
 //Главное окно
-$("MB1").addEventListener("click",function(){
+$("#MB1").on("click",function(){
 	SetFrame("AppsFrame");
 	event.preventDefault();
 });
-$("MB2").addEventListener("click",function(){
+$("#MB2").on("click",function(){
 	SetFrame("UsersFrame");
 	event.preventDefault();
 });
-
 
 function SetWindow(name){
 	var windowsList=document.getElementsByClassName("WindowClass");
@@ -39,8 +39,8 @@ function SetWindow(name){
 	
 	if(name=="MainWindow"){
 		SetFrame("AppsFrame");
-		$("MB2").style.display=(UserInfo.role==0?"inline":"none");
-		$("StatusBar").innerHTML=UserInfo.name+"("+UserInfo.login+")";
+		$("#MB2").css('display',(UserInfo.role==0?"inline":"none"));
+		$("#StatusBar").html(UserInfo.name+"("+UserInfo.login+")");
 		return;
 	}	
 	
@@ -64,8 +64,8 @@ function SetFrame(name){
 		AppsModule.ShowAppsFrame();
 		return;
 	}
-	AlertMsg($("AppsFrameMsg"),"");
-	AlertMsg($("DetailAppsFrameMsg"),"");
+	AlertMsg($("#AppsFrameMsg"),"");
+	AlertMsg($("#DetailAppsFrameMsg"),"");
 	
 	//Блок детальной информации о заявке
 	if(name=="DetailAppsFrame"){

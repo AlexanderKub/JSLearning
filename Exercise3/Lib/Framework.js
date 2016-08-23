@@ -6,16 +6,16 @@ var UsersFilter=[1,1,1];
 var UserFilterOpened=false;
 var TempAppID;
 
+var $ = require('jquery');
+global.$=$;
 global.UserInfo=UserInfo;
 global.UsersFilter=UsersFilter;
 global.UsersList=UsersList;
 global.CommsList=CommsList;
 global.UserFilterOpened=UserFilterOpened;
 global.TempAppID=TempAppID;
+
   //Вспомогательные функции
-  function $(id) {
-	return document.getElementById(id);
-  }
   function GetRoleFromCode(id){
 	  if(id==0) return "Администратор";
 	  if(id==1) return "Исполнитель";
@@ -61,6 +61,7 @@ global.TempAppID=TempAppID;
 	  return true;
   }
   function UserExist(login){
+	  if(!login) return false;
 	  return (localStorage["admapp.users." + login.toLowerCase()]!=null);
   }
   function GetUsersList(filter){
@@ -188,54 +189,21 @@ global.TempAppID=TempAppID;
   
   //Добавление сообщения
   function AlertMsg(parent,text){
-	var alerts=parent.getElementsByClassName('alert');
-	while(alerts.length>0) parent.removeChild(alerts[0]);
+	var alerts=$('.alert');
+	for (var i = 0; i < alerts.length; i++) $(alerts[i]).remove();
 
   	var element=document.createElement('div');
 	element.className='alert';
 	element.innerHTML=text;
-	parent.appendChild(element);
+	$(parent).append(element);
   }
   
   //Создание списка заявок
   function GetAppsListItem(list,UserInfo){
-  	  var element=document.createElement('div');
-	  element.id='AppsList';
-	  var text="<table class='simple-little-table'  cellspacing='0'>";
-	  text+="<tr>" +
-	  		"<th>Название</th>" +
-	  		"<th>Дата</th>" +
-	  		(UserInfo.role!=2?"<th>Клиент</th>":"") +
-	  		(UserInfo.role==0?"<th>Исполнитель</th>":"") +
-	  		"<th>Приоритет</th>" +
-	  		"<th>Предельный срок</th>" +
-	  		(UserInfo.role!=2?"<th>Предпологаемый срок</th>":"") +
-	  		"<th>Завершено</th></tr>";
-	  
-	  if(list.length==0){
-		  text+="<tr><td colspan='8' style='text-align:center;'>" +
-		  		"Нет заявок</td></tr></table>";
-		  element.innerHTML=text;	
-		  return element;
-	  }
-	  
-	  for (var x in list) {
-		  text+="<tr style='cursor:pointer;' " +
-		  		"onclick='Main.AppsModule.GetDetailInfo("+list[x].ID+")'><td>";
-		  text+=list[x].Name+"</td><td>";
-		  text+= new Date(Date.parse(list[x].Date)).toUTCString()+"</td><td>";
-		  if(UserInfo.role!=2)text+=(UserExist(list[x].Client)?
-				  GetUser(list[x].Client).name:"Client")+"</td><td>";
-		  if(UserInfo.role==0)text+=(UserExist(list[x].Executor)?
-				  GetUser(list[x].Executor).name:"Нет")+"</td><td>";
-		  text+=(list[x].Priority==0?"Низкий":
-			  (list[x].Priority==1?"Средний":"Высокий"))+"</td><td>";
-		  text+=new Date(Date.parse(list[x].Deadline)).toUTCString()+"</td><td>";
-		  if(UserInfo.role!=2)text+=new Date(Date.parse(list[x].Estimated)).toUTCString()+"</td><td>";
-		  text+=list[x].Progress+"%</td></tr>";
-	  }
-	  text+="</table>";
-	  element.innerHTML=text;	
+ 	  var element=document.createElement('div');
+	  var Tpl1 = require('../Templates/AppList.ejs');
+	  var result = Tpl1({inInfo:UserInfo,inList:list});
+	  element.innerHTML=result;	
 	  return element;
   }
   
@@ -244,7 +212,7 @@ global.TempAppID=TempAppID;
   {
     var MinLineHeight = MinLineCount * LineHeight;
     var obj = event.target;
-    var div = $(obj.id + 'Div');
+    var div = document.getElementById(obj.id + 'Div');
     div.innerHTML = obj.value;
     var ObjHeight = div.offsetHeight;
     if (event.keyCode == 13)
@@ -269,6 +237,8 @@ global.TempAppID=TempAppID;
 	  }
 	  
 	  if(type=="name"){
+		  /*FIX IT*/
+		  return true;
 		  var patt = /^[а-яА-ЯёЁa-zA-Z0-9]+$/;
 		  if(value.length>3 && value.length<51)
 			  if(patt.test(value)) return true;
@@ -298,8 +268,7 @@ global.TempAppID=TempAppID;
 		  		"не более 50 символов. Состоять из букв и цифр.";
 	  return "Недопустимое значение";
   }
-  
-global.$=$;
+ 
 global.GetRoleFromCode=GetRoleFromCode;
 global.LocalDateTime=LocalDateTime;
 global.SaveUser=SaveUser;

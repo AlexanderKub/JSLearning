@@ -1,0 +1,101 @@
+<div id='AppsList'>
+	  <table class='simple-little-table'  cellspacing='0'>
+		  <tr>
+		  		<th style='cursor:pointer;' onclick='Main.AppsModule.Sort(1);'>
+				 	Название
+				</th>
+		  		<th style='cursor:pointer;' onclick='Main.AppsModule.Sort(2);'>
+		  			Дата
+		  		</th>
+		  		<% if(data.inInfo.role!=2){ %>
+		  			<th style='cursor:pointer;' onclick='Main.AppsModule.Sort(3);'>
+		  				Клиент
+		  			</th>
+		  		<% } %>
+		  		<% if(data.inInfo.role==0){%>
+		  			<th style='cursor:pointer;' onclick='Main.AppsModule.Sort(4);'>
+		  				Исполнитель
+		  			</th>
+		  		<% } %>
+		  		<th style='cursor:pointer;' onclick='Main.AppsModule.Sort(5);'>
+		  			Приоритет
+		  		</th>
+		  		<th style='cursor:pointer;' onclick='Main.AppsModule.Sort(6);'>
+		  			Предельный срок
+		  		</th>
+		  		<% if(data.inInfo.role!=2){ %>
+		  			<th style='cursor:pointer;' onclick='Main.AppsModule.Sort(7);'>
+		  				Предпологаемый срок
+		  			</th>
+		  		<% } %>
+		  		<th style='cursor:pointer;' onclick='Main.AppsModule.Sort(8);'>
+		  			Завершено
+		  		</th>
+		  </tr>
+		  
+		  <% if(data.inList.length==0){ %>
+			  <tr>
+			  	<td colspan='8' style='text-align:center;'>Нет заявок</td>
+			  </tr>
+		  </table>
+			  
+		  <% }else{ %>
+			  <% for (var x in data.inList) { %>
+			    <tr style='cursor:pointer;' 
+				 	onclick='Main.AppsModule.GetDetailInfo(<%=data.inList[x].ID%>)'>
+				 <td>
+				 	<%=data.inList[x].Name%>
+				 </td>
+				 <td>
+				  	<%=new Date(Date.parse(data.inList[x].Date)).toUTCString()%>
+				 </td>
+				 
+				 
+				 
+				<% if(data.inInfo.role!=2){ %>
+			    <td>
+				 	<%if(UserExist(data.inList[x].Client)){ %>
+				 		<%=GetUser(data.inList[x].Client).name %>
+				 	<% }else{ %>
+				 		Client
+				 	<% } %>
+				 </td>
+				<% } %>
+				
+				<% if(data.inInfo.role==0){%>
+				<td>
+						<% if(UserExist(data.inList[x].Executor)){ %>
+						  <%=GetUser(data.inList[x].Executor).name %>
+						<% }else{ %>
+							Нет
+						<% } %>
+				 </td>
+				 <% } %>
+				 
+				 <td>
+				 	<%if(data.inList[x].Priority==0){%>
+				 		"Низкий"
+				 	<% }else if(data.inList[x].Priority==1){%>
+				 		"Средний"
+				 	<% }else{ %> 
+				 		"Высокий"
+				 	<% } %>
+				</td>
+				
+				
+				<td>
+				  <%=new Date(Date.parse(data.inList[x].Deadline)).toUTCString()%>
+				</td>
+				<% if(data.inInfo.role!=2){ %>
+				<td>
+				  	<%=new Date(Date.parse(data.inList[x].Estimated)).toUTCString()%>
+				</td>
+				<% } %>
+				<td>
+				  <%=data.inList[x].Progress %>%
+				 </td>
+			    </tr>
+			  <% } %>
+		  <% } %>
+	  </table>
+</div>

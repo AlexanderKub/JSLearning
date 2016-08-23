@@ -1,0 +1,20 @@
+Логин: <%=data.items.login%> <button class='btn' id='DelUserBtn'>Удалить</button> 
+				<br>Пароль: <input id='newpw' required type='text' 
+				value='<%=data.items.pass%>'><br> Роль:
+				<select id='rlsl'>
+					<option value='2'
+						<% if(data.items.role==2){%> selected='selected'<%}%>
+					>Клиент</option>
+					
+					<option value='1'
+						<% if(data.items.role==1){%> selected='selected'<%}%>
+					>Исполнитель</option>
+					
+					<option value='0'
+						<% if(data.items.role==0){%> selected='selected'<%}%>
+					>Администратор</option>
+				</select>
+				<br>Имя: <input id='newnm' required
+				type='text' value='<%=data.items.name %>'>
+				<br><button class='btn' id='EditUserBtn'>
+				Изменить</button>

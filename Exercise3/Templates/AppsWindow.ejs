@@ -1,0 +1,115 @@
+	<div id="AppsFrame" class="FrameClass" style="margin-left:2%; margin-right:2%;">
+		<div id="AppsFrameMsg"></div>
+			<p>
+				Список заявок:
+				<button class="btn" id="AddAppsBtn" 
+					onclick="SetFrame('CreateAppsFrame');"
+					style="float:right;">
+					Добавить заявку
+				</button>
+				<input type='text' id="FindString" 
+					style="float:right;margin:2px;" placeholder='Поиск..'>
+			</p>
+	</div>
+	
+	<div id="DetailAppsFrame" class="FrameClass" style="margin-left:25%; margin-right:25%;">
+			<div id="DetailAppsFrameMsg"></div>
+			<p id="DetailFrameLabel">
+				Детальная информация:
+				<button class="btn" id="BackAppsBtn" 
+					onclick="SetFrame('AppsFrame');"
+					style="float:right;"> &laquo;Назад
+				</button>
+			</p>
+			<div id=DetailFrameTable></div>
+			<textarea id="CommArea" placeholder='Написать комментарий..' 
+			rows="2" onkeyup="TextAreaResize(event, 15, 2);"></textarea>
+			<div id="CommAreaDiv"></div>
+			<br><button class='btn' onclick="Main.AppsModule.AddComment();">
+			Отправить</button>
+			<div id=DetailFrameComments></div>
+	</div>
+	
+	<div id="CreateAppsFrame" class="FrameClass">
+		<form id="NewAppForm" style=" margin-left: 22%;">
+			<fieldset>
+				<table>
+					<tr>
+						<td colspan="4"><h1>Создание заявки</h1></td>
+					</tr>
+				    <tr> 
+					     <td  width="140">Название:</td>
+					     <td width="250">
+					     	<input type="text" id="appname" 
+					     	style="width:220px;" required>
+					    </td>
+					     <td align="right" width="100" id="NewAppFormDTRow">Дата:</td>
+					     <td width="160">
+					     	<input type="datetime-local" id="appdate"
+						  	style="width:220px;" required>
+						 </td>
+				    </tr>
+				    <tr id="NewAppFormCERow">
+				    	<td >Клиент:</td>
+				    	<td>	        
+						  <select id="ClientSelect" id="appclient" 
+						  	style="width:222px;" required>
+						  </select>
+						</td> 
+				    	<td align="right">Исполнитель:</td> 
+				    	<td>
+					      <select id="ExecutorSelect" id="appexecut" 
+					      	style="width:222px;" required>
+						    <option value="null">-пусто-</option>
+						  </select>
+				    	</td> 
+				    </tr>
+				    <tr>
+				    	<td>Описание:</td>
+				    	<td colspan="3"></td>
+				    </tr>
+				    <tr>
+				    	<td colspan="4">
+					    	<textarea rows="10" style="width:99%" id="appdisc" 
+					    	required></textarea>
+				    	</td>
+				    </tr> 
+				    <tr>
+					    <td >Предельный срок:</td>
+					    <td>
+					      <input type="datetime-local" id="appdeaddate"
+						  	style="width:220px;" required>
+					    </td>
+					    <td align="right">Приоритет:</td>
+				    	<td>
+				    	  <select id="appprior" style="width:222px;" required>
+							<option value="0">Низкий</option>
+							<option value="1">Средний</option>
+							<option value="2">Высокий</option>
+						  </select>
+				    	</td>
+				    </tr>
+				    <tr id="NewAppFormDSRow">
+					    <td>Предпологаемый срок:</td>
+					    <td>
+						  <input type="datetime-local" id="appestdate" 
+						  	style="width:220px;" required>
+					    </td>
+					    <td align="right">Готовность(%):</td>
+				    	<td>
+							 <input type="number" id="status" min="0" max="100" 
+							 style="width:220px;" required>
+				    	</td>
+				    </tr>
+				    <tr>
+				    	<td colspan="3"></td>
+				    	<td align="right" >
+				    		<input type="button"  class='btn' value="&laquo;Назад" 
+				    			onclick="SetFrame('AppsFrame');">
+				    		<input type="submit"  class='btn' value="Создать">
+				    	</td>
+				    </tr>
+			   </table>
+			</fieldset>
+		</form>
+	</div>

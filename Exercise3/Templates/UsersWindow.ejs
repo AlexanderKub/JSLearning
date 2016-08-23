@@ -1,0 +1,27 @@
+<div id="UsersFrame" class="FrameClass">
+	<div id="UsersMenu"  class="SideMenu">
+	</div>
+	<div id="UsersContent" class="main-content">
+        <p> Просмотр и изменение информации о пользователях.
+        <a href="#" id="AddNewUserFormHref">
+        	Добавить пользователя</a>
+        </p>
+        <div id="UsersContentEdit">
+        </div>
+        <form id="AddEditUserForm" class="FormsStyle">
+		    <fieldset id="inputs">
+		        <input id="username" placeholder="Логин" autofocus 
+		        	required type="text">   
+		        <input id="password" placeholder="Пароль" 
+		        	required type="text">
+		        <input id="name" placeholder="Имя" required type="text"> 
+		        <select class="myselect" id="roleselect">
+					<option value="2">Клиент</option>
+					<option value="1">Исполнитель</option>
+					<option value="0">Администратор</option>
+				</select>
+		    </fieldset>
+		    <input class="btn" value="Добавить" type="submit">
+		</form>
+	</div>
+</div>

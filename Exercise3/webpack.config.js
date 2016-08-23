@@ -7,14 +7,24 @@ module.exports={
 	},
 	
 	module: {
-		loaders: [
-				{ test: /\.js$/, loader: 'babel', exclude: /node_modules/ },
-				{ test: /\.css$/, loader: 'css' },
-				{ test: /\.html?$/, loader: 'dom?tag=section!html' }
-		]
+		loaders: [{
+            test: /\.html?$/,
+            loader: 'dom?tag=div!html'
+        },
+        {
+            test: /\.css$/,
+            loader: "style!css"
+        }, {
+            test: /\.ejs$/,
+            loader: 'ejs-loader?variable=data'
+        },
+
+        ]
 	},
-	
 	plugins: [
-	]
+    new webpack.ProvidePlugin({
+        _: "lodash"
+    })
+]
 
 };

@@ -1,0 +1,20 @@
+<div id='CM<%=data.com.ID%>' class='Comms'>
+	<div class='CommsHeader'>
+		<div class='CommsUser'>
+			<%if(UserExist(data.com.User)){ %>
+				<%=GetUser(data.com.User).name %>
+			<%}else{%>
+				User
+			<% } %>
+		</div>
+		<div class='CommsTime'>
+			<%=new Date(Date.parse(data.com.Date)).toUTCString()%>
+		</div>
+	</div>
+	<% if(data.UF.role==0 || data.com.User.toLowerCase()==data.UF.login.toLowerCase()){%>
+	<button id='CMDelBtn<%=data.com.ID%>' class='btn' style='float: right;'
+					onclick='Main.AppsModule.DeleteComment(<%=data.com.ID%>);'
+	>Удалить</button>
+	<% } %>
+	<div class='CommsText'><%=data.com.Text%></div>
+</div>

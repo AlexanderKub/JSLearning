@@ -1,0 +1,18 @@
+<ul>
+	<li>
+		<a href="#" id="ufilterdrop" style="color:blue;">
+			<% if(data.UFO){%> Фильтр &#149;<% }else{ %> Фильтр ▼<%}%> 
+		</a>
+		<div id="filter" style="display:
+			<% if(data.UFO){ %> 'block'; <% }else{ %> 'none';<% } %> 
+			padding-left: 40px;">
+			Администраторы <input id="ufilter1" type="checkbox">
+			<br>Исполнители<input id="ufilter2" type="checkbox">
+			<br>Клиенты<input id="ufilter3" type="checkbox" >
+		</div>
+	</li>
+	
+	<% for (var x in data.items) { %>
+   		<li><a href="#" id="UL<%=x%>"><%-data.items[x].name%></a></li>
+    <% } %>
+</ul>
