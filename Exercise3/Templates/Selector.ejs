@@ -1,4 +1,4 @@
-<% if(data.empty) { %> <option value='null'>-пусто-</option> <% } %>
+<% if(data.empty) { %> <option value='null'><%=data.empty%></option> <% } %>
 	var ExecutorList=GetUsersList([,1]);
 	<% for (var x in data.list) { %>
 		<option value='<%=data.list[x].login.toLowerCase()%>'>

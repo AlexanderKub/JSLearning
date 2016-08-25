@@ -7,17 +7,14 @@ module.exports={
 	},
 	
 	module: {
-		loaders: [{
-            test: /\.html?$/,
-            loader: 'dom?tag=div!html'
-        },
-        {
-            test: /\.css$/,
-            loader: "style!css"
-        }, {
-            test: /\.ejs$/,
-            loader: 'ejs-loader?variable=data'
-        },
+		loaders: [
+	        {
+	            test: /\.css$/,
+	            loader: "style!css"
+	        }, {
+	            test: /\.ejs$/,
+	            loader: 'ejs-loader?variable=data'
+	        },
 
         ]
 	},

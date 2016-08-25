@@ -23,7 +23,7 @@
 		<tr>
 			<td>Исполнитель:</td>
 			<td>
-				<% if(UserInfo.role>0){ %>
+				<% if(data.inInfo.role>0){ %>
 					<% if(UserExist(data.inRec.Executor)){ %>
 							<%=GetUser(data.inRec.Executor).name %>
 						<% }else{ %>
@@ -58,7 +58,7 @@
 		<tr>
 			<td>Предельный срок:</td>
 			<td>
-			<% if(UserInfo.role>0){%>
+			<% if(data.inInfo.role>0){%>
 				<%=new Date(Date.parse(data.inRec.Deadline)).toUTCString()%>
 			<% }else{ %>
 				<input type="datetime-local" id="editappdeadline" 
@@ -70,7 +70,7 @@
 		<tr>
 			<td>Предпологаемый срок:</td>
 			<td>
-				<% if(UserInfo.role==2){%>
+				<% if(data.inInfo.role==2){%>
 					<%=new Date(Date.parse(data.inRec.Estimated)).toUTCString()%>
 				<%}else{ %>
 					<input type="datetime-local" id="editappestimated"
@@ -79,7 +79,7 @@
 			</td>
 		</tr>
 		
-		<% if(UserInfo.role==2){ %>
+		<% if(data.inInfo.role==2){ %>
 			<tr>
 				<td>Завершено:</td>
 				<td> <%=data.inRec.Progress %>%</td>

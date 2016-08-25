@@ -39,8 +39,8 @@ function SetWindow(name){
 	
 	if(name=="MainWindow"){
 		SetFrame("AppsFrame");
-		$("#MB2").css('display',(UserInfo.role==0?"inline":"none"));
-		$("#StatusBar").html(UserInfo.name+"("+UserInfo.login+")");
+		$("#MB2").css('display',(config.UserInfo.role==0?"inline":"none"));
+		$("#StatusBar").html(config.UserInfo.name+"("+config.UserInfo.login+")");
 		return;
 	}	
 	

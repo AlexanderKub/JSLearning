@@ -47,20 +47,20 @@ var Main =
 
 	/* WEBPACK VAR INJECTION */(function(global) {//Инициализация
 	var MyFramework = __webpack_require__(1);
-	var LoginModule = __webpack_require__(4);
-	var RegisterModule = __webpack_require__(5);
-	var UsersPanelModule = __webpack_require__(6);
-	var AppsModule = __webpack_require__(11);
+	var LoginModule = __webpack_require__(5);
+	var RegisterModule = __webpack_require__(6);
+	var UsersPanelModule = __webpack_require__(7);
+	var AppsModule = __webpack_require__(12);
 
-	var Tpl = __webpack_require__(15);
-	$('#page').append(Tpl);
 	var Tpl = __webpack_require__(16);
 	$('#page').append(Tpl);
 	var Tpl = __webpack_require__(17);
 	$('#page').append(Tpl);
 	var Tpl = __webpack_require__(18);
-	$('#MainWindow').append(Tpl);
+	$('#page').append(Tpl);
 	var Tpl = __webpack_require__(19);
+	$('#MainWindow').append(Tpl);
+	var Tpl = __webpack_require__(20);
 	$('#MainWindow').append(Tpl);
 
 	SetWindow("LogonWindow");
@@ -86,8 +86,8 @@ var Main =
 		
 		if(name=="MainWindow"){
 			SetFrame("AppsFrame");
-			$("#MB2").css('display',(UserInfo.role==0?"inline":"none"));
-			$("#StatusBar").html(UserInfo.name+"("+UserInfo.login+")");
+			$("#MB2").css('display',(config.UserInfo.role==0?"inline":"none"));
+			$("#StatusBar").html(config.UserInfo.name+"("+config.UserInfo.login+")");
 			return;
 		}	
 		
@@ -142,22 +142,11 @@ var Main =
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {//Глобальные переменные
-	var UserInfo;
-	var UsersList;
-	var CommsList;
-	var UsersFilter=[1,1,1];
-	var UserFilterOpened=false;
-	var TempAppID;
+	/* WEBPACK VAR INJECTION */(function(global) {var $ = __webpack_require__(2);
+	var config = __webpack_require__(3);
 
-	var $ = __webpack_require__(2);
 	global.$=$;
-	global.UserInfo=UserInfo;
-	global.UsersFilter=UsersFilter;
-	global.UsersList=UsersList;
-	global.CommsList=CommsList;
-	global.UserFilterOpened=UserFilterOpened;
-	global.TempAppID=TempAppID;
+	global.config=config;
 
 	  //Вспомогательные функции
 	  function GetRoleFromCode(id){
@@ -345,7 +334,7 @@ var Main =
 	  //Создание списка заявок
 	  function GetAppsListItem(list,UserInfo){
 	 	  var element=document.createElement('div');
-		  var Tpl1 = __webpack_require__(3);
+		  var Tpl1 = __webpack_require__(4);
 		  var result = Tpl1({inInfo:UserInfo,inList:list});
 		  element.innerHTML=result;	
 		  return element;
@@ -10524,6 +10513,19 @@ var Main =
 /* 3 */
 /***/ function(module, exports) {
 
+	module.exports = {
+		UserInfo: null,
+		UsersList: null,
+		CommsList: null,
+		UsersFilter: [1,1,1],
+		UserFilterOpened: false,
+		TempAppID: null
+	};
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
 	module.exports = function (data) {
 	var __t, __p = '', __j = Array.prototype.join;
 	function print() { __p += __j.call(arguments, '') }
@@ -10602,7 +10604,7 @@ var Main =
 	}
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var MyFramework = __webpack_require__(1);
@@ -10612,8 +10614,8 @@ var Main =
 		$("#LoginForm").on("submit", function(event) {
 		  event.preventDefault();
 		  var data={
-		  	login: $("#LoginForm #username").val(),
-		  	pass: $("#LoginForm #password").val()
+		  	login: $("#LoginForm #username").val().trim(),
+		  	pass: $("#LoginForm #password").val().trim()
 		  };
 		  if(!ValidateValue('login',data.login)){
 				AlertMsg($("#LoginForm"),WrongValueMessage('login'));
@@ -10631,8 +10633,8 @@ var Main =
 		    if(!CheckPassword(data.login,data.pass))
 		    	AlertMsg($("#LoginForm"),'Неверный пароль!');
 		    else{
-		    	UserInfo=GetUser(data.login);
-		    	SaveUser(UserInfo);
+		    	config.UserInfo=GetUser(data.login);
+		    	SaveUser(config.UserInfo);
 		    	SetWindow("MainWindow");
 		    }
 		  }
@@ -10658,19 +10660,19 @@ var Main =
 	module.exports.Show=Show;
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var MyFramework = __webpack_require__(1);
-	var LogonModule = __webpack_require__(4);
+	var LogonModule = __webpack_require__(5);
 	//Регистрация
 	module.exports=function(){
 		$("#RegistrationForm").on("submit", function(event) {
 	      event.preventDefault();
 		  var data={
-		  	login: $("#RegistrationForm #username").val(),
-		  	pass: $("#RegistrationForm #password").val(),
-	  	    name: $("#RegistrationForm #name").val(),
+		  	login: $("#RegistrationForm #username").val().trim(),
+		  	pass: $("#RegistrationForm #password").val().trim(),
+	  	    name: $("#RegistrationForm #name").val().trim(),
 		  	role: (StorageIsClear()?0:2)
 		  };
 		  
@@ -10707,7 +10709,7 @@ var Main =
 	}
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var MyFramework = __webpack_require__(1);
@@ -10719,10 +10721,10 @@ var Main =
 		$("#AddEditUserForm").on("submit", function(event) {
 			  event.preventDefault();
 			  var data={
-			  	login: $("#AddEditUserForm #username").val(),
-			  	pass: $("#AddEditUserForm #password").val(),
-			  	name: $("#AddEditUserForm #name").val(),
-			  	role: $("#AddEditUserForm #roleselect").val()
+			  	login: $("#AddEditUserForm #username").val().trim(),
+			  	pass: $("#AddEditUserForm #password").val().trim(),
+			  	name: $("#AddEditUserForm #name").val().trim(),
+			  	role: $("#AddEditUserForm #roleselect").val().trim()
 			  };
 			  if(!ValidateValue('login',data.login)){
 					AlertMsg($("#AddEditUserForm"),WrongValueMessage('login'));
@@ -10752,25 +10754,25 @@ var Main =
 
 	//Открытие фильтра пользователей
 	function DropFilter(){
-		UserFilterOpened=$('#filter').css('display')=='block'?false:true;
-		$('#filter').css('display',UserFilterOpened?"block":"none");
-		$('#ufilterdrop').html(UserFilterOpened?"Фильтр &#149;":"Фильтр ▼");
+		config.UserFilterOpened=$('#filter').css('display')=='block'?false:true;
+		$('#filter').css('display',config.UserFilterOpened?"block":"none");
+		$('#ufilterdrop').html(config.UserFilterOpened?"Фильтр &#149;":"Фильтр ▼");
 	}
 
 	//Изменение фильтра пользователей
 	function UFilterChange(){
-		UsersFilter=[];
-		if($('#ufilter1').prop('checked'))UsersFilter[0]=1;
-		if($('#ufilter2').prop('checked'))UsersFilter[1]=1;
-		if($('#ufilter3').prop('checked'))UsersFilter[2]=1; 
+		config.UsersFilter=[];
+		if($('#ufilter1').prop('checked'))config.UsersFilter[0]=1;
+		if($('#ufilter2').prop('checked'))config.UsersFilter[1]=1;
+		if($('#ufilter3').prop('checked'))config.UsersFilter[2]=1; 
 		ShowIt();
 	}
 
 	//Клик по боковому списку пользователей
 	function SideUserMenuClick(x){
 		AddNewUserFormShow(false);
-		var Tpl1 = __webpack_require__(7);
-		var result = Tpl1({items:UsersList[x]});
+		var Tpl1 = __webpack_require__(8);
+		var result = Tpl1({items:config.UsersList[x]});
 		$("#UsersContentEdit").html(result);
 		$('#EditUserBtn').on('click',
 				(function(i){ return function(){ChangeUserInfo(i);}})(x));
@@ -10781,10 +10783,10 @@ var Main =
 	//Изменение информации о пользователе
 	function ChangeUserInfo(x){
 		  var data={
-				  	login: UsersList[x].login,
-				  	pass: $("#UsersContentEdit #newpw").val(),
-				  	name: $("#UsersContentEdit #newnm").val(),
-				  	role: $("#UsersContentEdit #rlsl").val()
+				  	login: config.UsersList[x].login,
+				  	pass: $("#UsersContentEdit #newpw").val().trim(),
+				  	name: $("#UsersContentEdit #newnm").val().trim(),
+				  	role: $("#UsersContentEdit #rlsl").val().trim()
 				  };
 		  
 		  if(!ValidateValue('pass',data.pass)){
@@ -10803,17 +10805,19 @@ var Main =
 		  }
 		  
 		  SaveUser(data);
-		  UsersList[x]=data;
-		  $("#UL"+x).html(UsersList[x].name);
-		  if(!(UsersList[x].role in UsersFilter))$("#UL"+x).parentNode.removeChild($("#UL"+x));
-		  AlertMsg($("#UsersContentEdit"),"<font color = 'green'>Изменения сохранены!</font>");
+		  config.UsersList[x]=data;
+		  $("#UL"+x).html(config.UsersList[x].name);
+		  if(!(config.UsersList[x].role in config.UsersFilter))
+			  $("#UL"+x).parentNode.removeChild($("#UL"+x));
+		  AlertMsg($("#UsersContentEdit"),"<font color = 'green'>" +
+		  		"Изменения сохранены!</font>");
 	}
 
 	//Удаление пользователя
 	function DeleteUserFromList(x){
 		if(!confirm("Действительно удалить запись о пользователе "+
-				UsersList[x].name+"("+UsersList[x].login+")?"))return;
-		if(DeleteUser(UsersList[x].login)){
+				config.UsersList[x].name+"("+config.UsersList[x].login+")?"))return;
+		if(DeleteUser(config.UsersList[x].login)){
 			$("#UsersContentEdit").html("");
 			$("#UL"+x).remove();
 		}
@@ -10830,22 +10834,22 @@ var Main =
 	function ShowIt(){
 		$("#MB1").css('backgroundColor',"");
 		$("#MB2").css('backgroundColor',"#d9dee2");
-		UsersList=GetUsersList(UsersFilter);
+		config.UsersList=GetUsersList(config.UsersFilter);
 
-		var Tpl1 = __webpack_require__(8);
-		var result = Tpl1({UFO:UserFilterOpened,items:UsersList});
+		var Tpl1 = __webpack_require__(9);
+		var result = Tpl1({UFO:config.UserFilterOpened,items:config.UsersList});
 		$("#UsersMenu").html(result);
 		
-		$('#ufilter1').attr('checked',(0 in UsersFilter)?true:false);
-		$('#ufilter2').attr('checked',(1 in UsersFilter)?true:false);
-		$('#ufilter3').attr('checked',(2 in UsersFilter)?true:false);
+		$('#ufilter1').attr('checked',(0 in config.UsersFilter)?true:false);
+		$('#ufilter2').attr('checked',(1 in config.UsersFilter)?true:false);
+		$('#ufilter3').attr('checked',(2 in config.UsersFilter)?true:false);
 		$('#ufilter1').on('change',function(){UFilterChange();});
 		$('#ufilter2').on('change',function(){UFilterChange();});
 		$('#ufilter3').on('change',function(){UFilterChange();});
 		
 		$('#ufilterdrop').on('click',function(){DropFilter();});
 		
-		for (var it in UsersList) {
+		for (var it in config.UsersList) {
 			$('#UL'+it).on('click',
 					(function(i){ return function(){SideUserMenuClick(i);}})(it));
 		}
@@ -10862,7 +10866,7 @@ var Main =
 	module.exports.AddNewUserFormShow=AddNewUserFormShow;
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	module.exports = function (data) {
@@ -10891,7 +10895,7 @@ var Main =
 	}
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(_) {module.exports = function (data) {
@@ -10920,10 +10924,10 @@ var Main =
 	__p += '\r\n</ul>';
 	return __p
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module, _) {/**
@@ -27660,10 +27664,10 @@ var Main =
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(10)(module), __webpack_require__(9)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(11)(module), __webpack_require__(10)))
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -27679,7 +27683,7 @@ var Main =
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(_) {var MyFramework = __webpack_require__(1);
@@ -27690,15 +27694,15 @@ var Main =
 		  event.preventDefault();
 		  var data={
 		    		id:GetNewAppsID(),
-		        	name:$('#NewAppForm #appname').val(),
-		        	date:$('#NewAppForm #appdate').val(),
-		        	client:$('#NewAppForm #ClientSelect').val(),
-		        	executor:$('#NewAppForm #ExecutorSelect').val(),
-		        	discription:$('#NewAppForm #appdisc').val(),
-		            priority:$('#NewAppForm #appprior').val(),
-		        	estimated:$('#NewAppForm #appestdate').val(),
-		        	deadline:$('#NewAppForm #appdeaddate').val(),
-		        	progress:$('#NewAppForm #status').val()
+		        	name:$('#NewAppForm #appname').val().trim(),
+		        	date:$('#NewAppForm #appdate').val().trim(),
+		        	client:$('#NewAppForm #ClientSelect').val().trim(),
+		        	executor:$('#NewAppForm #ExecutorSelect').val().trim(),
+		        	discription:$('#NewAppForm #appdisc').val().trim(),
+		            priority:$('#NewAppForm #appprior').val().trim(),
+		        	estimated:$('#NewAppForm #appestdate').val().trim(),
+		        	deadline:$('#NewAppForm #appdeaddate').val().trim(),
+		        	progress:$('#NewAppForm #status').val().trim()
 		  };
 		  
 		  var textvar=data.name.trim();
@@ -27740,8 +27744,7 @@ var Main =
 		});
 		  
 		$('#FindString').change(function() {
-			  console.log('change, but only after the text input is blurred');
-			  Find($('#FindString').val());
+			  Find($('#FindString').val().trim());
 		});
 	}
 
@@ -27754,10 +27757,10 @@ var Main =
 		$('#NewAppForm #appestdate').val(LocalDateTime(30));
 		$('#NewAppForm #appdeaddate').val(LocalDateTime(30));
 		$('#NewAppForm #status').val(0);
-		if(UserInfo.role==2){
+		if(config.UserInfo.role==2){
 			$('#NewAppForm #ClientSelect').html("<option value='"+
-				UserInfo.login.toLowerCase()+"' selected>"+
-				UserInfo.name+"</option>");
+				config.UserInfo.login.toLowerCase()+"' selected>"+
+				config.UserInfo.name+"</option>");
 			
 			$("#ClientSelect").prop('disabled',true);
 			$("#appdate").prop('disabled',true);
@@ -27771,14 +27774,14 @@ var Main =
 			$("#NewAppFormDSRow").prop('hidden',true);
 		}
 		
-		if(UserInfo.role>0)return;
+		if(config.UserInfo.role>0)return;
 		
-		var Tpl1 = __webpack_require__(12);
-		var result = Tpl1({empty:false,list:GetUsersList([,,2])});
+		var Tpl1 = __webpack_require__(13);
+		var result = Tpl1({empty:null,list:GetUsersList([,,2])});
 		$('#ClientSelect').html(result);
 		
-		var Tpl1 = __webpack_require__(12);
-		var result = Tpl1({empty:true,list:GetUsersList([,1])});
+		var Tpl1 = __webpack_require__(13);
+		var result = Tpl1({empty:"-пусто-",list:GetUsersList([,1])});
 		$('#ExecutorSelect').html(result);
 	}
 
@@ -27788,7 +27791,7 @@ var Main =
 		$("#CommArea").val("");
 		if($("#DeleteAppsBtn")!=null)$("#DeleteAppsBtn").remove();
 		if($("#EditAppsBtn")!=null)$("#EditAppsBtn").remove();
-		if(UserInfo.role==2)return;
+		if(config.UserInfo.role==2)return;
 		
 		var elementbtn=document.createElement('button');
 		elementbtn.id='EditAppsBtn';
@@ -27799,7 +27802,7 @@ var Main =
 		$("#EditAppsBtn").on( "click",function(){
 			EditAppsFromDetail();
 			});
-		if(UserInfo.role==1)return;
+		if(config.UserInfo.role==1)return;
 		
 		var elementbtn=document.createElement('button');
 		elementbtn.id='DeleteAppsBtn';
@@ -27817,14 +27820,21 @@ var Main =
 		$("#MB2").css('backgroundColor',"");
 		var str="";
 		var filter=[];
-		if(UserInfo.role==1) filter["executor"]=UserInfo.login;
-		if(UserInfo.role==2) filter["client"]=UserInfo.login;
+		if(config.UserInfo.role==1) filter["executor"]=config.UserInfo.login;
+		if(config.UserInfo.role==2) filter["client"]=config.UserInfo.login;
 		
 		var AppsList=GetAppList(filter);
 		AppListForSort=AppsList;
 		if($("#AppsList")!=null)$("#AppsList").parent().remove();
-		$("#AppsFrame").append(GetAppsListItem(AppsList,UserInfo));
-		$("#AddAppsBtn").css('display',(UserInfo.role==1?"none":"inline-block"));
+		$("#AppsFrame").append(GetAppsListItem(AppsList,config.UserInfo));
+		$("#AddAppsBtn").css('display',(config.UserInfo.role==1?"none":"inline-block"));
+
+		var Tpl1 = __webpack_require__(13);
+		var result = Tpl1({empty:"Все",list:GetUsersList([,,2])});
+		$('#FilterClientSelect').html(result);
+		$('#FilterClientSelect').on('change',function(){
+				Filter($('#FilterClientSelect').val());
+			});
 	}
 
 	//Детальная информация о заявке
@@ -27832,18 +27842,19 @@ var Main =
 		ShowDetailAppsFrame();
 		SetFrame("DetailAppsFrame");
 		var Record=AppExist(id)?GetApp(id):false;
-		if(Record)TempAppID=id; else return;
+		if(Record)config.TempAppID=id; else return;
 		if($("#AppsDetail")!=null)$("#AppsDetail").remove();
-		var Tpl1 = __webpack_require__(13);
-		var result = Tpl1({inRec:Record,inList:GetUsersList([,1])});
+		var Tpl1 = __webpack_require__(14);
+		var result = Tpl1({inRec:Record,inList:GetUsersList([,1]),
+			inInfo:config.UserInfo});
 		$("#DetailFrameTable").append(result);
 		
 		
 		var str="";
-		CommsList=GetCommList(id);
-		var Tpl1 = __webpack_require__(14);
-		for (var x in CommsList) {
-			var result = Tpl1({UF:UserInfo,com:CommsList[x]});
+		config.CommsList=GetCommList(id);
+		var Tpl1 = __webpack_require__(15);
+		for (var x in config.CommsList) {
+			var result = Tpl1({UF:config.UserInfo,com:config.CommsList[x]});
 			str+=result;
 		}
 		$("#DetailFrameComments").html(str);
@@ -27851,18 +27862,18 @@ var Main =
 
 	//Изменить заявку
 	function EditAppsFromDetail(){
-		var Record=GetApp(TempAppID);
+		var Record=GetApp(config.TempAppID);
 		var data={
 	    		id:Record.ID,
 	        	name:Record.Name,
 	        	date:Record.Date,
 	        	client:Record.Client,
-	        	executor:(UserInfo.role==0?$("#editappexecut").val():Record.Executor),
+	        	executor:(config.UserInfo.role==0?$("#editappexecut").val().trim():Record.Executor),
 	        	discription:Record.Discription,
 	            priority:Record.Priority,
-	        	estimated:$("#editappestimated").val(),
-	        	deadline:(UserInfo.role==0?$("#editappdeadline").val():Record.Deadline),
-	        	progress:$("#editappstatus").val()
+	        	estimated:$("#editappestimated").val().trim(),
+	        	deadline:(config.UserInfo.role==0?$("#editappdeadline").val().trim():Record.Deadline),
+	        	progress:$("#editappstatus").val().trim()
 	  };
 	alert(JSON.stringify(data));
 	  if(data.priority<0 || data.priority>2){
@@ -27882,8 +27893,8 @@ var Main =
 	//Удалить заявку
 	function DeleteAppsFromDetail(){
 		if(!confirm("Действительно удалить запись о заявке "+
-				(AppExist(TempAppID)?GetApp(TempAppID).Name:"")+"?"))return;
-		if(DeleteApp(TempAppID)){
+				(AppExist(config.TempAppID)?GetApp(config.TempAppID).Name:"")+"?"))return;
+		if(DeleteApp(config.TempAppID)){
 			SetFrame('AppsFrame');
 		}
 	}
@@ -27902,8 +27913,8 @@ var Main =
 			  
 			  var data={
 	    			id: GetNewCommsID(),
-	    			app: TempAppID,
-	    			user: UserInfo.login,
+	    			app: config.TempAppID,
+	    			user: config.UserInfo.login,
 	    			date: LocalDateTime(),
 	    			text: textvar
 			  };
@@ -27911,8 +27922,8 @@ var Main =
 			  SaveComm(data);
 			  $("#CommArea").val("");
 			  
-			  var Tpl1 = __webpack_require__(14);
-			  var result = Tpl1({UF:UserInfo,com:GetComm(data.id)});
+			  var Tpl1 = __webpack_require__(15);
+			  var result = Tpl1({UF:config.UserInfo,com:GetComm(data.id)});
 			  $("#DetailFrameComments").append(result);
 		  }
 	}
@@ -27923,6 +27934,8 @@ var Main =
 	}
 
 	var AppListForSort;
+	var AppListBeforeFilter;
+	var LastClick = 0;
 	function Sort(i){
 		////////////////Сделать обратную/////////
 		AppListForSort=_.sortBy(AppListForSort, function(o) { 
@@ -27932,9 +27945,11 @@ var Main =
 				case 2:
 					return o.Date;
 				case 3:
-					return o.Client;
+					if(!UserExist(o.Client)) return "";
+					return GetUser(o.Client).name;
 				case 4:
-					return o.Executor;
+					if(!UserExist(o.Executor)) return "";
+					return GetUser(o.Executor).name;
 				case 5:
 					return o.Priority;
 				case 6:
@@ -27947,24 +27962,39 @@ var Main =
 					return o.ID;
 				} 
 			});
+
+		if(LastClick==i){
+			AppListForSort=AppListForSort.reverse();
+			LastClick=0;
+		}else LastClick=i;
 		
 		if($("#AppsList")!=null)$("#AppsList").parent().remove();
-		$("#AppsFrame").append(GetAppsListItem(AppListForSort,UserInfo));
+		$("#AppsFrame").append(GetAppsListItem(AppListForSort,config.UserInfo));
 	}
 
 	function Find(str){
 		var filter=[];
-		if(UserInfo.role==1) filter["executor"]=UserInfo.login;
-		if(UserInfo.role==2) filter["client"]=UserInfo.login;
+		if(config.UserInfo.role==1) filter["executor"]=config.UserInfo.login;
+		if(config.UserInfo.role==2) filter["client"]=config.UserInfo.login;
 		
 		var AppsList=GetAppList(filter);
 		
-		AppListForSort=AppsList;
-		AppListForSort=_.filter(AppListForSort, _.conforms({ 'Name': function(n) { 
+		AppListBeforeFilter=AppsList;
+		AppListBeforeFilter=_.filter(AppListBeforeFilter, _.conforms({ 'Name': function(n) { 
 			return n.toLowerCase().indexOf(str.toLowerCase())>=0;}
 		}));
+		Filter($('#FilterClientSelect').val());
+	}
+
+	function Filter(filt){
+		if($('#FindString').val().trim()=='')AppListForSort=AppListBeforeFilter;
+		if(filt!='null')
+			AppListForSort=_.filter(AppListBeforeFilter, _.conforms({ 'Client': function(n) { 
+				return n.toLowerCase()==filt.toLowerCase()}
+			}));
+		else AppListForSort = AppListBeforeFilter;
 		if($("#AppsList")!=null)$("#AppsList").parent().remove();
-		$("#AppsFrame").append(GetAppsListItem(AppListForSort,UserInfo));	
+		$("#AppsFrame").append(GetAppsListItem(AppListForSort,config.UserInfo));
 	}
 
 	module.exports.Sort=Sort;
@@ -27976,10 +28006,10 @@ var Main =
 	module.exports.ShowDetailAppsFrame=ShowDetailAppsFrame;
 	module.exports.ShowCreateFrame=ShowCreateFrame;
 	module.exports.ShowAppsFrame=ShowAppsFrame;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = function (data) {
@@ -27987,7 +28017,9 @@ var Main =
 	function print() { __p += __j.call(arguments, '') }
 
 	 if(data.empty) { ;
-	__p += ' <option value=\'null\'>-пусто-</option> ';
+	__p += ' <option value=\'null\'>' +
+	((__t = (data.empty)) == null ? '' : __t) +
+	'</option> ';
 	 } ;
 	__p += '\r\n	var ExecutorList=GetUsersList([,1]);\r\n	';
 	 for (var x in data.list) { ;
@@ -28002,7 +28034,7 @@ var Main =
 	}
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = function (data) {
@@ -28021,7 +28053,7 @@ var Main =
 	__p += '\r\n					Client\r\n				';
 	 } ;
 	__p += '\r\n			</td>\r\n		</tr>\r\n		\r\n		<tr>\r\n			<td>Исполнитель:</td>\r\n			<td>\r\n				';
-	 if(UserInfo.role>0){ ;
+	 if(data.inInfo.role>0){ ;
 	__p += '\r\n					';
 	 if(UserExist(data.inRec.Executor)){ ;
 	__p += '\r\n							' +
@@ -28051,7 +28083,7 @@ var Main =
 	 (data.inRec.Priority==0? print("Низкий"):
 					(data.inRec.Priority==1?print("Средний"):print("Высокий"))) ;
 	__p += '\r\n			</td>\r\n		</tr>\r\n		\r\n		<tr>\r\n			<td>Предельный срок:</td>\r\n			<td>\r\n			';
-	 if(UserInfo.role>0){;
+	 if(data.inInfo.role>0){;
 	__p += '\r\n				' +
 	((__t = (new Date(Date.parse(data.inRec.Deadline)).toUTCString())) == null ? '' : __t) +
 	'\r\n			';
@@ -28061,7 +28093,7 @@ var Main =
 	'">\r\n			';
 	 } ;
 	__p += '\r\n			</td>\r\n		</tr>\r\n				\r\n		<tr>\r\n			<td>Предпологаемый срок:</td>\r\n			<td>\r\n				';
-	 if(UserInfo.role==2){;
+	 if(data.inInfo.role==2){;
 	__p += '\r\n					' +
 	((__t = (new Date(Date.parse(data.inRec.Estimated)).toUTCString())) == null ? '' : __t) +
 	'\r\n				';
@@ -28071,7 +28103,7 @@ var Main =
 	'">\r\n				';
 	} ;
 	__p += '\r\n			</td>\r\n		</tr>\r\n		\r\n		';
-	 if(UserInfo.role==2){ ;
+	 if(data.inInfo.role==2){ ;
 	__p += '\r\n			<tr>\r\n				<td>Завершено:</td>\r\n				<td> ' +
 	((__t = (data.inRec.Progress )) == null ? '' : __t) +
 	'%</td>\r\n			</tr>\r\n		';
@@ -28087,7 +28119,7 @@ var Main =
 	}
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = function (data) {
@@ -28120,7 +28152,7 @@ var Main =
 	}
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	module.exports = function (data) {
@@ -28130,7 +28162,7 @@ var Main =
 	}
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports) {
 
 	module.exports = function (data) {
@@ -28140,7 +28172,7 @@ var Main =
 	}
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports) {
 
 	module.exports = function (data) {
@@ -28150,7 +28182,7 @@ var Main =
 	}
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports) {
 
 	module.exports = function (data) {
@@ -28160,12 +28192,12 @@ var Main =
 	}
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports) {
 
 	module.exports = function (data) {
 	var __t, __p = '';
-	__p += '	<div id="AppsFrame" class="FrameClass" style="margin-left:2%; margin-right:2%;">\r\n		<div id="AppsFrameMsg"></div>\r\n			<p>\r\n				Список заявок:\r\n				<button class="btn" id="AddAppsBtn" \r\n					onclick="SetFrame(\'CreateAppsFrame\');"\r\n					style="float:right;">\r\n					Добавить заявку\r\n				</button>\r\n				<input type=\'text\' id="FindString" \r\n					style="float:right;margin:2px;" placeholder=\'Поиск..\'>\r\n			</p>\r\n	</div>\r\n	\r\n	<div id="DetailAppsFrame" class="FrameClass" style="margin-left:25%; margin-right:25%;">\r\n			<div id="DetailAppsFrameMsg"></div>\r\n			<p id="DetailFrameLabel">\r\n				Детальная информация:\r\n				<button class="btn" id="BackAppsBtn" \r\n					onclick="SetFrame(\'AppsFrame\');"\r\n					style="float:right;"> &laquo;Назад\r\n				</button>\r\n			</p>\r\n			<div id=DetailFrameTable></div>\r\n			<textarea id="CommArea" placeholder=\'Написать комментарий..\' \r\n			rows="2" onkeyup="TextAreaResize(event, 15, 2);"></textarea>\r\n			<div id="CommAreaDiv"></div>\r\n			<br><button class=\'btn\' onclick="Main.AppsModule.AddComment();">\r\n			Отправить</button>\r\n			<div id=DetailFrameComments></div>\r\n	</div>\r\n	\r\n	<div id="CreateAppsFrame" class="FrameClass">\r\n		<form id="NewAppForm" style=" margin-left: 22%;">\r\n			<fieldset>\r\n				<table>\r\n					<tr>\r\n						<td colspan="4"><h1>Создание заявки</h1></td>\r\n					</tr>\r\n				    <tr> \r\n					     <td  width="140">Название:</td>\r\n					     <td width="250">\r\n					     	<input type="text" id="appname" \r\n					     	style="width:220px;" required>\r\n					    </td>\r\n					     <td align="right" width="100" id="NewAppFormDTRow">Дата:</td>\r\n					     <td width="160">\r\n					     	<input type="datetime-local" id="appdate"\r\n						  	style="width:220px;" required>\r\n						 </td>\r\n				    </tr>\r\n				    <tr id="NewAppFormCERow">\r\n				    	<td >Клиент:</td>\r\n				    	<td>	        \r\n						  <select id="ClientSelect" id="appclient" \r\n						  	style="width:222px;" required>\r\n						  </select>\r\n						</td> \r\n				    	<td align="right">Исполнитель:</td> \r\n				    	<td>\r\n					      <select id="ExecutorSelect" id="appexecut" \r\n					      	style="width:222px;" required>\r\n						    <option value="null">-пусто-</option>\r\n						  </select>\r\n				    	</td> \r\n				    </tr>\r\n				    <tr>\r\n				    	<td>Описание:</td>\r\n				    	<td colspan="3"></td>\r\n				    </tr>\r\n				    <tr>\r\n				    	<td colspan="4">\r\n					    	<textarea rows="10" style="width:99%" id="appdisc" \r\n					    	required></textarea>\r\n				    	</td>\r\n				    </tr> \r\n				    <tr>\r\n					    <td >Предельный срок:</td>\r\n					    <td>\r\n					      <input type="datetime-local" id="appdeaddate"\r\n						  	style="width:220px;" required>\r\n					    </td>\r\n					    <td align="right">Приоритет:</td>\r\n				    	<td>\r\n				    	  <select id="appprior" style="width:222px;" required>\r\n							<option value="0">Низкий</option>\r\n							<option value="1">Средний</option>\r\n							<option value="2">Высокий</option>\r\n						  </select>\r\n				    	</td>\r\n				    </tr>\r\n				    <tr id="NewAppFormDSRow">\r\n					    <td>Предпологаемый срок:</td>\r\n					    <td>\r\n						  <input type="datetime-local" id="appestdate" \r\n						  	style="width:220px;" required>\r\n					    </td>\r\n					    <td align="right">Готовность(%):</td>\r\n				    	<td>\r\n							 <input type="number" id="status" min="0" max="100" \r\n							 style="width:220px;" required>\r\n				    	</td>\r\n				    </tr>\r\n				    <tr>\r\n				    	<td colspan="3"></td>\r\n				    	<td align="right" >\r\n				    		<input type="button"  class=\'btn\' value="&laquo;Назад" \r\n				    			onclick="SetFrame(\'AppsFrame\');">\r\n				    		<input type="submit"  class=\'btn\' value="Создать">\r\n				    	</td>\r\n				    </tr>\r\n			   </table>\r\n			</fieldset>\r\n		</form>\r\n	</div>';
+	__p += '	<div id="AppsFrame" class="FrameClass" style="margin-left:2%; margin-right:2%;">\r\n		<div id="AppsFrameMsg"></div>\r\n			<p>\r\n				Список заявок:\r\n				<button class="btn" id="AddAppsBtn" \r\n					onclick="SetFrame(\'CreateAppsFrame\');"\r\n					style="float:right;">\r\n					Добавить заявку\r\n				</button>\r\n				<input type=\'text\' id="FindString" \r\n					style="float:right;margin:2px;" placeholder=\'Поиск..\'>\r\n				<select id="FilterClientSelect" id="appclient" \r\n						  	style="width:222px;float:right;margin:4px;" required>\r\n				</select>\r\n			</p>\r\n	</div>\r\n	\r\n	<div id="DetailAppsFrame" class="FrameClass" style="margin-left:25%; margin-right:25%;">\r\n			<div id="DetailAppsFrameMsg"></div>\r\n			<p id="DetailFrameLabel">\r\n				Детальная информация:\r\n				<button class="btn" id="BackAppsBtn" \r\n					onclick="SetFrame(\'AppsFrame\');"\r\n					style="float:right;"> &laquo;Назад\r\n				</button>\r\n			</p>\r\n			<div id=DetailFrameTable></div>\r\n			<textarea id="CommArea" placeholder=\'Написать комментарий..\' \r\n			rows="2" onkeyup="TextAreaResize(event, 15, 2);"></textarea>\r\n			<div id="CommAreaDiv"></div>\r\n			<br><button class=\'btn\' onclick="Main.AppsModule.AddComment();">\r\n			Отправить</button>\r\n			<div id=DetailFrameComments></div>\r\n	</div>\r\n	\r\n	<div id="CreateAppsFrame" class="FrameClass">\r\n		<form id="NewAppForm" style=" margin-left: 22%;">\r\n			<fieldset>\r\n				<table>\r\n					<tr>\r\n						<td colspan="4"><h1>Создание заявки</h1></td>\r\n					</tr>\r\n				    <tr> \r\n					     <td  width="140">Название:</td>\r\n					     <td width="250">\r\n					     	<input type="text" id="appname" \r\n					     	style="width:220px;" required>\r\n					    </td>\r\n					     <td align="right" width="100" id="NewAppFormDTRow">Дата:</td>\r\n					     <td width="160">\r\n					     	<input type="datetime-local" id="appdate"\r\n						  	style="width:220px;" required>\r\n						 </td>\r\n				    </tr>\r\n				    <tr id="NewAppFormCERow">\r\n				    	<td >Клиент:</td>\r\n				    	<td>	        \r\n						  <select id="ClientSelect" id="appclient" \r\n						  	style="width:222px;" required>\r\n						  </select>\r\n						</td> \r\n				    	<td align="right">Исполнитель:</td> \r\n				    	<td>\r\n					      <select id="ExecutorSelect" id="appexecut" \r\n					      	style="width:222px;" required>\r\n						    <option value="null">-пусто-</option>\r\n						  </select>\r\n				    	</td> \r\n				    </tr>\r\n				    <tr>\r\n				    	<td>Описание:</td>\r\n				    	<td colspan="3"></td>\r\n				    </tr>\r\n				    <tr>\r\n				    	<td colspan="4">\r\n					    	<textarea rows="10" style="width:99%" id="appdisc" \r\n					    	required></textarea>\r\n				    	</td>\r\n				    </tr> \r\n				    <tr>\r\n					    <td >Предельный срок:</td>\r\n					    <td>\r\n					      <input type="datetime-local" id="appdeaddate"\r\n						  	style="width:220px;" required>\r\n					    </td>\r\n					    <td align="right">Приоритет:</td>\r\n				    	<td>\r\n				    	  <select id="appprior" style="width:222px;" required>\r\n							<option value="0">Низкий</option>\r\n							<option value="1">Средний</option>\r\n							<option value="2">Высокий</option>\r\n						  </select>\r\n				    	</td>\r\n				    </tr>\r\n				    <tr id="NewAppFormDSRow">\r\n					    <td>Предпологаемый срок:</td>\r\n					    <td>\r\n						  <input type="datetime-local" id="appestdate" \r\n						  	style="width:220px;" required>\r\n					    </td>\r\n					    <td align="right">Готовность(%):</td>\r\n				    	<td>\r\n							 <input type="number" id="status" min="0" max="100" \r\n							 style="width:220px;" required>\r\n				    	</td>\r\n				    </tr>\r\n				    <tr>\r\n				    	<td colspan="3"></td>\r\n				    	<td align="right" >\r\n				    		<input type="button"  class=\'btn\' value="&laquo;Назад" \r\n				    			onclick="SetFrame(\'AppsFrame\');">\r\n				    		<input type="submit"  class=\'btn\' value="Создать">\r\n				    	</td>\r\n				    </tr>\r\n			   </table>\r\n			</fieldset>\r\n		</form>\r\n	</div>';
 	return __p
 	}
 

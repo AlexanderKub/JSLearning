@@ -5,9 +5,9 @@ module.exports=function(){
 	$("#RegistrationForm").on("submit", function(event) {
       event.preventDefault();
 	  var data={
-	  	login: $("#RegistrationForm #username").val(),
-	  	pass: $("#RegistrationForm #password").val(),
-  	    name: $("#RegistrationForm #name").val(),
+	  	login: $("#RegistrationForm #username").val().trim(),
+	  	pass: $("#RegistrationForm #password").val().trim(),
+  	    name: $("#RegistrationForm #name").val().trim(),
 	  	role: (StorageIsClear()?0:2)
 	  };
 	  

@@ -1,19 +1,8 @@
-//Глобальные переменные
-var UserInfo;
-var UsersList;
-var CommsList;
-var UsersFilter=[1,1,1];
-var UserFilterOpened=false;
-var TempAppID;
-
 var $ = require('jquery');
+var config = require('./UserConfig');
+
 global.$=$;
-global.UserInfo=UserInfo;
-global.UsersFilter=UsersFilter;
-global.UsersList=UsersList;
-global.CommsList=CommsList;
-global.UserFilterOpened=UserFilterOpened;
-global.TempAppID=TempAppID;
+global.config=config;
 
   //Вспомогательные функции
   function GetRoleFromCode(id){

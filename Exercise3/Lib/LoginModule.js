@@ -5,8 +5,8 @@ module.exports=function(){
 	$("#LoginForm").on("submit", function(event) {
 	  event.preventDefault();
 	  var data={
-	  	login: $("#LoginForm #username").val(),
-	  	pass: $("#LoginForm #password").val()
+	  	login: $("#LoginForm #username").val().trim(),
+	  	pass: $("#LoginForm #password").val().trim()
 	  };
 	  if(!ValidateValue('login',data.login)){
 			AlertMsg($("#LoginForm"),WrongValueMessage('login'));
@@ -24,8 +24,8 @@ module.exports=function(){
 	    if(!CheckPassword(data.login,data.pass))
 	    	AlertMsg($("#LoginForm"),'Неверный пароль!');
 	    else{
-	    	UserInfo=GetUser(data.login);
-	    	SaveUser(UserInfo);
+	    	config.UserInfo=GetUser(data.login);
+	    	SaveUser(config.UserInfo);
 	    	SetWindow("MainWindow");
 	    }
 	  }
