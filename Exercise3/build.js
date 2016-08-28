@@ -154,6 +154,7 @@ var Main =
 		  if(id==1) return "Исполнитель";
 		  if(id==2) return "Клиент";
 	  }
+	  
 	  function LocalDateTime(addDay){
 		  var str="";
 		  var addDay=addDay || false;
@@ -174,29 +175,34 @@ var Main =
 		    return str;
 	  }
 	  
-	  //Функции базы данных  
+	  //Функции базы данных 
+	  //Пользователи
 	  function SaveUser(object){
-	    var data={
-	        	login: object["login"],
-	        	pass: object["pass"],
-	        	role: object["role"],
-	        	name: object["name"],
-	        	lastsession: new Date()
-	        };
-		localStorage["admapp.users." + data.login.toLowerCase()]=JSON.stringify(data);  
+		  var data={
+		        	login: object["login"],
+		        	pass: object["pass"],
+		        	role: object["role"],
+		        	name: object["name"],
+		        	lastsession: new Date()
+		        };
+			localStorage["admapp.users." + data.login.toLowerCase()]=JSON.stringify(data);  
 	  }
+	  
 	  function GetUser(login){
 		  return JSON.parse(localStorage["admapp.users." + login.toLowerCase()]);
 	  }
+	  
 	  function DeleteUser(login){
 		  if(!UserExist(login))return false;
 		  localStorage.removeItem("admapp.users." + login.toLowerCase());
 		  return true;
 	  }
+	  
 	  function UserExist(login){
 		  if(!login) return false;
 		  return (localStorage["admapp.users." + login.toLowerCase()]!=null);
 	  }
+	  
 	  function GetUsersList(filter){
 		  var list=[];
 		  filter= filter || false;
@@ -217,6 +223,8 @@ var Main =
 		  return (pass==JSON.parse(localStorage["admapp.users." + 
 		                                        login.toLowerCase()]).pass);
 	  }
+	  
+	  //Заявки
 	  function SaveApp(object){
 		    var data={
 		    		ID: object["id"],
@@ -27987,7 +27995,16 @@ var Main =
 	}
 
 	function Filter(filt){
-		if($('#FindString').val().trim()=='')AppListForSort=AppListBeforeFilter;
+		if($('#FindString').val().trim()=='')
+			if(AppListBeforeFilter){
+				AppListForSort=AppListBeforeFilter;
+			}else{
+				var filter=[];
+				if(config.UserInfo.role==1) filter["executor"]=config.UserInfo.login;
+				if(config.UserInfo.role==2) filter["client"]=config.UserInfo.login;
+				var AppsList=GetAppList(filter);
+				AppListBeforeFilter=AppsList;
+			}
 		if(filt!='null')
 			AppListForSort=_.filter(AppListBeforeFilter, _.conforms({ 'Client': function(n) { 
 				return n.toLowerCase()==filt.toLowerCase()}

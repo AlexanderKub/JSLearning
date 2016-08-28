@@ -10,6 +10,7 @@ global.config=config;
 	  if(id==1) return "Исполнитель";
 	  if(id==2) return "Клиент";
   }
+  
   function LocalDateTime(addDay){
 	  var str="";
 	  var addDay=addDay || false;
@@ -30,29 +31,34 @@ global.config=config;
 	    return str;
   }
   
-  //Функции базы данных  
+  //Функции базы данных 
+  //Пользователи
   function SaveUser(object){
-    var data={
-        	login: object["login"],
-        	pass: object["pass"],
-        	role: object["role"],
-        	name: object["name"],
-        	lastsession: new Date()
-        };
-	localStorage["admapp.users." + data.login.toLowerCase()]=JSON.stringify(data);  
+	  var data={
+	        	login: object["login"],
+	        	pass: object["pass"],
+	        	role: object["role"],
+	        	name: object["name"],
+	        	lastsession: new Date()
+	        };
+		localStorage["admapp.users." + data.login.toLowerCase()]=JSON.stringify(data);  
   }
+  
   function GetUser(login){
 	  return JSON.parse(localStorage["admapp.users." + login.toLowerCase()]);
   }
+  
   function DeleteUser(login){
 	  if(!UserExist(login))return false;
 	  localStorage.removeItem("admapp.users." + login.toLowerCase());
 	  return true;
   }
+  
   function UserExist(login){
 	  if(!login) return false;
 	  return (localStorage["admapp.users." + login.toLowerCase()]!=null);
   }
+  
   function GetUsersList(filter){
 	  var list=[];
 	  filter= filter || false;
@@ -73,6 +79,8 @@ global.config=config;
 	  return (pass==JSON.parse(localStorage["admapp.users." + 
 	                                        login.toLowerCase()]).pass);
   }
+  
+  //Заявки
   function SaveApp(object){
 	    var data={
 	    		ID: object["id"],

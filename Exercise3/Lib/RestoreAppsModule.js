@@ -299,7 +299,16 @@ function Find(str){
 }
 
 function Filter(filt){
-	if($('#FindString').val().trim()=='')AppListForSort=AppListBeforeFilter;
+	if($('#FindString').val().trim()=='')
+		if(AppListBeforeFilter){
+			AppListForSort=AppListBeforeFilter;
+		}else{
+			var filter=[];
+			if(config.UserInfo.role==1) filter["executor"]=config.UserInfo.login;
+			if(config.UserInfo.role==2) filter["client"]=config.UserInfo.login;
+			var AppsList=GetAppList(filter);
+			AppListBeforeFilter=AppsList;
+		}
 	if(filt!='null')
 		AppListForSort=_.filter(AppListBeforeFilter, _.conforms({ 'Client': function(n) { 
 			return n.toLowerCase()==filt.toLowerCase()}
