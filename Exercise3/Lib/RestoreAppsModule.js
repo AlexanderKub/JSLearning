@@ -187,7 +187,7 @@ function EditAppsFromDetail(){
         	deadline:(config.UserInfo.role==0?$("#editappdeadline").val().trim():Record.Deadline),
         	progress:$("#editappstatus").val().trim()
   };
-alert(JSON.stringify(data));
+	
   if(data.priority<0 || data.priority>2){
 	  AlertMsg($("#DetailAppsFrameMsg"),"Недопустимые данные: "+data.priority);
 	  return;
@@ -269,7 +269,7 @@ function Sort(i){
 			case 7:
 				return o.Deadline;
 			case 8:
-				return o.Progress;
+				return parseInt(o.Progress);
 			default:
 				return o.ID;
 			} 
