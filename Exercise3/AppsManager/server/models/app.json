@@ -1,0 +1,47 @@
+{
+  "name": "App",
+  "plural": "Apps",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Name": {
+      "type": "string",
+      "required": true
+    },
+    "Date": {
+      "type": "date"
+    },
+    "Client": {
+      "type": "string",
+      "required": true
+    },
+    "Executor": {
+      "type": "string"
+    },
+    "Discription": {
+      "type": "string"
+    },
+    "Priority": {
+      "type": "number"
+    },
+    "Estimated": {
+      "type": "date",
+      "required": true
+    },
+    "Deadline": {
+      "type": "date",
+      "required": true
+    },
+    "Progress": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

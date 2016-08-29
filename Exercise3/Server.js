@@ -1,8 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const PORT = 3000;
-const SDB = require('./ServerDB');
+const PORT = 4000;
 
 // parse application/json
 app.use(express.static(__dirname + '/'));
@@ -18,3 +17,4 @@ app.get('/index.html', function(req, res){
 app.listen(PORT, () => {
   console.log('Server running on '+PORT);
 });
+

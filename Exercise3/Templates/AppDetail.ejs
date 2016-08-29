@@ -27,7 +27,7 @@
 					<% if(UserExist(data.inRec.Executor)){ %>
 							<%=GetUser(data.inRec.Executor).name %>
 						<% }else{ %>
-							Executor
+							Не назначен
 						<% } %>
 				<% }else{ %>
 					<select id='editappexecut'><option value='null'>-пусто-</option>
@@ -62,7 +62,7 @@
 				<%=new Date(Date.parse(data.inRec.Deadline)).toUTCString()%>
 			<% }else{ %>
 				<input type="datetime-local" id="editappdeadline" 
-				value="<%=data.inRec.Deadline%>">
+				value="<%=dateFormat1(data.inRec.Deadline)%>">
 			<% } %>
 			</td>
 		</tr>
@@ -74,7 +74,7 @@
 					<%=new Date(Date.parse(data.inRec.Estimated)).toUTCString()%>
 				<%}else{ %>
 					<input type="datetime-local" id="editappestimated"
-					value="<%=data.inRec.Estimated%>">
+					value="<%=dateFormat1(data.inRec.Estimated)%>">
 				<%} %>
 			</td>
 		</tr>

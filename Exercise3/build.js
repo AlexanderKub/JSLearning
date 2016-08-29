@@ -168,6 +168,12 @@ var Main =
 		  return str;
 	  }
 	  
+	  function dateFormat1(date) {
+		  date = new Date(date);
+		  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+		  return date.toISOString().replace(/\..*$/, '');
+	  }
+	  
 	  String.prototype.lpad = function(padString, length) {
 			var str = this;
 		    while (str.length < length)
@@ -176,58 +182,101 @@ var Main =
 	  }
 	  
 	  //Функции базы данных 
-	  //Пользователи
+	  function Query(url,metod,Sdata){
+		  var result;
+		  $.ajax({ 
+			  url: 'http://localhost:3000/api/'+url, 
+			  dataType: 'json', 
+			  type: metod,
+			  async:false,
+			  contentType: 'application/json', 
+			  data: JSON.stringify(Sdata), 
+			  success: function(data){ 
+				  result = data;
+			  } 
+		  });
+		  return result;
+	  }
+	  
+	  //ПОЛЬЗОВАТЕЛИ
 	  function SaveUser(object){
-		  var data={
-		        	login: object["login"],
+		  var Sdata={
+		        	login: object["login"].toLowerCase(),
 		        	pass: object["pass"],
 		        	role: object["role"],
 		        	name: object["name"],
 		        	lastsession: new Date()
 		        };
-			localStorage["admapp.users." + data.login.toLowerCase()]=JSON.stringify(data);  
+		  if(!UserExist(Sdata.login))
+			  Query("AppUsers","POST",Sdata);
+		  else
+			  Query("AppUsers/update?where=%7B%22login%22%3A%20%22"+Sdata.login
+					  +"%22%7D","POST",Sdata);
 	  }
 	  
 	  function GetUser(login){
-		  return JSON.parse(localStorage["admapp.users." + login.toLowerCase()]);
+		  var result;
+		  var Sdata={
+				  where:{
+					  "login":login.toLowerCase()
+				  }
+		        };
+		  result = Query("AppUsers?filter="+JSON.stringify(Sdata),"GET",null);
+	  	  return result[0];
 	  }
 	  
 	  function DeleteUser(login){
 		  if(!UserExist(login))return false;
-		  localStorage.removeItem("admapp.users." + login.toLowerCase());
+		  var id = GetUser(login).id;
+		  Query("AppUsers/"+id,"DELETE",null);
 		  return true;
 	  }
 	  
 	  function UserExist(login){
 		  if(!login) return false;
-		  return (localStorage["admapp.users." + login.toLowerCase()]!=null);
+		  var result;
+		  var Sdata={
+				  where:{
+					  "login":login.toLowerCase()
+				  }
+		        };
+		  result = Query("AppUsers?filter="+JSON.stringify(Sdata),"GET",null);
+	  	  return (result.length>0);
 	  }
 	  
 	  function GetUsersList(filter){
-		  var list=[];
-		  filter= filter || false;
-		  for (var i=0; i < localStorage.length; i++) {
-			  if(localStorage.key(i).indexOf("admapp.users.")+1){
-				  if(!filter)
-					  list[i]=JSON.parse(localStorage.getItem(localStorage.key(i))); 
-				  else{
-					  var tmpobj=JSON.parse(localStorage.getItem(localStorage.key(i)));
-					  if(tmpobj.role in filter)
-						  list[i]=tmpobj; 
-				  }
-			  }
+		  filter = filter || false;
+		  var result;
+		  var Sdata={};
+		  if(filter){
+			  Sdata={
+					where:{
+						or:[{"role":(0 in filter)?0:3},
+						    {"role":(1 in filter)?1:3},
+						    {"role":(2 in filter)?2:3}
+						   ]
+					}
+			  };
 		  }
-		  return list;
-	  }
-	  function CheckPassword(login,pass){
-		  return (pass==JSON.parse(localStorage["admapp.users." + 
-		                                        login.toLowerCase()]).pass);
+		  result = Query("AppUsers?filter="+JSON.stringify(Sdata),"GET",null);
+	  	  return result;
 	  }
 	  
-	  //Заявки
+	  function CheckPassword(login,pass){
+		  var result;
+		  var Sdata={
+		        	filter:{
+		        		"login":login.toLowerCase(),
+		        		"pass":pass
+		        		}
+		        };
+		  result = Query("AppUsers","GET",Sdata);
+	  	  return (result.length>0);
+	  }
+	  
+	  //ЗАЯВКИ
 	  function SaveApp(object){
-		    var data={
-		    		ID: object["id"],
+		    var Sdata={
 		        	Name: object["name"],
 		        	Date: object["date"],
 		        	Client: object["client"],
@@ -238,95 +287,129 @@ var Main =
 		        	Deadline: object["deadline"],
 		        	Progress: object["progress"]
 		        };
-			localStorage["admapp.apps.id" + data.ID.toString()]=JSON.stringify(data);  
+		    
+		    if(!object["id"]){
+				Query("Apps","POST",Sdata);
+		    }else{
+		    	var getfilter={
+		    			id:object["id"]
+		    	};
+				Query("Apps/update?where="+JSON.stringify(getfilter),"POST",Sdata); 
+		    }
 	  }
+	  
 	  function GetApp(id){
-		  if(!AppExist(id))return null;
-		  return JSON.parse(localStorage["admapp.apps.id" + id]);
+		  var result;
+		  var Sdata={
+				  where:{
+					  "id":id
+				  }
+		        };
+		  result = Query("Apps?filter="+JSON.stringify(Sdata),"GET",null);
+	 	  return result[0];
 	  }
+	  
 	  function DeleteApp(id){
 		  if(!AppExist(id))return false;
-		  localStorage.removeItem("admapp.apps.id" + id);
+		  Query("Apps/"+id,"DELETE",null);
 		  return true;
 	  }
+	  
 	  function AppExist(id){
-		  return (localStorage["admapp.apps.id" + id]!=null);
-	  }
-	  function GetAppList(filter){
-		  var list=[];
-		  for (var i=0; i < localStorage.length; i++){
-			  if(localStorage.key(i).indexOf("admapp.apps.")+1){
-				  if(!filter["client"] && !filter["executor"]){
-					  list[i]=JSON.parse(localStorage.getItem(localStorage.key(i)));
-				  }else{
-					  var pre=JSON.parse(localStorage.getItem(localStorage.key(i)));
-					  if(filter["client"] && filter["client"].toLowerCase()==
-								  pre.Client.toLowerCase()) list[i]=pre;
-					  if(filter["executor"] && filter["executor"].toLowerCase()==
-								  pre.Executor.toLowerCase()) list[i]=pre;
+		  var result;
+		  var Sdata={
+				  where:{
+					  "id":id
 				  }
-			  }
-		  }
-		  return list;
+		        };
+		  result = Query("Apps?filter="+JSON.stringify(Sdata),"GET",null);
+	 	  return (result.length>0);
 	  }
+	  
+	  function GetAppList(filter){	  
+		  var result;
+		  var Sdata={};
+		  if(filter){
+			  Sdata={
+					where:{
+						or:[
+						     {"Client":(filter["client"]?
+						    		 filter["client"].toLowerCase():"")},
+						     {"Executor":(filter["executor"]?
+						    		 filter["executor"].toLowerCase():"")}
+						]
+					}
+			  };
+		  }
+		  if(!filter["client"] && !filter["executor"]){
+			  result = Query("Apps","GET",null);
+		  }else{
+			 result = Query("Apps?filter="+JSON.stringify(Sdata),"GET",null);
+		  }
+	  	  return result;
+	  }
+	  
+	  //КОММЕНТАРИИ
 	  function SaveComm(object){
-		    var data={
-		    		ID: object["id"],
+		  var result;
+		  var Sdata={
 		        	App: object["app"],
 		        	User: object["user"],
 		        	Date: object["date"],
 		        	Text: object["text"]
 		        };
-			localStorage["admapp.comms.id" + data.ID.toString()]=JSON.stringify(data);  
+		  if(!object["id"]){
+			  result = Query("Comments","POST",Sdata);
+		  } else{
+			  result = Query("Comments/update?where=%7B%22id%22%3A%20%22"+object["id"]
+					  +"%22%7D","POST",Sdata);
+		  }
+		  return result;
 	  }
+	  
 	  function GetComm(id){
-		  if(!CommExist(id))return null;
-		  return JSON.parse(localStorage["admapp.comms.id" + id]);
+		  var result;
+		  var Sdata={
+				  where:{
+					  "id":id
+				  }
+		        };
+		  result = Query("Comments?filter="+JSON.stringify(Sdata),"GET",null);
+	 	  return result[0];
 	  }
+	  
 	  function DeleteComm(id){
 		  if(!CommExist(id))return false;
-		  localStorage.removeItem("admapp.comms.id" + id);
+		  Query("Comments/"+id,"DELETE",null);
 		  return true;
 	 }
+	  
 	 function CommExist(id){
-		  return (localStorage["admapp.comms.id" + id]!=null);
+		 var result;
+		  var Sdata={
+				  where:{
+					  "id":id
+				  }
+		        };
+		  result = Query("Comments?filter="+JSON.stringify(Sdata),"GET",null);
+		  return (result.length>0);
 	 }
 
 	  global.GetCommList=function GetCommList(app){
-		  var list=[];
-		  for (var i=0; i < localStorage.length; i++){
-			  if(localStorage.key(i).indexOf("admapp.comms.")+1){
-					  var pre=JSON.parse(localStorage.getItem(localStorage.key(i)));
-					  if(pre.App==app)list[i]=pre;
-				  }
-			  }
-		  return list;
-	  }
-	  function StorageIsClear(){
-		  return localStorage.length==0;
+		  var result;
+		  var Sdata={
+				where:{
+					App:app
+				}
+		  };
+		  result = Query("Comments?filter="+JSON.stringify(Sdata),"GET",null);
+	  	  return result;
 	  }
 	  
-	  //Генераторы новых ключей
-	  function GetNewAppsID(){
-		  if(localStorage["admapp.keys.apps"]){
-			  var id=parseInt(localStorage["admapp.keys.apps"]);
-			  localStorage["admapp.keys.apps"]=id+1;
-			  return id;
-		  } else{
-			  localStorage["admapp.keys.apps"]=1;
-			  return 0;
-		  }
+	  function StorageIsClear(){
+		  return Query("AppUsers/count","GET",null).count==0;
 	  }
-	  function GetNewCommsID(){
-		  if(localStorage["admapp.keys.comms"]){
-			  var id=parseInt(localStorage["admapp.keys.comms"]);
-			  localStorage["admapp.keys.comms"]=id+1;
-			  return id;
-		  } else{
-			  localStorage["admapp.keys.comms"]=1;
-			  return 0;
-		  }
-	  }
+	  
 	  
 	  //Добавление сообщения
 	  function AlertMsg(parent,text){
@@ -428,13 +511,12 @@ var Main =
 	global.DeleteComm=DeleteComm;
 	global.CommExist=CommExist;
 	global.StorageIsClear=StorageIsClear;
-	global.GetNewAppsID=GetNewAppsID;
-	global.GetNewCommsID=GetNewCommsID;
 	global.AlertMsg=AlertMsg;
 	global.GetAppsListItem=GetAppsListItem;
 	global.TextAreaResize=TextAreaResize;
 	global.ValidateValue=ValidateValue;
 	global.WrongValueMessage=WrongValueMessage;
+	global.dateFormat1=dateFormat1;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
@@ -10556,7 +10638,7 @@ var Main =
 	__p += '\r\n			  ';
 	 for (var x in data.inList) { ;
 	__p += '\r\n			    <tr style=\'cursor:pointer;\' \r\n				 	onclick=\'Main.AppsModule.GetDetailInfo(' +
-	((__t = (data.inList[x].ID)) == null ? '' : __t) +
+	((__t = (data.inList[x].id)) == null ? '' : __t) +
 	')\'>\r\n				 <td>\r\n				 	' +
 	((__t = (data.inList[x].Name)) == null ? '' : __t) +
 	'\r\n				 </td>\r\n				 <td>\r\n				  	' +
@@ -27701,7 +27783,6 @@ var Main =
 		  $('#NewAppForm').on("submit", function(event) {
 		  event.preventDefault();
 		  var data={
-		    		id:GetNewAppsID(),
 		        	name:$('#NewAppForm #appname').val().trim(),
 		        	date:$('#NewAppForm #appdate').val().trim(),
 		        	client:$('#NewAppForm #ClientSelect').val().trim(),
@@ -27872,7 +27953,7 @@ var Main =
 	function EditAppsFromDetail(){
 		var Record=GetApp(config.TempAppID);
 		var data={
-	    		id:Record.ID,
+	    		id:Record.id,
 	        	name:Record.Name,
 	        	date:Record.Date,
 	        	client:Record.Client,
@@ -27883,7 +27964,7 @@ var Main =
 	        	deadline:(config.UserInfo.role==0?$("#editappdeadline").val().trim():Record.Deadline),
 	        	progress:$("#editappstatus").val().trim()
 	  };
-	alert(JSON.stringify(data));
+		
 	  if(data.priority<0 || data.priority>2){
 		  AlertMsg($("#DetailAppsFrameMsg"),"Недопустимые данные: "+data.priority);
 		  return;
@@ -27920,18 +28001,17 @@ var Main =
 			  }
 			  
 			  var data={
-	    			id: GetNewCommsID(),
 	    			app: config.TempAppID,
 	    			user: config.UserInfo.login,
 	    			date: LocalDateTime(),
 	    			text: textvar
 			  };
 			  
-			  SaveComm(data);
+			  var newcomm = SaveComm(data);
 			  $("#CommArea").val("");
 			  
 			  var Tpl1 = __webpack_require__(15);
-			  var result = Tpl1({UF:config.UserInfo,com:GetComm(data.id)});
+			  var result = Tpl1({UF:config.UserInfo,com:newcomm});
 			  $("#DetailFrameComments").append(result);
 		  }
 	}
@@ -27965,7 +28045,7 @@ var Main =
 				case 7:
 					return o.Deadline;
 				case 8:
-					return o.Progress;
+					return parseInt(o.Progress);
 				default:
 					return o.ID;
 				} 
@@ -28077,7 +28157,7 @@ var Main =
 	((__t = (GetUser(data.inRec.Executor).name )) == null ? '' : __t) +
 	'\r\n						';
 	 }else{ ;
-	__p += '\r\n							Executor\r\n						';
+	__p += '\r\n							Не назначен\r\n						';
 	 } ;
 	__p += '\r\n				';
 	 }else{ ;
@@ -28106,7 +28186,7 @@ var Main =
 	'\r\n			';
 	 }else{ ;
 	__p += '\r\n				<input type="datetime-local" id="editappdeadline" \r\n				value="' +
-	((__t = (data.inRec.Deadline)) == null ? '' : __t) +
+	((__t = (dateFormat1(data.inRec.Deadline))) == null ? '' : __t) +
 	'">\r\n			';
 	 } ;
 	__p += '\r\n			</td>\r\n		</tr>\r\n				\r\n		<tr>\r\n			<td>Предпологаемый срок:</td>\r\n			<td>\r\n				';
@@ -28116,7 +28196,7 @@ var Main =
 	'\r\n				';
 	}else{ ;
 	__p += '\r\n					<input type="datetime-local" id="editappestimated"\r\n					value="' +
-	((__t = (data.inRec.Estimated)) == null ? '' : __t) +
+	((__t = (dateFormat1(data.inRec.Estimated))) == null ? '' : __t) +
 	'">\r\n				';
 	} ;
 	__p += '\r\n			</td>\r\n		</tr>\r\n		\r\n		';
@@ -28143,7 +28223,7 @@ var Main =
 	var __t, __p = '', __j = Array.prototype.join;
 	function print() { __p += __j.call(arguments, '') }
 	__p += '<div id=\'CM' +
-	((__t = (data.com.ID)) == null ? '' : __t) +
+	((__t = (data.com.id)) == null ? '' : __t) +
 	'\' class=\'Comms\'>\r\n	<div class=\'CommsHeader\'>\r\n		<div class=\'CommsUser\'>\r\n			';
 	if(UserExist(data.com.User)){ ;
 	__p += '\r\n				' +
@@ -28159,7 +28239,7 @@ var Main =
 	__p += '\r\n	<button id=\'CMDelBtn' +
 	((__t = (data.com.ID)) == null ? '' : __t) +
 	'\' class=\'btn\' style=\'float: right;\'\r\n					onclick=\'Main.AppsModule.DeleteComment(' +
-	((__t = (data.com.ID)) == null ? '' : __t) +
+	((__t = (data.com.id)) == null ? '' : __t) +
 	');\'\r\n	>Удалить</button>\r\n	';
 	 } ;
 	__p += '\r\n	<div class=\'CommsText\'>' +

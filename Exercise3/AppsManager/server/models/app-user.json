@@ -1,0 +1,35 @@
+{
+  "name": "AppUser",
+  "plural": "AppUsers",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "login": {
+      "type": "string",
+      "required": true
+    },
+    "pass": {
+      "type": "string",
+      "required": true
+    },
+    "role": {
+      "type": "number",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "lastsession": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

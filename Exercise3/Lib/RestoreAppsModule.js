@@ -5,7 +5,6 @@ module.exports=function(){
 	  $('#NewAppForm').on("submit", function(event) {
 	  event.preventDefault();
 	  var data={
-	    		id:GetNewAppsID(),
 	        	name:$('#NewAppForm #appname').val().trim(),
 	        	date:$('#NewAppForm #appdate').val().trim(),
 	        	client:$('#NewAppForm #ClientSelect').val().trim(),
@@ -176,7 +175,7 @@ function GetDetailInfo(id){
 function EditAppsFromDetail(){
 	var Record=GetApp(config.TempAppID);
 	var data={
-    		id:Record.ID,
+    		id:Record.id,
         	name:Record.Name,
         	date:Record.Date,
         	client:Record.Client,
@@ -224,18 +223,17 @@ function AddComment(){
 		  }
 		  
 		  var data={
-    			id: GetNewCommsID(),
     			app: config.TempAppID,
     			user: config.UserInfo.login,
     			date: LocalDateTime(),
     			text: textvar
 		  };
 		  
-		  SaveComm(data);
+		  var newcomm = SaveComm(data);
 		  $("#CommArea").val("");
 		  
 		  var Tpl1 = require('../Templates/Comment.ejs');
-		  var result = Tpl1({UF:config.UserInfo,com:GetComm(data.id)});
+		  var result = Tpl1({UF:config.UserInfo,com:newcomm});
 		  $("#DetailFrameComments").append(result);
 	  }
 }

@@ -3,3 +3,9 @@
 .settings/org.eclipse.wst.jsdt.ui.superType.name
 .settings/org.eclipse.wst.jsdt.ui.superType.container
 Exercise3/node_modules/
+*.lnk
+Exercise3/AppsManager/.editorconfig
+*.eslintrc
+Exercise3/AppsManager/.eslintignore
+Exercise3/AppsManager/client/README.md
+Exercise3/build.js.map
