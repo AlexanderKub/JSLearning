@@ -175,26 +175,32 @@
 
   let FiguresFactory = Figures.createBlueFigures();
   let figure;
-  $("#CreateForm").hide();
   
   $("#CreateFigure").on("click", function() {
     ShowForm();
   });
-  
+
   $("#IncreaseFigure").on("click", function() {
     ShowTimesForm(0);
   });
-  
+
   $("#DecreaseFigure").on("click", function() {
     ShowTimesForm(1);
   });
-  
+
   $("#GetAreaFigure").on("click", function() {
     ShowWindow(figure.getArea());
   });
 
+  $("#IncreaseFigure").prop("disabled",true);
+  $("#DecreaseFigure").prop("disabled",true);
+  $("#GetAreaFigure").prop("disabled",true);
+
+  ClearContainer();
+  
   function ShowForm(){
     $("#Container").html(Tmpl());
+    $("#Container").show();
     ShowParams();
     $("#FigureSelect").on("change",function () {
       ShowParams();
@@ -216,13 +222,18 @@
       if(typ=="Rec") figure = FiguresFactory.createRectangle(x,y,w,h);
       if(typ=="Cir") figure = FiguresFactory.createCircle(x,y,r);
       figure.render();
-    
+      
+      $("#IncreaseFigure").prop("disabled",false);
+      $("#DecreaseFigure").prop("disabled",false);
+      $("#GetAreaFigure").prop("disabled",false);
+      
       ClearContainer();
     });
   }
   
   function ShowTimesForm(a){
     $("#Container").html(timesTmpl({text:a==0?"Увеличить":"Уменьшить",}));
+    $("#Container").show();
     $("#TimesBtn").on("click", function() {
       let times = $("#TimesVal").val();
       if(a==0)
@@ -235,6 +246,7 @@
   
   function ShowWindow(a){
     $("#Container").html(window({cont:"Площадь: "+a,}));
+    $("#Container").show();
     $("#WindowBtn").on("click", function() {
       ClearContainer();
     });
@@ -242,4 +254,5 @@
   
   function ClearContainer(){
     $("#Container").html("");
+    $("#Container").hide();
   }

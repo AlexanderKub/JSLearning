@@ -282,7 +282,6 @@
 
 	var FiguresFactory = Figures.createBlueFigures();
 	var figure = void 0;
-	$("#CreateForm").hide();
 
 	$("#CreateFigure").on("click", function () {
 	  ShowForm();
@@ -300,8 +299,15 @@
 	  ShowWindow(figure.getArea());
 	});
 
+	$("#IncreaseFigure").prop("disabled", true);
+	$("#DecreaseFigure").prop("disabled", true);
+	$("#GetAreaFigure").prop("disabled", true);
+
+	ClearContainer();
+
 	function ShowForm() {
 	  $("#Container").html(Tmpl());
+	  $("#Container").show();
 	  ShowParams();
 	  $("#FigureSelect").on("change", function () {
 	    ShowParams();
@@ -324,12 +330,17 @@
 	    if (typ == "Cir") figure = FiguresFactory.createCircle(x, y, r);
 	    figure.render();
 
+	    $("#IncreaseFigure").prop("disabled", false);
+	    $("#DecreaseFigure").prop("disabled", false);
+	    $("#GetAreaFigure").prop("disabled", false);
+
 	    ClearContainer();
 	  });
 	}
 
 	function ShowTimesForm(a) {
 	  $("#Container").html(timesTmpl({ text: a == 0 ? "Увеличить" : "Уменьшить" }));
+	  $("#Container").show();
 	  $("#TimesBtn").on("click", function () {
 	    var times = $("#TimesVal").val();
 	    if (a == 0) figure.increase(times);else figure.decrease(times);
@@ -339,6 +350,7 @@
 
 	function ShowWindow(a) {
 	  $("#Container").html(window({ cont: "Площадь: " + a }));
+	  $("#Container").show();
 	  $("#WindowBtn").on("click", function () {
 	    ClearContainer();
 	  });
@@ -346,6 +358,7 @@
 
 	function ClearContainer() {
 	  $("#Container").html("");
+	  $("#Container").hide();
 	}
 
 /***/ },
@@ -383,7 +396,7 @@
 
 
 	// module
-	exports.push([module.id, "button{\r\n  text-align: center;\r\n  display: inline-block;\r\n  font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;\r\n  font-weight: bold;\r\n  color: rgb(68,68,68);\r\n  text-decoration: none;\r\n  user-select: none;\r\n  padding: .2em 1.2em;\r\n  outline: none;\r\n  border: 1px solid rgba(0,0,0,.1);\r\n  border-radius: 2px;\r\n  background: rgb(245,245,245) linear-gradient(#f4f4f4, #f1f1f1);\r\n  transition: all .218s ease 0s;\r\n  cursor:pointer;\r\n}\r\n\r\nbutton:hover{\r\n  color: rgb(24,24,24);\r\n  border: 1px solid rgb(198,198,198);\r\n  background: #f7f7f7 linear-gradient(#f7f7f7, #f1f1f1);\r\n  box-shadow: 0 1px 2px rgba(0,0,0,.1);\r\n}\r\n\r\nbutton:active{\r\n  color: rgb(51,51,51);\r\n  border: 1px solid rgb(204,204,204);\r\n  box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;\r\n}\r\n\r\ninput[type=\"number\"] {\r\n  width: 50px;\r\n  margin: 2px;\r\n}\r\n\r\n#Container{\r\n    position: absolute;\r\n    margin: 5px;\r\n    display: table;\r\n}", ""]);
+	exports.push([module.id, "button{\r\n  text-align: center;\r\n  display: inline-block;\r\n  font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;\r\n  font-weight: bold;\r\n  color: rgb(68,68,68);\r\n  text-decoration: none;\r\n  user-select: none;\r\n  padding: .2em 1.2em;\r\n  outline: none;\r\n  border: 1px solid rgba(0,0,0,.1);\r\n  border-radius: 2px;\r\n  background: rgb(245,245,245) linear-gradient(#f4f4f4, #f1f1f1);\r\n  transition: all .218s ease 0s;\r\n  cursor:pointer;\r\n}\r\n\r\nbutton:hover{\r\n  color: rgb(24,24,24);\r\n  border: 1px solid rgb(198,198,198);\r\n  background: #f7f7f7 linear-gradient(#f7f7f7, #f1f1f1);\r\n  box-shadow: 0 1px 2px rgba(0,0,0,.1);\r\n}\r\n\r\nbutton:active{\r\n  color: rgb(51,51,51);\r\n  border: 1px solid rgb(204,204,204);\r\n  box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;\r\n}\r\n\r\nbutton:disabled{\r\n    cursor: default;\r\n    pointer-events: none;\r\n    color: rgb(114, 114, 114);\r\n    border: 1px solid rgb(204,204,204);\r\n    box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;\r\n    background: #e7e7e7 linear-gradient(#dcdcdc, #d8d8d8);\r\n}\r\n\r\ninput[type=\"number\"] {\r\n  width: 50px;\r\n  margin: 2px;\r\n}\r\n\r\n#Container{\r\n    position: absolute;\r\n    margin: 5px;\r\n    display: table;\r\n    text-align: center;\r\n    outline: none;\r\n    border: 1px solid rgba(0,0,0,.1);\r\n    border-radius: 4px;\r\n    background: rgb(238, 238, 238) linear-gradient(#eaeaea, #ebebeb);\r\n    padding: 6px;\r\n}", ""]);
 
 	// exports
 
@@ -10794,7 +10807,7 @@
 	var __t, __p = '';
 	__p += '<div id="TimesForm">\r\n    ' +
 	((__t = (data.text)) == null ? '' : __t) +
-	' в <input type="number" value="10" id="TimesVal"> раз\r\n    <br><button id="TimesBtn">Ок</button>\r\n</div>';
+	' в\r\n    <br><input type="number" value="10" id="TimesVal"> раз\r\n    <br><button id="TimesBtn">Ок</button>\r\n</div>';
 	return __p
 	}
 
