@@ -8,17 +8,16 @@
 
 <body>
 
-<div class="root" style="position:absolute; width: 90%; height: 90%;">
-    <button id="CreateFigure">Создать</button>
-    <button id="IncreaseFigure">Увеличить</button>
-    <button id="DecreaseFigure">Уменьшить</button>
-    <button id="GetAreaFigure">Площадь</button>
-    <br>
-
-    <div id="Container"></div>
-
-    <br><canvas id="canvas" width=750 height=500></canvas>
+<div class="switcher">
+    <input id="sw" type="checkbox" class="switcher-value">
+    <label for="sw" class="sw_btn"></label>
+    <div class="bg">
+        <div class="inlineBlock">Работники</div>
+        <div class="inlineBlock">Фигуры</div>
+    </div>
 </div>
+
+<div id="root" style="position:absolute; width: 90%; height: 90%;"></div>
 
 <script src="build.js"></script>
 

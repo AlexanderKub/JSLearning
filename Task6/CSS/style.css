@@ -53,3 +53,73 @@ input[type="number"] {
     background: rgb(238, 238, 238) linear-gradient(#eaeaea, #ebebeb);
     padding: 6px;
 }
+
+.switcher {
+    width: 156px;
+    height: 22px;
+    cursor: pointer;
+    position: relative;
+    display: block;
+    margin-bottom: 10px;
+    margin-left: 8px;
+}
+.switcher * {
+    transition: all .2s;
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    -o-transition: all .2s;
+    -ms-transition: all .2s;
+}
+.switcher .sw_btn {
+    background: linear-gradient(rgb(244, 244, 244), rgb(241, 241, 241));
+    width: 82px;
+    height: 25px;
+    display: block;
+    cursor: pointer;
+    z-index: 1;
+    position: relative;
+    border-radius: 5px;
+    margin-left: 1px;
+}
+.switcher .bg {
+    background: #e7e7e7 linear-gradient(#dcdcdc, #d8d8d8);
+    padding: 4px;
+    border-radius: 5px;
+}
+.switcher input.switcher-value { display: none; }
+.switcher .bg {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    cursor: default;
+}
+.switcher input.switcher-value:checked ~ .sw_btn { margin-left: 81px;}
+
+.switcher .inlineBlock{
+    width: 76px;
+    display: inline-block;
+    text-align: center;
+}
+
+.page{
+    border: 2px groove  #424242;
+    border-radius: 12px;
+    margin: -2px;
+    padding: 6px;
+    width: 740px;
+    height: 549px;
+}
+
+.borderedLine{
+    border-bottom: 2px groove  #424242;
+    padding: 2px;
+}
+
+#canvas{
+    display: block;
+    padding-top: 2px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}

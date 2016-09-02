@@ -46,320 +46,21 @@
 
 	"use strict";
 
-	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 	__webpack_require__(1);
 	var $ = __webpack_require__(5);
-	var Tmpl = __webpack_require__(6);
-	var timesTmpl = __webpack_require__(7);
-	var window = __webpack_require__(8);
-	var TmplParams = __webpack_require__(9);
 
-	var canvas = $("#canvas").get(0);
-	var ctx = canvas.getContext("2d");
-	var color = "red";
-	ctx.fillStyle = color;
+	var figurePage = __webpack_require__(6);
+	var personalPage = __webpack_require__(13);
 
-	var Figure = function () {
-	  function Figure(x, y) {
-	    _classCallCheck(this, Figure);
+	$("#root").html(figurePage.HTML());
 
-	    this.x = parseFloat(x) + 325;
-	    this.y = parseFloat(y) + 250;
+	$("#sw").on("change", function () {
+	  if ($("#sw").prop("checked")) {
+	    $("#root").html(personalPage.HTML());
+	  } else {
+	    $("#root").html(figurePage.HTML());
 	  }
-
-	  _createClass(Figure, [{
-	    key: "render",
-	    value: function render() {
-	      canvas.width = canvas.width;
-	      ctx.fillStyle = color;
-	    }
-	  }]);
-
-	  return Figure;
-	}();
-
-	var Square = function (_Figure) {
-	  _inherits(Square, _Figure);
-
-	  function Square(x, y, w) {
-	    _classCallCheck(this, Square);
-
-	    var _this = _possibleConstructorReturn(this, (Square.__proto__ || Object.getPrototypeOf(Square)).call(this, x, y));
-
-	    _this.width = w;
-	    return _this;
-	  }
-
-	  _createClass(Square, [{
-	    key: "increase",
-	    value: function increase(times) {
-	      var oldw = this.width;
-	      this.width *= times;
-	      this.x -= (this.width - oldw) / 2;
-	      this.y -= (this.width - oldw) / 2;
-	      this.render();
-	    }
-	  }, {
-	    key: "decrease",
-	    value: function decrease(times) {
-	      var oldw = this.width;
-	      this.width /= times;
-	      this.x += (oldw - this.width) / 2;
-	      this.y += (oldw - this.width) / 2;
-	      this.render();
-	    }
-	  }, {
-	    key: "getArea",
-	    value: function getArea() {
-	      return this.width * this.width;
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      _get(Square.prototype.__proto__ || Object.getPrototypeOf(Square.prototype), "render", this).call(this);
-	      ctx.fillRect(this.x, this.y, this.width, this.width);
-	    }
-	  }]);
-
-	  return Square;
-	}(Figure);
-
-	var Rectangle = function (_Figure2) {
-	  _inherits(Rectangle, _Figure2);
-
-	  function Rectangle(x, y, w, h) {
-	    _classCallCheck(this, Rectangle);
-
-	    var _this2 = _possibleConstructorReturn(this, (Rectangle.__proto__ || Object.getPrototypeOf(Rectangle)).call(this, x, y));
-
-	    _this2.width = w;
-	    _this2.height = h;
-	    return _this2;
-	  }
-
-	  _createClass(Rectangle, [{
-	    key: "increase",
-	    value: function increase(times) {
-	      var oldw = this.width;
-	      var oldh = this.height;
-	      this.width *= times;
-	      this.height *= times;
-	      this.x -= (this.width - oldw) / 2;
-	      this.y -= (this.height - oldh) / 2;
-	      this.render();
-	    }
-	  }, {
-	    key: "decrease",
-	    value: function decrease(times) {
-	      var oldw = this.width;
-	      var oldh = this.height;
-	      this.width /= times;
-	      this.height /= times;
-	      this.x += (oldw - this.width) / 2;
-	      this.y += (oldh - this.height) / 2;
-	      this.render();
-	    }
-	  }, {
-	    key: "getArea",
-	    value: function getArea() {
-	      return this.width * this.height;
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      _get(Rectangle.prototype.__proto__ || Object.getPrototypeOf(Rectangle.prototype), "render", this).call(this);
-	      ctx.fillRect(this.x, this.y, this.width, this.height);
-	    }
-	  }]);
-
-	  return Rectangle;
-	}(Figure);
-
-	var Circle = function (_Figure3) {
-	  _inherits(Circle, _Figure3);
-
-	  function Circle(x, y, r) {
-	    _classCallCheck(this, Circle);
-
-	    var _this3 = _possibleConstructorReturn(this, (Circle.__proto__ || Object.getPrototypeOf(Circle)).call(this, x, y));
-
-	    _this3.radius = r;
-	    return _this3;
-	  }
-
-	  _createClass(Circle, [{
-	    key: "increase",
-	    value: function increase(times) {
-	      var oldr = this.radius;
-	      this.radius *= times;
-	      this.x -= (this.radius - oldr) / 4;
-	      this.y -= (this.radius - oldr) / 4;
-	      this.render();
-	    }
-	  }, {
-	    key: "decrease",
-	    value: function decrease(times) {
-	      var oldr = this.radius;
-	      this.radius /= times;
-	      this.x += (oldr - this.radius) / 4;
-	      this.y += (oldr - this.radius) / 4;
-	      this.render();
-	    }
-	  }, {
-	    key: "getArea",
-	    value: function getArea() {
-	      return Math.PI * this.radius * this.radius;
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      _get(Circle.prototype.__proto__ || Object.getPrototypeOf(Circle.prototype), "render", this).call(this);
-	      ctx.beginPath();
-	      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-	      ctx.fill();
-	    }
-	  }]);
-
-	  return Circle;
-	}(Figure);
-
-	if (!Object.create) {
-	  Object.create = function (o) {
-	    if (arguments.length > 1) {
-	      throw new Error("Object.create implementation only accepts the first parameter.");
-	    }
-	    function F() {}
-	    F.prototype = o;
-	    return new F();
-	  };
-	}
-
-	var Figures = {
-	  createSquare: function createSquare(x, y, w) {
-	    return new Square(x, y, w);
-	  },
-	  createRectangle: function createRectangle(x, y, w, h) {
-	    return new Rectangle(x, y, w, h);
-	  },
-	  createCircle: function createCircle(x, y, r) {
-	    return new Circle(x, y, r);
-	  }
-	};
-
-	var fromPrototype = function fromPrototype(prototype, object) {
-	  var newObject = Object.create(prototype);
-	  for (var prop in object) {
-	    if (object.hasOwnProperty(prop)) {
-	      newObject[prop] = object[prop];
-	    }
-	  }
-	  return newObject;
-	};
-
-	Figures.createBlueFigures = function () {
-	  color = "blue";
-	  return fromPrototype(Figures, {
-	    createSquare: function createSquare(x, y, w) {
-	      return new Square(x, y, w);
-	    },
-	    createRectangle: function createRectangle(x, y, w, h) {
-	      return new Rectangle(x, y, w, h);
-	    },
-	    createCircle: function createCircle(x, y, r) {
-	      return new Circle(x, y, r);
-	    }
-	  });
-	};
-
-	var FiguresFactory = Figures.createBlueFigures();
-	var figure = void 0;
-
-	$("#CreateFigure").on("click", function () {
-	  ShowForm();
 	});
-
-	$("#IncreaseFigure").on("click", function () {
-	  ShowTimesForm(0);
-	});
-
-	$("#DecreaseFigure").on("click", function () {
-	  ShowTimesForm(1);
-	});
-
-	$("#GetAreaFigure").on("click", function () {
-	  ShowWindow(figure.getArea());
-	});
-
-	$("#IncreaseFigure").prop("disabled", true);
-	$("#DecreaseFigure").prop("disabled", true);
-	$("#GetAreaFigure").prop("disabled", true);
-
-	ClearContainer();
-
-	function ShowForm() {
-	  $("#Container").html(Tmpl());
-	  $("#Container").show();
-	  ShowParams();
-	  $("#FigureSelect").on("change", function () {
-	    ShowParams();
-	  });
-	}
-
-	function ShowParams() {
-	  $("#FigureParams").html(TmplParams({ typ: $("#FigureSelect").val() }));
-	  $("#FigureBtn").on("click", function () {
-	    var typ = $("#FigureSelect").val();
-
-	    var x = $("#FigureX").val();
-	    var y = $("#FigureY").val();
-	    var w = $("#FigureW").val();
-	    var h = $("#FigureH").val();
-	    var r = $("#FigureR").val();
-
-	    if (typ == "Sqr") figure = FiguresFactory.createSquare(x, y, w);
-	    if (typ == "Rec") figure = FiguresFactory.createRectangle(x, y, w, h);
-	    if (typ == "Cir") figure = FiguresFactory.createCircle(x, y, r);
-	    figure.render();
-
-	    $("#IncreaseFigure").prop("disabled", false);
-	    $("#DecreaseFigure").prop("disabled", false);
-	    $("#GetAreaFigure").prop("disabled", false);
-
-	    ClearContainer();
-	  });
-	}
-
-	function ShowTimesForm(a) {
-	  $("#Container").html(timesTmpl({ text: a == 0 ? "Увеличить" : "Уменьшить" }));
-	  $("#Container").show();
-	  $("#TimesBtn").on("click", function () {
-	    var times = $("#TimesVal").val();
-	    if (a == 0) figure.increase(times);else figure.decrease(times);
-	    ClearContainer();
-	  });
-	}
-
-	function ShowWindow(a) {
-	  $("#Container").html(window({ cont: "Площадь: " + a }));
-	  $("#Container").show();
-	  $("#WindowBtn").on("click", function () {
-	    ClearContainer();
-	  });
-	}
-
-	function ClearContainer() {
-	  $("#Container").html("");
-	  $("#Container").hide();
-	}
 
 /***/ },
 /* 1 */
@@ -396,7 +97,7 @@
 
 
 	// module
-	exports.push([module.id, "button{\r\n  text-align: center;\r\n  display: inline-block;\r\n  font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;\r\n  font-weight: bold;\r\n  color: rgb(68,68,68);\r\n  text-decoration: none;\r\n  user-select: none;\r\n  padding: .2em 1.2em;\r\n  outline: none;\r\n  border: 1px solid rgba(0,0,0,.1);\r\n  border-radius: 2px;\r\n  background: rgb(245,245,245) linear-gradient(#f4f4f4, #f1f1f1);\r\n  transition: all .218s ease 0s;\r\n  cursor:pointer;\r\n}\r\n\r\nbutton:hover{\r\n  color: rgb(24,24,24);\r\n  border: 1px solid rgb(198,198,198);\r\n  background: #f7f7f7 linear-gradient(#f7f7f7, #f1f1f1);\r\n  box-shadow: 0 1px 2px rgba(0,0,0,.1);\r\n}\r\n\r\nbutton:active{\r\n  color: rgb(51,51,51);\r\n  border: 1px solid rgb(204,204,204);\r\n  box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;\r\n}\r\n\r\nbutton:disabled{\r\n    cursor: default;\r\n    pointer-events: none;\r\n    color: rgb(114, 114, 114);\r\n    border: 1px solid rgb(204,204,204);\r\n    box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;\r\n    background: #e7e7e7 linear-gradient(#dcdcdc, #d8d8d8);\r\n}\r\n\r\ninput[type=\"number\"] {\r\n  width: 50px;\r\n  margin: 2px;\r\n}\r\n\r\n#Container{\r\n    position: absolute;\r\n    margin: 5px;\r\n    display: table;\r\n    text-align: center;\r\n    outline: none;\r\n    border: 1px solid rgba(0,0,0,.1);\r\n    border-radius: 4px;\r\n    background: rgb(238, 238, 238) linear-gradient(#eaeaea, #ebebeb);\r\n    padding: 6px;\r\n}", ""]);
+	exports.push([module.id, "button{\r\n  text-align: center;\r\n  display: inline-block;\r\n  font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;\r\n  font-weight: bold;\r\n  color: rgb(68,68,68);\r\n  text-decoration: none;\r\n  user-select: none;\r\n  padding: .2em 1.2em;\r\n  outline: none;\r\n  border: 1px solid rgba(0,0,0,.1);\r\n  border-radius: 2px;\r\n  background: rgb(245,245,245) linear-gradient(#f4f4f4, #f1f1f1);\r\n  transition: all .218s ease 0s;\r\n  cursor:pointer;\r\n}\r\n\r\nbutton:hover{\r\n  color: rgb(24,24,24);\r\n  border: 1px solid rgb(198,198,198);\r\n  background: #f7f7f7 linear-gradient(#f7f7f7, #f1f1f1);\r\n  box-shadow: 0 1px 2px rgba(0,0,0,.1);\r\n}\r\n\r\nbutton:active{\r\n  color: rgb(51,51,51);\r\n  border: 1px solid rgb(204,204,204);\r\n  box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;\r\n}\r\n\r\nbutton:disabled{\r\n    cursor: default;\r\n    pointer-events: none;\r\n    color: rgb(114, 114, 114);\r\n    border: 1px solid rgb(204,204,204);\r\n    box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;\r\n    background: #e7e7e7 linear-gradient(#dcdcdc, #d8d8d8);\r\n}\r\n\r\ninput[type=\"number\"] {\r\n  width: 50px;\r\n  margin: 2px;\r\n}\r\n\r\n#Container{\r\n    position: absolute;\r\n    margin: 5px;\r\n    display: table;\r\n    text-align: center;\r\n    outline: none;\r\n    border: 1px solid rgba(0,0,0,.1);\r\n    border-radius: 4px;\r\n    background: rgb(238, 238, 238) linear-gradient(#eaeaea, #ebebeb);\r\n    padding: 6px;\r\n}\r\n\r\n.switcher {\r\n    width: 156px;\r\n    height: 22px;\r\n    cursor: pointer;\r\n    position: relative;\r\n    display: block;\r\n    margin-bottom: 10px;\r\n    margin-left: 8px;\r\n}\r\n.switcher * {\r\n    transition: all .2s;\r\n    -moz-transition: all .2s;\r\n    -webkit-transition: all .2s;\r\n    -o-transition: all .2s;\r\n    -ms-transition: all .2s;\r\n}\r\n.switcher .sw_btn {\r\n    background: linear-gradient(rgb(244, 244, 244), rgb(241, 241, 241));\r\n    width: 82px;\r\n    height: 25px;\r\n    display: block;\r\n    cursor: pointer;\r\n    z-index: 1;\r\n    position: relative;\r\n    border-radius: 5px;\r\n    margin-left: 1px;\r\n}\r\n.switcher .bg {\r\n    background: #e7e7e7 linear-gradient(#dcdcdc, #d8d8d8);\r\n    padding: 4px;\r\n    border-radius: 5px;\r\n}\r\n.switcher input.switcher-value { display: none; }\r\n.switcher .bg {\r\n    width: 100%;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    z-index: 0;\r\n    cursor: default;\r\n}\r\n.switcher input.switcher-value:checked ~ .sw_btn { margin-left: 81px;}\r\n\r\n.switcher .inlineBlock{\r\n    width: 76px;\r\n    display: inline-block;\r\n    text-align: center;\r\n}\r\n\r\n.page{\r\n    border: 2px groove  #424242;\r\n    border-radius: 12px;\r\n    margin: -2px;\r\n    padding: 6px;\r\n    width: 740px;\r\n    height: 549px;\r\n}\r\n\r\n.borderedLine{\r\n    border-bottom: 2px groove  #424242;\r\n    padding: 2px;\r\n}\r\n\r\n#canvas{\r\n    display: block;\r\n    padding-top: 2px;\r\n    border-bottom-right-radius: 10px;\r\n    border-bottom-left-radius: 10px;\r\n}", ""]);
 
 	// exports
 
@@ -10791,6 +10492,359 @@
 
 /***/ },
 /* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	(function (exports) {
+	  var _this = exports;
+	  var $ = __webpack_require__(5);
+	  var FFS = __webpack_require__(7);
+	  var Tmpl = __webpack_require__(8);
+	  var timesTmpl = __webpack_require__(9);
+	  var window = __webpack_require__(10);
+	  var TmplParams = __webpack_require__(11);
+	  var figurePageTemplate = __webpack_require__(12);
+
+	  _this.Div = $("<div id='figurePage' class='page'></div>");
+	  _this.Div.append(figurePageTemplate());
+
+	  var canvas = _this.Div.find("#canvas").get(0);
+	  var FiguresFactory = FFS.FiguresFactory(canvas);
+
+	  var figure = void 0;
+
+	  _this.Init = function () {
+	    _this.Div.find("#CreateFigure").on("click", function () {
+	      ShowForm();
+	    });
+
+	    _this.Div.find("#IncreaseFigure").on("click", function () {
+	      ShowTimesForm(0);
+	    });
+
+	    _this.Div.find("#DecreaseFigure").on("click", function () {
+	      ShowTimesForm(1);
+	    });
+
+	    _this.Div.find("#GetAreaFigure").on("click", function () {
+	      ShowWindow(figure.getArea().toFixed(2));
+	    });
+
+	    _this.Div.find("#IncreaseFigure").prop("disabled", !figure);
+	    _this.Div.find("#DecreaseFigure").prop("disabled", !figure);
+	    _this.Div.find("#GetAreaFigure").prop("disabled", !figure);
+
+	    ClearContainer();
+	  };
+
+	  function ShowForm() {
+	    _this.Div.find("#Container").html(Tmpl());
+	    _this.Div.find("#Container").show();
+	    ShowParams();
+	    _this.Div.find("#FigureSelect").on("change", function () {
+	      ShowParams();
+	    });
+	  }
+
+	  function ShowParams() {
+	    _this.Div.find("#FigureParams").html(TmplParams({ typ: _this.Div.find("#FigureSelect").val() }));
+	    _this.Div.find("#FigureBtn").on("click", function () {
+	      var typ = _this.Div.find("#FigureSelect").val();
+
+	      var x = _this.Div.find("#FigureX").val();
+	      var y = _this.Div.find("#FigureY").val();
+	      var w = _this.Div.find("#FigureW").val();
+	      var h = _this.Div.find("#FigureH").val();
+	      var r = _this.Div.find("#FigureR").val();
+
+	      if (typ == "Sqr") figure = FiguresFactory.createSquare(x, y, w);
+	      if (typ == "Rec") figure = FiguresFactory.createRectangle(x, y, w, h);
+	      if (typ == "Cir") figure = FiguresFactory.createCircle(x, y, r);
+	      figure.render();
+
+	      _this.Div.find("#IncreaseFigure").prop("disabled", false);
+	      _this.Div.find("#DecreaseFigure").prop("disabled", false);
+	      _this.Div.find("#GetAreaFigure").prop("disabled", false);
+
+	      ClearContainer();
+	    });
+	  }
+
+	  function ShowTimesForm(a) {
+	    _this.Div.find("#Container").html(timesTmpl({ text: a == 0 ? "Увеличить" : "Уменьшить" }));
+	    _this.Div.find("#Container").show();
+	    _this.Div.find("#TimesBtn").on("click", function () {
+	      var times = _this.Div.find("#TimesVal").val();
+	      if (a == 0) figure.increase(times);else figure.decrease(times);
+	      ClearContainer();
+	    });
+	  }
+
+	  function ShowWindow(a) {
+	    _this.Div.find("#Container").html(window({ cont: "Площадь: " + a }));
+	    _this.Div.find("#Container").show();
+	    _this.Div.find("#WindowBtn").on("click", function () {
+	      ClearContainer();
+	    });
+	  }
+
+	  function ClearContainer() {
+	    _this.Div.find("#Container").html("");
+	    _this.Div.find("#Container").hide();
+	  }
+
+	  _this.HTML = function () {
+	    _this.Init();
+	    return _this.Div;
+	  };
+	})( false ? undefined["figurePage"] = {} : exports);
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	(function (exports) {
+	  exports.FiguresFactory = function (cnv) {
+	    var canvas = cnv;
+	    var ctx = canvas.getContext("2d");
+	    var color = "red";
+	    ctx.fillStyle = color;
+
+	    //ФАБРИКА
+	    var Figures = {
+	      createSquare: function createSquare(x, y, w) {
+	        return new Square(x, y, w);
+	      },
+	      createRectangle: function createRectangle(x, y, w, h) {
+	        return new Rectangle(x, y, w, h);
+	      },
+	      createCircle: function createCircle(x, y, r) {
+	        return new Circle(x, y, r);
+	      }
+	    };
+
+	    var fromPrototype = function fromPrototype(prototype, object) {
+	      var newObject = Object.create(prototype);
+	      for (var prop in object) {
+	        if (object.hasOwnProperty(prop)) {
+	          newObject[prop] = object[prop];
+	        }
+	      }
+	      return newObject;
+	    };
+
+	    Figures.createBlueFigures = function () {
+	      color = "blue";
+	      return fromPrototype(Figures, {
+	        createSquare: function createSquare(x, y, w) {
+	          return new Square(x, y, w);
+	        },
+	        createRectangle: function createRectangle(x, y, w, h) {
+	          return new Rectangle(x, y, w, h);
+	        },
+	        createCircle: function createCircle(x, y, r) {
+	          return new Circle(x, y, r);
+	        }
+	      });
+	    };
+
+	    //КЛАССЫ
+
+	    var Figure = function () {
+	      function Figure(x, y) {
+	        _classCallCheck(this, Figure);
+
+	        this.x = parseFloat(x);
+	        this.y = parseFloat(y);
+	      }
+
+	      _createClass(Figure, [{
+	        key: "render",
+	        value: function render() {
+	          canvas.width = canvas.width;
+	          ctx.fillStyle = color;
+	        }
+	      }]);
+
+	      return Figure;
+	    }();
+
+	    var Square = function (_Figure) {
+	      _inherits(Square, _Figure);
+
+	      function Square(x, y, w) {
+	        _classCallCheck(this, Square);
+
+	        var _this = _possibleConstructorReturn(this, (Square.__proto__ || Object.getPrototypeOf(Square)).call(this, x, y));
+
+	        _this.width = w;
+	        return _this;
+	      }
+
+	      _createClass(Square, [{
+	        key: "increase",
+	        value: function increase(times) {
+	          var oldw = this.width;
+	          this.width *= times;
+	          this.x -= (this.width - oldw) / 2;
+	          this.y -= (this.width - oldw) / 2;
+	          this.render();
+	        }
+	      }, {
+	        key: "decrease",
+	        value: function decrease(times) {
+	          var oldw = this.width;
+	          this.width /= times;
+	          this.x += (oldw - this.width) / 2;
+	          this.y += (oldw - this.width) / 2;
+	          this.render();
+	        }
+	      }, {
+	        key: "getArea",
+	        value: function getArea() {
+	          return this.width * this.width;
+	        }
+	      }, {
+	        key: "render",
+	        value: function render() {
+	          _get(Square.prototype.__proto__ || Object.getPrototypeOf(Square.prototype), "render", this).call(this);
+	          ctx.fillRect(this.x, this.y, this.width, this.width);
+	        }
+	      }]);
+
+	      return Square;
+	    }(Figure);
+
+	    var Rectangle = function (_Figure2) {
+	      _inherits(Rectangle, _Figure2);
+
+	      function Rectangle(x, y, w, h) {
+	        _classCallCheck(this, Rectangle);
+
+	        var _this2 = _possibleConstructorReturn(this, (Rectangle.__proto__ || Object.getPrototypeOf(Rectangle)).call(this, x, y));
+
+	        _this2.width = w;
+	        _this2.height = h;
+	        return _this2;
+	      }
+
+	      _createClass(Rectangle, [{
+	        key: "increase",
+	        value: function increase(times) {
+	          var oldw = this.width;
+	          var oldh = this.height;
+	          this.width *= times;
+	          this.height *= times;
+	          this.x -= (this.width - oldw) / 2;
+	          this.y -= (this.height - oldh) / 2;
+	          this.render();
+	        }
+	      }, {
+	        key: "decrease",
+	        value: function decrease(times) {
+	          var oldw = this.width;
+	          var oldh = this.height;
+	          this.width /= times;
+	          this.height /= times;
+	          this.x += (oldw - this.width) / 2;
+	          this.y += (oldh - this.height) / 2;
+	          this.render();
+	        }
+	      }, {
+	        key: "getArea",
+	        value: function getArea() {
+	          return this.width * this.height;
+	        }
+	      }, {
+	        key: "render",
+	        value: function render() {
+	          _get(Rectangle.prototype.__proto__ || Object.getPrototypeOf(Rectangle.prototype), "render", this).call(this);
+	          ctx.fillRect(this.x, this.y, this.width, this.height);
+	        }
+	      }]);
+
+	      return Rectangle;
+	    }(Figure);
+
+	    var Circle = function (_Figure3) {
+	      _inherits(Circle, _Figure3);
+
+	      function Circle(x, y, r) {
+	        _classCallCheck(this, Circle);
+
+	        var _this3 = _possibleConstructorReturn(this, (Circle.__proto__ || Object.getPrototypeOf(Circle)).call(this, x, y));
+
+	        _this3.radius = r;
+	        return _this3;
+	      }
+
+	      _createClass(Circle, [{
+	        key: "increase",
+	        value: function increase(times) {
+	          var oldr = this.radius;
+	          this.radius *= times;
+	          this.x -= (this.radius - oldr) / 4;
+	          this.y -= (this.radius - oldr) / 4;
+	          this.render();
+	        }
+	      }, {
+	        key: "decrease",
+	        value: function decrease(times) {
+	          var oldr = this.radius;
+	          this.radius /= times;
+	          this.x += (oldr - this.radius) / 4;
+	          this.y += (oldr - this.radius) / 4;
+	          this.render();
+	        }
+	      }, {
+	        key: "getArea",
+	        value: function getArea() {
+	          return Math.PI * this.radius * this.radius;
+	        }
+	      }, {
+	        key: "render",
+	        value: function render() {
+	          _get(Circle.prototype.__proto__ || Object.getPrototypeOf(Circle.prototype), "render", this).call(this);
+	          ctx.beginPath();
+	          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+	          ctx.fill();
+	        }
+	      }]);
+
+	      return Circle;
+	    }(Figure);
+
+	    if (!Object.create) {
+	      Object.create = function (o) {
+	        if (arguments.length > 1) {
+	          throw new Error("Object.create implementation only accepts the first parameter.");
+	        }
+	        function F() {}
+
+	        F.prototype = o;
+	        return new F();
+	      };
+	    }
+
+	    return Figures.createBlueFigures();
+	  };
+	})( false ? undefined["figuresFactory"] = {} : exports);
+
+/***/ },
+/* 8 */
 /***/ function(module, exports) {
 
 	module.exports = function (data) {
@@ -10800,7 +10854,7 @@
 	}
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports) {
 
 	module.exports = function (data) {
@@ -10812,7 +10866,7 @@
 	}
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports) {
 
 	module.exports = function (data) {
@@ -10824,7 +10878,7 @@
 	}
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports) {
 
 	module.exports = function (data) {
@@ -10843,6 +10897,38 @@
 	__p += '\r\n\r\n<button id="FigureBtn">Ок</button>';
 	return __p
 	}
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	module.exports = function (data) {
+	var __t, __p = '';
+	__p += '<div class="borderedLine">\r\n    <button id="CreateFigure">Создать</button>\r\n    <button id="IncreaseFigure">Увеличить</button>\r\n    <button id="DecreaseFigure">Уменьшить</button>\r\n    <button id="GetAreaFigure">Площадь</button>\r\n</div>\r\n<div id="Container"></div>\r\n\r\n<canvas id="canvas" width=740 height=500></canvas>';
+	return __p
+	}
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	(function (exports) {
+	  var _this = exports;
+	  var $ = __webpack_require__(5);
+
+	  _this.Div = $("<div id='personalPage' class='page'></div>");
+
+	  _this.Init = function () {
+	    _this.Div.html("TEST");
+	  };
+
+	  _this.HTML = function () {
+	    _this.Init();
+	    return _this.Div;
+	  };
+	})( false ? undefined["personalPage"] = {} : exports);
 
 /***/ }
 /******/ ]);
