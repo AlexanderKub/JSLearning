@@ -71,6 +71,9 @@
     
       ClearContainer();
     });
+    _this.Div.find("#CancelBtn").on("click", function() {
+      ClearContainer();
+    });
   }
 
   function ShowTimesForm(a){

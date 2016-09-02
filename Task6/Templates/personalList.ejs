@@ -1,0 +1,27 @@
+<table class="simple-little-table" style="width: 723px; position: absolute; margin-top: -2px">
+    <thead>
+        <th style="width: 76px;">ID</th>
+        <th style="width: 108px;">Имя</th>
+        <th style="width: 576px;">среднемесячная заработная плата</th>
+    </thead>
+</table>
+
+<table class="simple-little-table">
+    <thead>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>среднемесячная заработная плата</th>
+    </thead>
+    <%data.List.forEach(function(item, i, arr){%>
+        <tr id="ListItem<%=i%>">
+            <td><%=item.ID%></td>
+            <td><%=item.Name%></td>
+            <td><%=item.Sum%></td>
+        </tr>
+    <%});%>
+    <%if(data.List.length==0){%>
+        <tr>
+            <td colspan="3" style="text-align:center;">Список пуст</td>
+        </tr>
+    <%}%>
+</table>
