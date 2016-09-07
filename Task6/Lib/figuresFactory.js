@@ -15,7 +15,7 @@
       },
       createCircle: function (x, y, r) {
         return new Circle(x, y, r);
-      },
+      }
     };
   
     var fromPrototype = function (prototype, object) {
@@ -39,7 +39,7 @@
         },
         createCircle: function (x, y, r) {
           return new Circle(x, y, r);
-        },
+        }
       });
     };
   

@@ -50,7 +50,7 @@
   }
 
   function ShowParams(){
-    _this.Div.find("#FigureParams").html(TmplParams({typ:_this.Div.find("#FigureSelect").val(),}));
+    _this.Div.find("#FigureParams").html(TmplParams({typ:_this.Div.find("#FigureSelect").val()}));
     _this.Div.find("#FigureBtn").on("click", function() {
       let typ = _this.Div.find("#FigureSelect").val();
     
@@ -77,7 +77,7 @@
   }
 
   function ShowTimesForm(a){
-    _this.Div.find("#Container").html(timesTmpl({text:a==0?"Увеличить":"Уменьшить",}));
+    _this.Div.find("#Container").html(timesTmpl({text:a==0?"Увеличить":"Уменьшить"}));
     _this.Div.find("#Container").show();
     _this.Div.find("#TimesBtn").on("click", function() {
       let times = _this.Div.find("#TimesVal").val();
@@ -90,7 +90,7 @@
   }
 
   function ShowWindow(a){
-    _this.Div.find("#Container").html(window({cont:"Площадь: "+a,}));
+    _this.Div.find("#Container").html(window({cont:"Площадь: "+a}));
     _this.Div.find("#Container").show();
     _this.Div.find("#WindowBtn").on("click", function() {
       ClearContainer();

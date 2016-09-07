@@ -97,7 +97,7 @@
 
 
 	// module
-	exports.push([module.id, "button{\r\n  text-align: center;\r\n  display: inline-block;\r\n  font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;\r\n  font-weight: bold;\r\n  color: rgb(68,68,68);\r\n  text-decoration: none;\r\n  user-select: none;\r\n  padding: .2em 1.2em;\r\n  outline: none;\r\n  border: 1px solid rgba(0,0,0,.1);\r\n  border-radius: 2px;\r\n  background: rgb(245,245,245) linear-gradient(#f4f4f4, #f1f1f1);\r\n  transition: all .218s ease 0s;\r\n  cursor:pointer;\r\n}\r\n\r\nbutton:hover{\r\n  color: rgb(24,24,24);\r\n  border: 1px solid rgb(198,198,198);\r\n  background: #f7f7f7 linear-gradient(#f7f7f7, #f1f1f1);\r\n  box-shadow: 0 1px 2px rgba(0,0,0,.1);\r\n}\r\n\r\nbutton:active{\r\n  color: rgb(51,51,51);\r\n  border: 1px solid rgb(204,204,204);\r\n  box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;\r\n}\r\n\r\nbutton:disabled{\r\n    cursor: default;\r\n    pointer-events: none;\r\n    color: rgb(114, 114, 114);\r\n    border: 1px solid rgb(204,204,204);\r\n    box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;\r\n    background: #e7e7e7 linear-gradient(#dcdcdc, #d8d8d8);\r\n}\r\n\r\ninput{\r\n    width: 100px;\r\n}\r\n\r\ninput[type=\"number\"] {\r\n  width: 50px;\r\n  margin: 2px;\r\n}\r\n\r\n#Container{\r\n    position: absolute;\r\n    margin: 5px;\r\n    display: table;\r\n    text-align: center;\r\n    outline: none;\r\n    border: 1px solid rgba(0,0,0,.1);\r\n    border-radius: 4px;\r\n    background: rgb(238, 238, 238) linear-gradient(#eaeaea, #ebebeb);\r\n    padding: 6px;\r\n    z-index: 1;\r\n}\r\n\r\n.switcher {\r\n    width: 156px;\r\n    height: 22px;\r\n    cursor: pointer;\r\n    position: relative;\r\n    display: block;\r\n    margin-bottom: 10px;\r\n    margin-left: 8px;\r\n}\r\n.switcher * {\r\n    transition: all .2s;\r\n    -moz-transition: all .2s;\r\n    -webkit-transition: all .2s;\r\n    -o-transition: all .2s;\r\n    -ms-transition: all .2s;\r\n}\r\n.switcher .sw_btn {\r\n    background: linear-gradient(rgb(244, 244, 244), rgb(241, 241, 241));\r\n    width: 82px;\r\n    height: 25px;\r\n    display: block;\r\n    cursor: pointer;\r\n    z-index: 1;\r\n    position: relative;\r\n    border-radius: 5px;\r\n    margin-left: 1px;\r\n}\r\n.switcher .bg {\r\n    background: #e7e7e7 linear-gradient(#dcdcdc, #d8d8d8);\r\n    padding: 4px;\r\n    border-radius: 5px;\r\n}\r\n.switcher input.switcher-value { display: none; }\r\n.switcher .bg {\r\n    width: 100%;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    z-index: 0;\r\n    cursor: default;\r\n}\r\n.switcher input.switcher-value:checked ~ .sw_btn { margin-left: 81px;}\r\n\r\n.switcher .inlineBlock{\r\n    width: 76px;\r\n    display: inline-block;\r\n    text-align: center;\r\n    font: 13px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;\r\n    color: rgb(114, 114, 114);\r\n    font-weight: bold;\r\n    height: 15px;\r\n}\r\n\r\n.page{\r\n    border: 2px groove  #424242;\r\n    border-radius: 12px;\r\n    margin: -2px;\r\n    padding: 6px;\r\n    width: 740px;\r\n    height: 549px;\r\n}\r\n\r\n.borderedLine{\r\n    border-bottom: 2px groove  #424242;\r\n    padding: 2px;\r\n}\r\n\r\n#canvas{\r\n    display: block;\r\n    padding-top: 2px;\r\n    border-bottom-right-radius: 10px;\r\n    border-bottom-left-radius: 10px;\r\n}\r\n\r\n.simple-little-table {\r\n    font-family:Arial, Helvetica, sans-serif;\r\n    color:#666;\r\n    font-size:12px;\r\n    text-shadow: 1px 1px 0px #fff;\r\n    background:#eaebec;\r\n    margin-bottom:20px;\r\n    border:#ccc 1px solid;\r\n    border-collapse:separate;\r\n    width:100%;\r\n    -moz-border-radius:3px;\r\n    -webkit-border-radius:3px;\r\n    border-radius:3px;\r\n\r\n    -moz-box-shadow: 0 1px 2px #d1d1d1;\r\n    -webkit-box-shadow: 0 1px 2px #d1d1d1;\r\n    box-shadow: 0 1px 2px #d1d1d1;\r\n}\r\n\r\n.simple-little-table th {\r\n    font-weight:bold;\r\n    padding:4px 8px 5px 8px;\r\n    border-top:1px solid #fafafa;\r\n    border-bottom:1px solid #e0e0e0;\r\n    border-right:1px solid #e0e0e0;\r\n    border-left:1px solid #e0e0e0;\r\n\r\n    background: #ededed;\r\n    background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#ebebeb));\r\n    background: -moz-linear-gradient(top,  #ededed,  #ebebeb);\r\n}\r\n\r\n.simple-little-table th:first-child{\r\n    text-align: left;\r\n    padding-left:20px;\r\n}\r\n\r\n.simple-little-table tr:first-child th:first-child{\r\n    -moz-border-radius-topleft:3px;\r\n    -webkit-border-top-left-radius:3px;\r\n    border-top-left-radius:3px;\r\n}\r\n\r\n.simple-little-table tr:first-child th:last-child{\r\n    -moz-border-radius-topright:3px;\r\n    -webkit-border-top-right-radius:3px;\r\n    border-top-right-radius:3px;\r\n}\r\n\r\n.simple-little-table tr{\r\n    text-align: center;\r\n    padding-left:20px;\r\n    cursor: pointer;\r\n}\r\n\r\n.simple-little-table tr td:first-child{\r\n    text-align: left;\r\n    padding-left:20px;\r\n    border-left: 0;\r\n}\r\n\r\n.simple-little-table tr td {\r\n    padding:3px;\r\n    border-top: 1px solid #ffffff;\r\n    border-bottom:1px solid #e0e0e0;\r\n    border-left: 1px solid #e0e0e0;\r\n\r\n    background: #fafafa;\r\n    background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));\r\n    background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);\r\n}\r\n\r\n.simple-little-table tr:nth-child(even) td{\r\n    background: #f6f6f6;\r\n    background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));\r\n    background: -moz-linear-gradient(top,  #f8f8f8,  #f6f6f6);\r\n}\r\n\r\n.simple-little-table tr:last-child td{\r\n    border-bottom:0;\r\n}\r\n\r\n.simple-little-table tr:last-child td:first-child{\r\n    -moz-border-radius-bottomleft:3px;\r\n    -webkit-border-bottom-left-radius:3px;\r\n    border-bottom-left-radius:3px;\r\n}\r\n\r\n.simple-little-table tr:last-child td:last-child{\r\n    -moz-border-radius-bottomright:3px;\r\n    -webkit-border-bottom-right-radius:3px;\r\n    border-bottom-right-radius:3px;\r\n}\r\n\r\n.simple-little-table tr:hover td{\r\n    background: #f2f2f2;\r\n    background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));\r\n    background: -moz-linear-gradient(top,  #f2f2f2,  #f0f0f0);\r\n}\r\n\r\n.simple-little-table a:link {\r\n    color: #666;\r\n    font-weight: bold;\r\n    text-decoration:none;\r\n}\r\n\r\n.simple-little-table a:visited {\r\n    color: #999999;\r\n    font-weight:bold;\r\n    text-decoration:none;\r\n}\r\n\r\n.simple-little-table a:active,\r\n.simple-little-table a:hover {\r\n    color: #bd5a35;\r\n    text-decoration:underline;\r\n}\r\n\r\n#PersonsList{\r\n    margin-top: 5px;\r\n    height: 450px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.alert {\r\n    color: #f03917;\r\n    position: absolute;\r\n    left: 30%;\r\n    right: 30%;\r\n    top: 30%;\r\n    visibility: visible;\r\n    opacity: 1;\r\n}\r\n\r\n.alert.hidden {\r\n    color: #f03917;\r\n    position: absolute;\r\n    left: 30%;\r\n    right: 30%;\r\n    top: 30%;\r\n    opacity: 0;\r\n    visibility: hidden;\r\n    transition: opacity 2s, visibility 0s 1.5s;\r\n}", ""]);
+	exports.push([module.id, "button{\r\n  text-align: center;\r\n  display: inline-block;\r\n  font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;\r\n  font-weight: bold;\r\n  color: rgb(68,68,68);\r\n  text-decoration: none;\r\n  user-select: none;\r\n  padding: .2em 1.2em;\r\n  outline: none;\r\n  border: 1px solid rgba(0,0,0,.1);\r\n  border-radius: 2px;\r\n  background: rgb(245,245,245) linear-gradient(#f4f4f4, #f1f1f1);\r\n  transition: all .218s ease 0s;\r\n  cursor:pointer;\r\n}\r\n\r\nbutton:hover{\r\n  color: rgb(24,24,24);\r\n  border: 1px solid rgb(198,198,198);\r\n  background: #f7f7f7 linear-gradient(#f7f7f7, #f1f1f1);\r\n  box-shadow: 0 1px 2px rgba(0,0,0,.1);\r\n}\r\n\r\nbutton:active{\r\n  color: rgb(51,51,51);\r\n  border: 1px solid rgb(204,204,204);\r\n  box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;\r\n}\r\n\r\nbutton:disabled{\r\n    cursor: default;\r\n    pointer-events: none;\r\n    color: rgb(114, 114, 114);\r\n    border: 1px solid rgb(204,204,204);\r\n    box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;\r\n    background: #e7e7e7 linear-gradient(#dcdcdc, #d8d8d8);\r\n}\r\n\r\ninput{\r\n    width: 100px;\r\n}\r\n\r\ninput[type=\"number\"] {\r\n  width: 50px;\r\n  margin: 2px;\r\n}\r\n\r\n#Container{\r\n    position: absolute;\r\n    margin: 5px;\r\n    display: table;\r\n    text-align: center;\r\n    outline: none;\r\n    border: 1px solid rgba(0,0,0,.1);\r\n    border-radius: 4px;\r\n    background: rgb(238, 238, 238) linear-gradient(#eaeaea, #ebebeb);\r\n    padding: 6px;\r\n    z-index: 1;\r\n}\r\n\r\n.switcher {\r\n    width: 156px;\r\n    height: 22px;\r\n    cursor: pointer;\r\n    position: relative;\r\n    display: block;\r\n    margin-bottom: 10px;\r\n    margin-left: 8px;\r\n}\r\n.switcher * {\r\n    transition: all .4s;\r\n    -moz-transition: all .4s;\r\n    -webkit-transition: all .4s;\r\n    -o-transition: all .4s;\r\n    -ms-transition: all .4s;\r\n}\r\n.switcher .sw_btn {\r\n    background: linear-gradient(rgb(244, 244, 244), rgb(241, 241, 241));\r\n    width: 82px;\r\n    height: 25px;\r\n    display: block;\r\n    cursor: pointer;\r\n    z-index: 1;\r\n    position: relative;\r\n    border-radius: 5px;\r\n    margin-left: 1px;\r\n}\r\n.switcher .bg {\r\n    background: #e7e7e7 linear-gradient(#dcdcdc, #d8d8d8);\r\n    padding: 4px;\r\n    border-radius: 5px;\r\n}\r\n.switcher input.switcher-value { display: none; }\r\n.switcher .bg {\r\n    width: 100%;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    z-index: 0;\r\n    cursor: default;\r\n}\r\n.switcher input.switcher-value:checked ~ .sw_btn { margin-left: 81px;}\r\n\r\n.switcher .inlineBlock{\r\n    width: 76px;\r\n    display: inline-block;\r\n    text-align: center;\r\n    font: 13px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;\r\n    color: rgb(114, 114, 114);\r\n    font-weight: bold;\r\n    height: 15px;\r\n}\r\n\r\n.page{\r\n    border: 2px groove  #424242;\r\n    border-radius: 12px;\r\n    margin: -2px;\r\n    padding: 6px;\r\n    width: 740px;\r\n    height: 549px;\r\n}\r\n\r\n.borderedLine{\r\n    border-bottom: 2px groove  #424242;\r\n    padding: 2px;\r\n}\r\n\r\n#canvas{\r\n    display: block;\r\n    padding-top: 2px;\r\n    border-bottom-right-radius: 10px;\r\n    border-bottom-left-radius: 10px;\r\n}\r\n\r\n.simple-little-table {\r\n    table-layout: fixed;\r\n    font-family:Arial, Helvetica, sans-serif;\r\n    color:#666;\r\n    font-size:12px;\r\n    text-shadow: 1px 1px 0px #fff;\r\n    background:#eaebec;\r\n    margin-bottom:20px;\r\n    border:#ccc 1px solid;\r\n    border-collapse:separate;\r\n    width:100%;\r\n    -moz-border-radius:3px;\r\n    -webkit-border-radius:3px;\r\n    border-radius:3px;\r\n\r\n    -moz-box-shadow: 0 1px 2px #d1d1d1;\r\n    -webkit-box-shadow: 0 1px 2px #d1d1d1;\r\n    box-shadow: 0 1px 2px #d1d1d1;\r\n}\r\n\r\n.simple-little-table th {\r\n    font-weight:bold;\r\n    padding:4px 8px 5px 8px;\r\n    border-top:1px solid #fafafa;\r\n    border-bottom:1px solid #e0e0e0;\r\n    border-right:1px solid #e0e0e0;\r\n    border-left:1px solid #e0e0e0;\r\n\r\n    background: #ededed;\r\n    background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#ebebeb));\r\n    background: -moz-linear-gradient(top,  #ededed,  #ebebeb);\r\n}\r\n\r\n.simple-little-table th:first-child{\r\n    text-align: left;\r\n    padding-left:20px;\r\n}\r\n\r\n.simple-little-table tr:first-child th:first-child{\r\n    -moz-border-radius-topleft:3px;\r\n    -webkit-border-top-left-radius:3px;\r\n    border-top-left-radius:3px;\r\n}\r\n\r\n.simple-little-table tr:first-child th:last-child{\r\n    -moz-border-radius-topright:3px;\r\n    -webkit-border-top-right-radius:3px;\r\n    border-top-right-radius:3px;\r\n}\r\n\r\n.simple-little-table tr{\r\n    text-align: center;\r\n    padding-left:20px;\r\n}\r\n\r\n.simple-little-table tr td:first-child{\r\n    text-align: left;\r\n    padding-left:20px;\r\n    border-left: 0;\r\n}\r\n\r\n.simple-little-table tr td {\r\n    padding:3px;\r\n    border-top: 1px solid #ffffff;\r\n    border-bottom:1px solid #e0e0e0;\r\n    border-left: 1px solid #e0e0e0;\r\n\r\n    background: #fafafa;\r\n    background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));\r\n    background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);\r\n}\r\n\r\n.simple-little-table tr:nth-child(even) td{\r\n    background: #f6f6f6;\r\n    background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));\r\n    background: -moz-linear-gradient(top,  #f8f8f8,  #f6f6f6);\r\n}\r\n\r\n.simple-little-table tr:last-child td{\r\n    border-bottom:0;\r\n}\r\n\r\n.simple-little-table tr:last-child td:first-child{\r\n    -moz-border-radius-bottomleft:3px;\r\n    -webkit-border-bottom-left-radius:3px;\r\n    border-bottom-left-radius:3px;\r\n}\r\n\r\n.simple-little-table tr:last-child td:last-child{\r\n    -moz-border-radius-bottomright:3px;\r\n    -webkit-border-bottom-right-radius:3px;\r\n    border-bottom-right-radius:3px;\r\n}\r\n\r\n.simple-little-table tr:hover td{\r\n    background: #f2f2f2;\r\n    background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));\r\n    background: -moz-linear-gradient(top,  #f2f2f2,  #f0f0f0);\r\n}\r\n\r\n.simple-little-table a:link {\r\n    color: #666;\r\n    text-decoration:none;\r\n}\r\n\r\n.simple-little-table a:visited {\r\n    color: #666;\r\n    text-decoration:none;\r\n}\r\n\r\n.simple-little-table a:active,\r\n.simple-little-table a:hover {\r\n    color: #bd5a35;\r\n    text-decoration:underline;\r\n}\r\n\r\n#PersonsList{\r\n    margin-top: 5px;\r\n    height: 450px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.alert {\r\n    color: #f03917;\r\n    position: absolute;\r\n    left: 30%;\r\n    right: 30%;\r\n    top: 30%;\r\n    visibility: visible;\r\n    opacity: 1;\r\n}\r\n\r\n.alert.hidden {\r\n    color: #f03917;\r\n    position: absolute;\r\n    left: 30%;\r\n    right: 30%;\r\n    top: 30%;\r\n    opacity: 0;\r\n    visibility: hidden;\r\n    transition: opacity 2s, visibility 0s 1.5s;\r\n}\r\n\r\n.file_upload{\r\n    position: relative;\r\n    overflow: hidden;\r\n}\r\n\r\n.file_upload input[type=file]{\r\n    position: absolute;\r\n    top: 0;\r\n    opacity: 0;\r\n    left: 50px;\r\n    width: 10px;\r\n    z-index: -5;\r\n}\r\n\r\n.DelMiniBtn{\r\n    background-color: #424242;\r\n    color: #ffffff;\r\n    padding: 1px;\r\n    border-radius: 20px;\r\n    position: absolute;\r\n    left:705px;\r\n    text-shadow: none;\r\n    font-weight: bold;\r\n    cursor: pointer;\r\n}", ""]);
 
 	// exports
 
@@ -10887,7 +10887,7 @@
 	module.exports = function (data) {
 	var __t, __p = '', __j = Array.prototype.join;
 	function print() { __p += __j.call(arguments, '') }
-	__p += 'X:<input type="number" value="100" id="FigureX"><br>\r\nY:<input type="number" value="100" id="FigureY"><br>\r\n\r\n';
+	__p += 'X:<input type="number" value="0" id="FigureX"><br>\r\nY:<input type="number" value="0" id="FigureY"><br>\r\n\r\n';
 	if(data.typ=="Cir"){ print("Радиус:<input type='number'' value='100'' id='FigureR'><br>");
 	__p += '\r\n';
 	}else{;
@@ -10931,16 +10931,9 @@
 	  _this.Div = $("<div id='personalPage' class='page'></div>");
 	  _this.Div.html(personalPageTemplate());
 
-	  Persons.push(Personals.createFixedPersonal(1, "Stan", 6000));
-	  Persons.push(Personals.createFixedPersonal(2, "Hawk", 6000));
-	  Persons.push(Personals.createFixedPersonal(3, "King", 6000));
-	  Persons.push(Personals.createRatePersonal(4, "Captain", 300));
-	  Persons.push(Personals.createRatePersonal(5, "Freddy", 50));
-	  Persons.push(Personals.createRatePersonal(6, "Poet", 70));
-
 	  _this.Init = function () {
 	    _this.Div.find("#AddList").on("click", function () {
-	      _this.Div.find("#Container").html(formTmpl());
+	      _this.Div.find("#Container").html(formTmpl({ id: (Persons.length > 0 ? parseInt(_.maxBy(Persons, "id").id) : 0) + 1 }));
 	      _this.Div.find("#Container").show();
 
 	      _this.Div.find("#TypeSelect").on("change", function () {
@@ -10975,36 +10968,134 @@
 	    });
 
 	    _this.Div.find("#ImportList").on("click", function () {
-	      console.log("ImportList");
+	      _this.Div.find("#FileInput").click();
+	    });
+
+	    _this.Div.find("#FileInput").on("change", function () {
+	      loadData();
 	    });
 
 	    this.Div.find("#ExportList").prop("disabled", Persons.length == 0);
 	    _this.Div.find("#ExportList").on("click", function () {
-	      console.log("ExportList");
+	      saveData(Persons);
 	    });
 	    ShowSortList();
 	    ClearContainer();
 	  };
 
 	  function ShowSortList() {
+	    _this.Div.find("#ExportList").prop("disabled", Persons.length == 0);
 	    var FirstFiveStr = [];
 	    var LastThreeIDs = [];
 	    Persons = _.sortBy(Persons, "sum", function (o) {
-	      return 8000 - o.Name.charCodeAt(0);
+	      return 8000 - o.name.toLowerCase().charCodeAt(0);
 	    }).reverse();
 	    _this.Div.find("#PersonsList").html(listTmpl({ List: Persons }));
 	    Persons.forEach(function (item, i, arr) {
-	      if (i < 5) FirstFiveStr.push(item.Name);
-	      if (i > 1) {
-	        LastThreeIDs[0] = arr[i - 2].ID;
-	        LastThreeIDs[1] = arr[i - 1].ID;
-	        LastThreeIDs[2] = arr[i].ID;
+	      if (i < 5) FirstFiveStr.push(item.name);
+	      LastThreeIDs.push(arr[i].id);
+	      if (LastThreeIDs.length > 3) LastThreeIDs.shift();
+	      _this.Div.find("#DelItem" + item.id).hide();
+	      _this.Div.find("#DelItem" + item.id).on("click", function () {
+	        _this.Div.find("#ListItem" + item.id).remove();
+	        _.remove(Persons, function (o) {
+	          return o.id == item.id;
+	        });
+	        ShowSortList();
+	      });
+
+	      _this.Div.find("#ListItem" + item.id).on("mouseover", function () {
+	        _this.Div.find("#DelItem" + item.id).show();
+	      });
+
+	      _this.Div.find("#ListItem" + item.id).on("mouseout", function () {
+	        _this.Div.find("#DelItem" + item.id).hide();
+	      });
+
+	      _this.Div.find("#ListItem" + item.id + " #tid").on("click", function () {
+	        var td = _this.Div.find("#ListItem" + item.id + " #tid").parent();
+	        td.html("<input type='text' id='tidinp" + item.id + "' style='width: 50px;' value='" + item.id + "'>");
+	        var input = _this.Div.find("#tidinp" + item.id);
+
+	        input.focus();
+	        input.setCursorPosition(input.val().length);
+	        input.on("blur", function () {
+	          ChangeId(input.val(), item);
+	        });
+	        input.on("keyup", function (event) {
+	          if (event.keyCode == 13) {
+	            ChangeId(input.val(), item);
+	          }
+	        });
+	      });
+
+	      function ChangeId(val, item) {
+	        val = val.trim();
+	        val = parseInt(val);
+	        if (_.find(Persons, _.matchesProperty("id", val))) {
+	          if (val != item.id) {
+	            var alertMsg = _this.Div.find("#Alert");
+	            alertMsg.removeClass("hidden");
+	            alertMsg.html("Работник с таким ID уже существует.");
+	            alertMsg.addClass("hidden");
+	            return;
+	          }
+	        }
+	        item.id = val;
+	        ShowSortList();
 	      }
-	      _this.Div.find("#ListItem" + i).on("click", function () {
-	        console.log(item);
+
+	      _this.Div.find("#ListItem" + item.id + " #tname").on("click", function () {
+	        var td = _this.Div.find("#ListItem" + item.id + " #tname").parent();
+	        td.html("<input type='text' id='tnameinp" + item.id + "' style='width: 300px;' value='" + item.name + "'>");
+	        var input = _this.Div.find("#tnameinp" + item.id);
+
+	        input.focus();
+	        input.setCursorPosition(input.val().length);
+	        input.on("blur", function () {
+	          ChangeName(input.val(), item);
+	        });
+	        input.on("keyup", function (event) {
+	          if (event.keyCode == 13) {
+	            ChangeName(input.val(), item);
+	          }
+	        });
+	      });
+
+	      function ChangeName(val, item) {
+	        item.name = val;
+	        ShowSortList();
+	      }
+
+	      _this.Div.find("#ListItem" + item.id + " #tsum").on("click", function () {
+	        var td = _this.Div.find("#ListItem" + item.id + " #tsum").parent();
+	        td.html("<input type='text' id='tsuminp" + item.id + "' style='width: 180px;' value='" + item.sum + "'>");
+	        var input = _this.Div.find("#tsuminp" + item.id);
+
+	        input.focus();
+	        input.setCursorPosition(input.val().length);
+	        input.on("blur", function () {
+	          ChangeSum(input.val(), item);
+	        });
+	        input.on("keyup", function (event) {
+	          if (event.keyCode == 13) {
+	            ChangeSum(input.val(), item);
+	          }
+	        });
 	      });
 	    });
-	    _this.Div.find("#Result").html("Имена первых 5-ти: " + FirstFiveStr.toString() + "<br>ID последних 3-х: " + LastThreeIDs.toString());
+
+	    function ChangeSum(val, item) {
+	      item.sum = parseFloat(val);
+	      item.rate = item.sum / (20.8 * 8);
+	      ShowSortList();
+	    }
+
+	    if (FirstFiveStr.length > 0) {
+	      _this.Div.find("#Result").html("Имена первых " + FirstFiveStr.length + "-" + NumText(FirstFiveStr.length) + ": " + FirstFiveStr.toString() + "<br>ID последних " + LastThreeIDs.length + "-" + NumText(LastThreeIDs.length) + ": " + LastThreeIDs.toString());
+	    } else {
+	      _this.Div.find("#Result").html("");
+	    }
 	  }
 
 	  function ClearContainer() {
@@ -11015,6 +11106,64 @@
 	  _this.HTML = function () {
 	    _this.Init();
 	    return _this.Div;
+	  };
+
+	  var saveData = function () {
+	    var a = document.createElement("a");
+	    document.body.appendChild(a);
+	    a.style = "display: none";
+	    return function (data) {
+	      var json = JSON.stringify(data);
+	      var blob = new Blob([json], { type: "octet/stream" });
+	      var url = window.URL.createObjectURL(blob);
+	      a.href = url;
+	      a.download = "Persons" + Date.now() + ".json";
+	      a.click();
+	      window.URL.revokeObjectURL(url);
+	    };
+	  }();
+
+	  function loadData() {
+	    var reader = new FileReader();
+	    reader.onload = function (event) {
+	      var contents = event.target.result;
+	      Persons = JSON.parse(contents);
+	      ShowSortList();
+	      ClearContainer();
+	      _this.Div.find("#FileInput").prop("value", null);
+	    };
+
+	    reader.onerror = function (event) {
+	      var alertMsg = _this.Div.find("#Alert");
+	      alertMsg.removeClass("hidden");
+	      alertMsg.html("Файл не может быть прочитан! код " + event.target.error.code);
+	      alertMsg.addClass("hidden");
+	      _this.Div.find("#FileInput").prop("value", null);
+	    };
+
+	    var file = _this.Div.find("#FileInput").get(0).files[0];
+	    reader.readAsText(file);
+	  }
+
+	  function NumText(a) {
+	    if (a == 1) return "го";
+	    if (a < 5) return "х";
+	    if (a > 4) return "ти";
+	  }
+
+	  $.fn.setCursorPosition = function (pos) {
+	    this.each(function (index, elem) {
+	      if (elem.setSelectionRange) {
+	        elem.setSelectionRange(pos, pos);
+	      } else if (elem.createTextRange) {
+	        var range = elem.createTextRange();
+	        range.collapse(true);
+	        range.moveEnd("character", pos);
+	        range.moveStart("character", pos);
+	        range.select();
+	      }
+	    });
+	    return this;
 	  };
 	})( false ? undefined["personalPage"] = {} : exports);
 
@@ -27852,7 +28001,7 @@
 	      var _this2 = _possibleConstructorReturn(this, (PersonalRate.__proto__ || Object.getPrototypeOf(PersonalRate)).call(this, id, name));
 
 	      _this2.rate = rate;
-	      _this2.sum = 20.8 * 8 * rate;
+	      _this2.sum = 20.8 * 8 * _this2.rate;
 	      return _this2;
 	    }
 
@@ -27868,7 +28017,7 @@
 
 	module.exports = function (data) {
 	var __t, __p = '';
-	__p += '<div class="borderedLine">\r\n    <button id="AddList">Добавить</button>\r\n    <button id="ImportList">Импорт</button>\r\n    <button id="ExportList">Экспорт</button>\r\n</div>\r\n<div id="Container"></div>\r\n<span id="Alert" class="alert"></span>\r\n<div id="Result" class="borderedLine" style="height: 2.2em;"></div>\r\n<div id="PersonsList"></div>';
+	__p += '<div class="borderedLine">\r\n    <button id="AddList">Добавить</button>\r\n    <span class="file_upload">\r\n        <button id="ImportList">Импорт</button>\r\n        <input type="file" id="FileInput">\r\n    </span>\r\n    <button id="ExportList">Экспорт</button>\r\n</div>\r\n<div id="Container"></div>\r\n<span id="Alert" class="alert"></span>\r\n<div id="Result" class="borderedLine" style="height: 2.2em;"></div>\r\n<div id="PersonsList"></div>';
 	return __p
 	}
 
@@ -27879,17 +28028,19 @@
 	module.exports = function (data) {
 	var __t, __p = '', __j = Array.prototype.join;
 	function print() { __p += __j.call(arguments, '') }
-	__p += '<table class="simple-little-table" style="width: 723px; position: absolute; margin-top: -2px">\r\n    <thead>\r\n        <th style="width: 76px;">ID</th>\r\n        <th style="width: 108px;">Имя</th>\r\n        <th style="width: 576px;">среднемесячная заработная плата</th>\r\n    </thead>\r\n</table>\r\n\r\n<table class="simple-little-table">\r\n    <thead>\r\n        <th>ID</th>\r\n        <th>Имя</th>\r\n        <th>среднемесячная заработная плата</th>\r\n    </thead>\r\n    ';
+	__p += '<table class="simple-little-table" style="width: 723px; position: absolute; margin-top: -2px">\r\n    <thead>\r\n        <th style="width: 80px;">ID</th>\r\n        <th style="width: 350px;">Имя</th>\r\n        <th style="width: 210px;">среднемесячная заработная плата</th>\r\n    </thead>\r\n</table>\r\n\r\n<table class="simple-little-table">\r\n    <thead>\r\n        <th style="width: 80px;">ID</th>\r\n        <th style="width: 350px;">Имя</th>\r\n        <th style="width: 210px;">среднемесячная заработная плата</th>\r\n    </thead>\r\n    ';
 	data.List.forEach(function(item, i, arr){;
 	__p += '\r\n        <tr id="ListItem' +
-	((__t = (i)) == null ? '' : __t) +
-	'">\r\n            <td>' +
-	((__t = (item.ID)) == null ? '' : __t) +
-	'</td>\r\n            <td>' +
-	((__t = (item.Name)) == null ? '' : __t) +
-	'</td>\r\n            <td>' +
-	((__t = (item.Sum)) == null ? '' : __t) +
-	'</td>\r\n        </tr>\r\n    ';
+	((__t = (item.id)) == null ? '' : __t) +
+	'">\r\n            <td><span><a href="#" id="tid">' +
+	((__t = (item.id)) == null ? '' : __t) +
+	'</a></span></td>\r\n            <td><span><a href="#" id="tname">' +
+	((__t = (item.name)) == null ? '' : __t) +
+	'</a></span></td>\r\n            <td>\r\n                <span><a href="#" id="tsum">' +
+	((__t = (parseInt(item.sum).toFixed(2))) == null ? '' : __t) +
+	'</a></span>\r\n                <span class="DelMiniBtn" id="DelItem' +
+	((__t = (item.id)) == null ? '' : __t) +
+	'">&nbsp;x&nbsp;</span>\r\n            </td>\r\n        </tr>\r\n    ';
 	});;
 	__p += '\r\n    ';
 	if(data.List.length==0){;
@@ -27905,7 +28056,9 @@
 
 	module.exports = function (data) {
 	var __t, __p = '';
-	__p += '<div id="CreateForm">\r\n    <select id="TypeSelect">\r\n        <option value="Fix">Фиксированная</option>\r\n        <option value="Rate">Почасовая</option>\r\n    </select>\r\n    <br>ID:<input type="number" value="100" id="ID">\r\n    <br>Имя:<input value="Работник" id="Name">\r\n    <br><span id="txt">Зарплата</span>:<input type="number" value="100" id="Sum">\r\n    <br><button id="AddBtn">Добавить</button>\r\n    <button id="CancelBtn">Отмена</button>\r\n</div>';
+	__p += '<div id="CreateForm">\r\n    <select id="TypeSelect">\r\n        <option value="Fix">Фиксированная</option>\r\n        <option value="Rate">Почасовая</option>\r\n    </select>\r\n    <br>ID:<input type="number" value="' +
+	((__t = (data.id)) == null ? '' : __t) +
+	'" id="ID">\r\n    <br>Имя:<input value="Работник" id="Name">\r\n    <br><span id="txt">Зарплата</span>:<input type="number" value="100" id="Sum">\r\n    <br><button id="AddBtn">Добавить</button>\r\n    <button id="CancelBtn">Отмена</button>\r\n</div>';
 	return __p
 	}
 

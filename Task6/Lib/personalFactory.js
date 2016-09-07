@@ -6,7 +6,7 @@
     },
     createRatePersonal: function (id,name,rate) {
       return new PersonalRate(id,name,rate);
-    },
+    }
   };
   
   class Personal {
@@ -40,7 +40,7 @@
     constructor(id,name,rate) {
       super(id, name);
       this.rate = rate;
-      this.sum = 20.8*8*rate;
+      this.sum = 20.8*8*this.rate;
     }
   }
   

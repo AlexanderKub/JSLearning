@@ -12,16 +12,9 @@
   _this.Div = $("<div id='personalPage' class='page'></div>");
   _this.Div.html(personalPageTemplate());
   
-  Persons.push(Personals.createFixedPersonal(1,"Stan",6000));
-  Persons.push(Personals.createFixedPersonal(2,"Hawk",6000));
-  Persons.push(Personals.createFixedPersonal(3,"King",6000));
-  Persons.push(Personals.createRatePersonal(4,"Captain",300));
-  Persons.push(Personals.createRatePersonal(5,"Freddy",50));
-  Persons.push(Personals.createRatePersonal(6,"Poet",70));
-  
   _this.Init = function () {
     _this.Div.find("#AddList").on("click",function () {
-      _this.Div.find("#Container").html(formTmpl());
+      _this.Div.find("#Container").html(formTmpl({id:(Persons.length>0?parseInt(_.maxBy(Persons,"id").id):0)+1}));
       _this.Div.find("#Container").show();
       
       _this.Div.find("#TypeSelect").on("change",function () {
@@ -56,35 +49,133 @@
     });
     
     _this.Div.find("#ImportList").on("click",function () {
-      console.log("ImportList");
+      _this.Div.find("#FileInput").click();
     });
   
+    _this.Div.find("#FileInput").on("change",function (){
+      loadData();
+    });
+    
     this.Div.find("#ExportList").prop("disabled",Persons.length==0);
     _this.Div.find("#ExportList").on("click",function () {
-      console.log("ExportList");
+      saveData(Persons);
     });
     ShowSortList();
     ClearContainer();
   };
   
   function ShowSortList (){
+    _this.Div.find("#ExportList").prop("disabled",Persons.length==0);
     let FirstFiveStr = [];
     let LastThreeIDs = [];
-    Persons=_.sortBy(Persons, "sum",function(o) {return (8000-o.Name.charCodeAt(0));}).reverse();
-    _this.Div.find("#PersonsList").html(listTmpl({List:Persons,}));
+    Persons=_.sortBy(Persons, "sum",function(o) {return (8000-o.name.toLowerCase().charCodeAt(0));}).reverse();
+    _this.Div.find("#PersonsList").html(listTmpl({List:Persons}));
     Persons.forEach(function(item, i,arr){
-      if(i<5)FirstFiveStr.push(item.Name);
-      if(i>1) {
-        LastThreeIDs[0] = arr[i-2].ID;
-        LastThreeIDs[1] = arr[i-1].ID;
-        LastThreeIDs[2] = arr[i].ID;
+      if(i<5)FirstFiveStr.push(item.name);
+      LastThreeIDs.push(arr[i].id);
+      if(LastThreeIDs.length>3)LastThreeIDs.shift();
+      _this.Div.find("#DelItem"+item.id).hide();
+      _this.Div.find("#DelItem"+item.id).on("click",function () {
+        _this.Div.find("#ListItem"+item.id).remove();
+        _.remove(Persons, function(o) { return o.id==item.id;});
+        ShowSortList();
+      });
+      
+      _this.Div.find("#ListItem"+item.id).on("mouseover",function () {
+        _this.Div.find("#DelItem"+item.id).show();
+      });
+      
+      _this.Div.find("#ListItem"+item.id).on("mouseout",function () {
+        _this.Div.find("#DelItem"+item.id).hide();
+      });
+  
+      _this.Div.find("#ListItem"+item.id+" #tid").on("click",function () {
+        let td = _this.Div.find("#ListItem"+item.id+" #tid").parent();
+        td.html("<input type='text' id='tidinp"+item.id+"' style='width: 50px;' value='"+item.id+"'>");
+        let input =_this.Div.find("#tidinp"+item.id);
+  
+        input.focus();
+        input.setCursorPosition(input.val().length);
+        input.on("blur",function () {
+          ChangeId(input.val(),item);
+        });
+        input.on("keyup", function(event){
+          if(event.keyCode == 13){
+            ChangeId(input.val(),item);
+          }
+        });
+      });
+  
+      function ChangeId(val,item) {
+        val = val.trim();
+        val = parseInt(val);
+        if(_.find( Persons, _.matchesProperty("id", val))){
+          if(val!=item.id){
+            let alertMsg = _this.Div.find("#Alert");
+            alertMsg.removeClass("hidden");
+            alertMsg.html("Работник с таким ID уже существует.");
+            alertMsg.addClass("hidden");
+            return;
+          }
+        }
+        item.id = val;
+        ShowSortList();
       }
-      _this.Div.find("#ListItem"+i).on("click",function () {
-        console.log(item);
+      
+      _this.Div.find("#ListItem"+item.id+" #tname").on("click",function () {
+        let td = _this.Div.find("#ListItem"+item.id+" #tname").parent();
+        td.html("<input type='text' id='tnameinp"+item.id+"' style='width: 300px;' value='"+item.name+"'>");
+        let input =_this.Div.find("#tnameinp"+item.id);
+  
+        input.focus();
+        input.setCursorPosition(input.val().length);
+        input.on("blur",function () {
+          ChangeName(input.val(),item);
+        });
+        input.on("keyup", function(event){
+          if(event.keyCode == 13){
+            ChangeName(input.val(),item);
+          }
+        });
+      });
+      
+      function ChangeName(val,item) {
+        item.name = val;
+        ShowSortList();
+      }
+  
+      _this.Div.find("#ListItem"+item.id+" #tsum").on("click",function () {
+        let td = _this.Div.find("#ListItem"+item.id+" #tsum").parent();
+        td.html("<input type='text' id='tsuminp"+item.id+"' style='width: 180px;' value='"+item.sum+"'>");
+        let input =_this.Div.find("#tsuminp"+item.id);
+  
+        input.focus();
+        input.setCursorPosition(input.val().length);
+        input.on("blur",function () {
+          ChangeSum(input.val(),item);
+        });
+        input.on("keyup", function(event){
+          if(event.keyCode == 13){
+            ChangeSum(input.val(),item);
+          }
+        });
       });
     });
-    _this.Div.find("#Result").html("Имена первых 5-ти: " + FirstFiveStr.toString() +
-      "<br>ID последних 3-х: " + LastThreeIDs.toString());
+    
+    function ChangeSum(val,item) {
+      item.sum = parseFloat(val);
+      item.rate = item.sum/(20.8*8);
+      ShowSortList();
+    }
+    
+    if(FirstFiveStr.length>0) {
+      _this.Div.find("#Result").html("Имена первых " + FirstFiveStr.length + "-" +
+        NumText(FirstFiveStr.length) + ": " + FirstFiveStr.toString() +
+        "<br>ID последних " + LastThreeIDs.length + "-" + NumText(LastThreeIDs.length) + ": "
+        + LastThreeIDs.toString());
+    }else{
+      _this.Div.find("#Result").html("");
+    }
   }
   
   function ClearContainer(){
@@ -95,6 +186,64 @@
   _this.HTML = function () {
     _this.Init();
     return _this.Div;
+  };
+  
+  let saveData = (function () {
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    return function (data) {
+      let json = JSON.stringify(data);
+      let blob = new Blob([json], {type: "octet/stream"});
+      let url = window.URL.createObjectURL(blob);
+      a.href = url;
+      a.download = "Persons"+Date.now()+".json";
+      a.click();
+      window.URL.revokeObjectURL(url);
+    };
+  }());
+  
+  function loadData () {
+    let reader = new FileReader();
+    reader.onload = function(event) {
+      let contents = event.target.result;
+      Persons = JSON.parse(contents);
+      ShowSortList();
+      ClearContainer();
+      _this.Div.find("#FileInput").prop("value", null);
+    };
+  
+    reader.onerror = function(event) {
+      let alertMsg = _this.Div.find("#Alert");
+      alertMsg.removeClass("hidden");
+      alertMsg.html("Файл не может быть прочитан! код " + event.target.error.code);
+      alertMsg.addClass("hidden");
+      _this.Div.find("#FileInput").prop("value", null);
+    };
+  
+    let file = _this.Div.find("#FileInput").get(0).files[0];
+    reader.readAsText(file);
+  }
+  
+  function NumText(a){
+    if (a==1) return "го";
+    if (a<5) return "х";
+    if (a>4) return "ти";
+  }
+  
+  $.fn.setCursorPosition = function (pos) {
+    this.each(function(index, elem) {
+      if (elem.setSelectionRange) {
+        elem.setSelectionRange(pos, pos);
+      } else if (elem.createTextRange) {
+        var range = elem.createTextRange();
+        range.collapse(true);
+        range.moveEnd("character", pos);
+        range.moveStart("character", pos);
+        range.select();
+      }
+    });
+    return this;
   };
   
 })(typeof exports === "undefined" ? this["personalPage"] = {} : exports);

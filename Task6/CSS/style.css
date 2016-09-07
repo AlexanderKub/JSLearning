@@ -69,11 +69,11 @@ input[type="number"] {
     margin-left: 8px;
 }
 .switcher * {
-    transition: all .2s;
-    -moz-transition: all .2s;
-    -webkit-transition: all .2s;
-    -o-transition: all .2s;
-    -ms-transition: all .2s;
+    transition: all .4s;
+    -moz-transition: all .4s;
+    -webkit-transition: all .4s;
+    -o-transition: all .4s;
+    -ms-transition: all .4s;
 }
 .switcher .sw_btn {
     background: linear-gradient(rgb(244, 244, 244), rgb(241, 241, 241));
@@ -134,6 +134,7 @@ input[type="number"] {
 }
 
 .simple-little-table {
+    table-layout: fixed;
     font-family:Arial, Helvetica, sans-serif;
     color:#666;
     font-size:12px;
@@ -185,7 +186,6 @@ input[type="number"] {
 .simple-little-table tr{
     text-align: center;
     padding-left:20px;
-    cursor: pointer;
 }
 
 .simple-little-table tr td:first-child{
@@ -235,13 +235,11 @@ input[type="number"] {
 
 .simple-little-table a:link {
     color: #666;
-    font-weight: bold;
     text-decoration:none;
 }
 
 .simple-little-table a:visited {
-    color: #999999;
-    font-weight:bold;
+    color: #666;
     text-decoration:none;
 }
 
@@ -276,4 +274,30 @@ input[type="number"] {
     opacity: 0;
     visibility: hidden;
     transition: opacity 2s, visibility 0s 1.5s;
+}
+
+.file_upload{
+    position: relative;
+    overflow: hidden;
+}
+
+.file_upload input[type=file]{
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    left: 50px;
+    width: 10px;
+    z-index: -5;
+}
+
+.DelMiniBtn{
+    background-color: #424242;
+    color: #ffffff;
+    padding: 1px;
+    border-radius: 20px;
+    position: absolute;
+    left:705px;
+    text-shadow: none;
+    font-weight: bold;
+    cursor: pointer;
 }
