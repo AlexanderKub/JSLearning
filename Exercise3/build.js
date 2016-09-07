@@ -46,22 +46,24 @@ var Main =
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {//Инициализация
-	var MyFramework = __webpack_require__(1);
+	__webpack_require__(1);
 	var LoginModule = __webpack_require__(5);
 	var RegisterModule = __webpack_require__(6);
 	var UsersPanelModule = __webpack_require__(7);
 	var AppsModule = __webpack_require__(12);
 
 	var Tpl = __webpack_require__(16);
-	$('#page').append(Tpl);
-	var Tpl = __webpack_require__(17);
-	$('#page').append(Tpl);
-	var Tpl = __webpack_require__(18);
-	$('#page').append(Tpl);
-	var Tpl = __webpack_require__(19);
-	$('#MainWindow').append(Tpl);
-	var Tpl = __webpack_require__(20);
-	$('#MainWindow').append(Tpl);
+	var page = $("#page");
+	page.append(Tpl);
+	Tpl = __webpack_require__(17);
+	page.append(Tpl);
+	Tpl = __webpack_require__(18);
+	page.append(Tpl);
+	var mainWind = $("#MainWindow");
+	Tpl = __webpack_require__(19);
+	mainWind.append(Tpl);
+	Tpl = __webpack_require__(20);
+	mainWind.append(Tpl);
 
 	SetWindow("LogonWindow");
 	LoginModule();
@@ -71,66 +73,68 @@ var Main =
 
 	//Главное окно
 	$("#MB1").on("click",function(){
-		SetFrame("AppsFrame");
-		event.preventDefault();
+	  SetFrame("AppsFrame");
+	  event.preventDefault();
 	});
+
 	$("#MB2").on("click",function(){
-		SetFrame("UsersFrame");
-		event.preventDefault();
+	  SetFrame("UsersFrame");
+	  event.preventDefault();
 	});
 
 	function SetWindow(name){
-		var windowsList=document.getElementsByClassName("WindowClass");
-		for (var i = 0; i < windowsList.length; i++) 
-			windowsList[i].style.display=(windowsList[i].id==name?"block":"none");
+	  var windowsList=document.getElementsByClassName("WindowClass");
+	  for (var i = 0; i < windowsList.length; i++)
+	    windowsList[i].style.display=(windowsList[i].id==name?"block":"none");
 		
-		if(name=="MainWindow"){
-			SetFrame("AppsFrame");
-			$("#MB2").css('display',(config.UserInfo.role==0?"inline":"none"));
-			$("#StatusBar").html(config.UserInfo.name+"("+config.UserInfo.login+")");
-			return;
-		}	
+	  if(name=="MainWindow"){
+	    SetFrame("AppsFrame");
+	    $("#MB2").css("display",(config.UserInfo.role==0?"inline":"none"));
+	    $("#StatusBar").html(config.UserInfo.name+"("+config.UserInfo.login+")");
+	    return;
+	  }
 		
-		if(name=="RegWindow"){
-			RegisterModule.Show();
-			return;
-		}
+	  if(name=="RegWindow"){
+	    RegisterModule.Show();
+	    return;
+	  }
 		
-		if(name=="LogonWindow"){
-			LoginModule.Show();
-			return;
-		}
+	  if(name=="LogonWindow"){
+	    LoginModule.Show();
+	    return;
+	  }
 	}
 
 	function SetFrame(name){
-		var frameList=document.getElementsByClassName("FrameClass");
-		for (var i = 0; i < frameList.length; i++)
-			frameList[i].style.display=(frameList[i].id==name?"block":"none");
+	  var frameList=document.getElementsByClassName("FrameClass");
+	  for (var i = 0; i < frameList.length; i++)
+	    frameList[i].style.display=(frameList[i].id==name?"block":"none");
 		//Блок заявок
-		if(name=="AppsFrame"){
-			AppsModule.ShowAppsFrame();
-			return;
-		}
-		AlertMsg($("#AppsFrameMsg"),"");
-		AlertMsg($("#DetailAppsFrameMsg"),"");
+	  if(name=="AppsFrame"){
+	    AppsModule.ShowAppsFrame();
+	    return;
+	  }
+	  
+	  AlertMsg($("#AppsFrameMsg"),"");
+	  AlertMsg($("#DetailAppsFrameMsg"),"");
 		
 		//Блок детальной информации о заявке
-		if(name=="DetailAppsFrame"){
-			AppsModule.ShowDetailAppsFrame();
-			return;
-		}
+	  if(name=="DetailAppsFrame"){
+	    AppsModule.ShowDetailAppsFrame();
+	    return;
+	  }
 		
 		//Блок создания заявки
-		if(name=="CreateAppsFrame"){
-			AppsModule.ShowCreateFrame();
-			return;
-		}	
+	  if(name=="CreateAppsFrame"){
+	    AppsModule.ShowCreateFrame();
+	    return;
+	  }
 		
 		//Блок информации о пользователях
-		if(name=="UsersFrame"){
-			UsersPanelModule.Show();
-			return;
-		}
+	  if(name=="UsersFrame"){
+	    UsersPanelModule.Show();
+	    return;
+	  }
 	}
 
 	global.SetWindow=SetWindow;
@@ -145,353 +149,372 @@ var Main =
 	/* WEBPACK VAR INJECTION */(function(global) {var $ = __webpack_require__(2);
 	var config = __webpack_require__(3);
 
-	global.$=$;
-	global.config=config;
+	global.$ = $;
+	global.config = config;
 
-	  //Вспомогательные функции
-	  function GetRoleFromCode(id){
-		  if(id==0) return "Администратор";
-		  if(id==1) return "Исполнитель";
-		  if(id==2) return "Клиент";
-	  }
+	//Вспомогательные функции
+
+	function GetRoleFromCode(id){
+	  if(id==0) return "Администратор";
+	  if(id==1) return "Исполнитель";
+	  if(id==2) return "Клиент";
+	}
 	  
-	  function LocalDateTime(addDay){
-		  var str="";
-		  var addDay=addDay || false;
-		  var d=new Date();
-		  if(addDay)
-			  d.setDate(d.getDate() + addDay);
-		  str=d.getFullYear() + "-" + (d.getMonth() + 1).toString().lpad("0", 2) +
-		  	"-" + d.getDate().toString().lpad("0", 2)+"T"+
-		  	d.getHours().toString().lpad("0", 2)+
-		  	":"+d.getMinutes().toString().lpad("0", 2);
-		  return str;
-	  }
+	function LocalDateTime(addDay){
+	  var str="";
+	  addDay = addDay || false;
+	  var d=new Date();
+	  if(addDay)d.setDate(d.getDate() + addDay);
+	  str=d.getFullYear() + "-" + (d.getMonth() + 1).toString().lpad("0", 2) +
+			"-" + d.getDate().toString().lpad("0", 2)+"T"+
+	    d.getHours().toString().lpad("0", 2)+
+	    ":"+d.getMinutes().toString().lpad("0", 2);
+	  return str;
+	}
 	  
-	  function dateFormat1(date) {
-		  date = new Date(date);
-		  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-		  return date.toISOString().replace(/\..*$/, '');
-	  }
+	function dateFormat1(date) {
+	  date = new Date(date);
+	  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+	  return date.toISOString().replace(/\..*$/, "");
+	}
 	  
-	  String.prototype.lpad = function(padString, length) {
-			var str = this;
-		    while (str.length < length)
-		        str = padString + str;
-		    return str;
-	  }
+	String.prototype.lpad = function(padString, length) {
+	  var str = this;
+	  while (str.length < length) str = padString + str;
+	  return str;
+	};
 	  
-	  //Функции базы данных 
-	  function Query(url,metod,Sdata){
-		  var result;
-		  $.ajax({ 
-			  url: 'http://localhost:3000/api/'+url, 
-			  dataType: 'json', 
-			  type: metod,
-			  async:false,
-			  contentType: 'application/json', 
-			  data: JSON.stringify(Sdata), 
-			  success: function(data){ 
-				  result = data;
-			  } 
-		  });
-		  return result;
-	  }
+	//Функции базы данных
+	function Query(url,metod,Sdata){
+	  /*var result;
+	    $.ajax({
+	    url: "http://localhost:3000/api/"+url,
+	    dataType: "json",
+	    type: metod,
+	    async:false,
+	    contentType: "application/json",
+	    data: JSON.stringify(Sdata),
+	    success: function(data){
+	      result = data;
+	    }
+	  });*/
 	  
-	  //ПОЛЬЗОВАТЕЛИ
-	  function SaveUser(object){
-		  var Sdata={
-		        	login: object["login"].toLowerCase(),
-		        	pass: object["pass"],
-		        	role: object["role"],
-		        	name: object["name"],
-		        	lastsession: new Date()
-		        };
-		  if(!UserExist(Sdata.login))
-			  Query("AppUsers","POST",Sdata);
-		  else
-			  Query("AppUsers/update?where=%7B%22login%22%3A%20%22"+Sdata.login
-					  +"%22%7D","POST",Sdata);
-	  }
+	  var Promise = fetch("http://localhost:3000/api/"+url, {
+	    method: metod,
+	    headers: {
+	      "Accept": "application/json",
+	      "Content-Type": "application/json"
+	    },
+	    body: (metod=="POST")?JSON.stringify(Sdata):null
+	  }).then(function(response) {
+	    return response.json();
+	  }).catch(function(err) {
+	    return "Fetch Error :-S", err;
+	  });
 	  
-	  function GetUser(login){
-		  var result;
-		  var Sdata={
-				  where:{
-					  "login":login.toLowerCase()
-				  }
-		        };
-		  result = Query("AppUsers?filter="+JSON.stringify(Sdata),"GET",null);
-	  	  return result[0];
-	  }
+	  return Promise;
+	  //return result;
+	}
 	  
-	  function DeleteUser(login){
-		  if(!UserExist(login))return false;
-		  var id = GetUser(login).id;
-		  Query("AppUsers/"+id,"DELETE",null);
-		  return true;
-	  }
+	//ПОЛЬЗОВАТЕЛИ
+	function SaveUser(object){
+	  var Sdata={
+	    login: object["login"].toLowerCase(),
+	    pass: object["pass"],
+	    role: object["role"],
+	    name: object["name"],
+	    lastsession: new Date()
+	  };
+	  var Promise = UserExist(Sdata.login).then(function (response) {
+	    if(response.length==0) Query("AppUsers","POST",Sdata);
+	    else Query("AppUsers/update?where=%7B%22login%22%3A%20%22"+Sdata.login +
+	      "%22%7D","POST",Sdata);
+	  });
+	  return Promise;
+	}
 	  
-	  function UserExist(login){
-		  if(!login) return false;
-		  var result;
-		  var Sdata={
-				  where:{
-					  "login":login.toLowerCase()
-				  }
-		        };
-		  result = Query("AppUsers?filter="+JSON.stringify(Sdata),"GET",null);
-	  	  return (result.length>0);
-	  }
+	function GetUser(login){
+	  var Sdata={
+	    where:{
+	      "login":login.toLowerCase()
+	    }
+	  };
+	  var Promise = Query("AppUsers?filter="+JSON.stringify(Sdata),"GET",null);
+	  return Promise;
+	}
 	  
-	  function GetUsersList(filter){
-		  filter = filter || false;
-		  var result;
-		  var Sdata={};
-		  if(filter){
-			  Sdata={
-					where:{
-						or:[{"role":(0 in filter)?0:3},
-						    {"role":(1 in filter)?1:3},
-						    {"role":(2 in filter)?2:3}
-						   ]
-					}
-			  };
-		  }
-		  result = Query("AppUsers?filter="+JSON.stringify(Sdata),"GET",null);
-	  	  return result;
-	  }
+	function DeleteUser(login) {
+	  var Promise = GetUser(login).then(function (response) {
+	    var id = response[0].id;
+	    return Query("AppUsers/" + id, "DELETE", null);
+	  });
+	  return Promise;
+	}
 	  
-	  function CheckPassword(login,pass){
-		  var result;
-		  var Sdata={
-		        	filter:{
-		        		"login":login.toLowerCase(),
-		        		"pass":pass
-		        		}
-		        };
-		  result = Query("AppUsers","GET",Sdata);
-	  	  return (result.length>0);
-	  }
+	function UserExist(login){
+	  if(!login) return false;
+	  var Sdata={
+	    where:{
+	      "login":login.toLowerCase()
+	    }
+	  };
+	  var Promise = Query("AppUsers?filter="+JSON.stringify(Sdata),"GET",null);
+	  return Promise;
+	}
 	  
-	  //ЗАЯВКИ
-	  function SaveApp(object){
-		    var Sdata={
-		        	Name: object["name"],
-		        	Date: object["date"],
-		        	Client: object["client"],
-		        	Executor: object["executor"],
-		        	Discription: object["discription"],
-		        	Priority: object["priority"],
-		        	Estimated: object["estimated"],
-		        	Deadline: object["deadline"],
-		        	Progress: object["progress"]
-		        };
-		    
-		    if(!object["id"]){
-				Query("Apps","POST",Sdata);
-		    }else{
-		    	var getfilter={
-		    			id:object["id"]
-		    	};
-				Query("Apps/update?where="+JSON.stringify(getfilter),"POST",Sdata); 
-		    }
-	  }
-	  
-	  function GetApp(id){
-		  var result;
-		  var Sdata={
-				  where:{
-					  "id":id
-				  }
-		        };
-		  result = Query("Apps?filter="+JSON.stringify(Sdata),"GET",null);
-	 	  return result[0];
-	  }
-	  
-	  function DeleteApp(id){
-		  if(!AppExist(id))return false;
-		  Query("Apps/"+id,"DELETE",null);
-		  return true;
-	  }
-	  
-	  function AppExist(id){
-		  var result;
-		  var Sdata={
-				  where:{
-					  "id":id
-				  }
-		        };
-		  result = Query("Apps?filter="+JSON.stringify(Sdata),"GET",null);
-	 	  return (result.length>0);
-	  }
-	  
-	  function GetAppList(filter){	  
-		  var result;
-		  var Sdata={};
-		  if(filter){
-			  Sdata={
-					where:{
-						or:[
-						     {"Client":(filter["client"]?
-						    		 filter["client"].toLowerCase():"")},
-						     {"Executor":(filter["executor"]?
-						    		 filter["executor"].toLowerCase():"")}
+	function GetUsersList(filter){
+	  filter = filter || false;
+	  var Sdata={};
+	  if(filter){
+	    Sdata={
+	      where:{
+	        or:[{"role":(0 in filter)?0:3},
+						{"role":(1 in filter)?1:3},
+						{"role":(2 in filter)?2:3}
 						]
-					}
-			  };
-		  }
-		  if(!filter["client"] && !filter["executor"]){
-			  result = Query("Apps","GET",null);
-		  }else{
-			 result = Query("Apps?filter="+JSON.stringify(Sdata),"GET",null);
-		  }
-	  	  return result;
+	      }
+	    };
 	  }
+	  var Promise = Query("AppUsers?filter="+JSON.stringify(Sdata),"GET",null);
+	  return Promise;
+	}
 	  
-	  //КОММЕНТАРИИ
-	  function SaveComm(object){
-		  var result;
-		  var Sdata={
-		        	App: object["app"],
-		        	User: object["user"],
-		        	Date: object["date"],
-		        	Text: object["text"]
-		        };
-		  if(!object["id"]){
-			  result = Query("Comments","POST",Sdata);
-		  } else{
-			  result = Query("Comments/update?where=%7B%22id%22%3A%20%22"+object["id"]
-					  +"%22%7D","POST",Sdata);
-		  }
-		  return result;
-	  }
+	function CheckPassword(login,pass){
+	  var Sdata={
+	    where:{
+	      "login":login.toLowerCase(),
+	      "pass":pass
+	    }
+	  };
+	  var Promise = Query("AppUsers?filter="+JSON.stringify(Sdata),"GET",null);
+	  return Promise;
+	}
 	  
-	  function GetComm(id){
-		  var result;
-		  var Sdata={
-				  where:{
-					  "id":id
-				  }
-		        };
-		  result = Query("Comments?filter="+JSON.stringify(Sdata),"GET",null);
-	 	  return result[0];
-	  }
+	//ЗАЯВКИ
+	function SaveApp(object){
+	  var cn;
+	  var en;
+	  var Promise = GetUser(object["client"]).then(function (response) {
+	    cn = (response.length>0)?response[0].name:"Client";
+	    GetUser(object["executor"]).then(function (response) {
+	      en = (response.length>0)?response[0].name:"Нет";
+	      var Sdata={
+	        Name: object["name"],
+	        Date: object["date"],
+	        Client: object["client"],
+	        ClientName: cn,
+	        Executor: object["executor"],
+	        ExecutorName: en,
+	        Discription: object["discription"],
+	        Priority: object["priority"],
+	        Estimated: object["estimated"],
+	        Deadline: object["deadline"],
+	        Progress: object["progress"]
+	      };
 	  
-	  function DeleteComm(id){
-		  if(!CommExist(id))return false;
-		  Query("Comments/"+id,"DELETE",null);
-		  return true;
-	 }
+	      if(!object["id"]){
+	        return Query("Apps","POST",Sdata);
+	      }else{
+	        var getfilter={
+	          id:object["id"]
+	        };
+	        return Query("Apps/update?where="+JSON.stringify(getfilter),"POST",Sdata);
+	      }
+	    });
+	  });
+	  return Promise;
+	}
 	  
-	 function CommExist(id){
-		 var result;
-		  var Sdata={
-				  where:{
-					  "id":id
-				  }
-		        };
-		  result = Query("Comments?filter="+JSON.stringify(Sdata),"GET",null);
-		  return (result.length>0);
-	 }
+	function GetApp(id){
+	  var Sdata={
+	    where:{
+	      "id":id
+	    }
+	  };
+	  var Promise = Query("Apps?filter="+JSON.stringify(Sdata),"GET",null);
+	  return Promise;
+	}
 
-	  global.GetCommList=function GetCommList(app){
-		  var result;
-		  var Sdata={
-				where:{
-					App:app
-				}
-		  };
-		  result = Query("Comments?filter="+JSON.stringify(Sdata),"GET",null);
-	  	  return result;
-	  }
+	function DeleteApp(id){
+	  var Promise = AppExist(id).then(function(response){
+	    if(response.length>0)
+	      return Query("Apps/"+id,"DELETE",null);
+	  });
 	  
-	  function StorageIsClear(){
-		  return Query("AppUsers/count","GET",null).count==0;
-	  }
-	  
-	  
-	  //Добавление сообщения
-	  function AlertMsg(parent,text){
-		var alerts=$('.alert');
-		for (var i = 0; i < alerts.length; i++) $(alerts[i]).remove();
+	  return Promise;
+	}
 
-	  	var element=document.createElement('div');
-		element.className='alert';
-		element.innerHTML=text;
-		$(parent).append(element);
+	function AppExist(id){
+	  var Sdata={
+	    where:{
+	      "id":id
+	    }
+	  };
+	  var Promise = Query("Apps?filter="+JSON.stringify(Sdata),"GET",null);
+	  return Promise;
+	}
+	  
+	function GetAppList(filter){
+	  var result;
+	  var Sdata={};
+	  if(filter){
+	    Sdata={
+	      where:{
+	        or:[
+	          {"Client":(filter["client"]? filter["client"].toLowerCase():"")},
+						{"Executor":(filter["executor"]? filter["executor"].toLowerCase():"")}
+	        ]
+	      }
+	    };
+	  }
+	  if(!filter["client"] && !filter["executor"]){
+	    result = Query("Apps","GET",null);
+	  }else{
+	    result = Query("Apps?filter="+JSON.stringify(Sdata),"GET",null);
+	  }
+	  var Promise = result;
+	  return Promise;
+	}
+	  
+	//КОММЕНТАРИИ
+	function SaveComm(object){
+	  var un;
+	  var Promise = GetUser(object["user"]).then(function (response) {
+	    un = (response.length>0)?response[0].name:"User";
+	    var Sdata={
+	      App: object["app"],
+	      User: object["user"],
+	      UserName: un,
+	      Date: object["date"],
+	      Text: object["text"]
+	    };
+	    if(!object["id"]){
+	      return Query("Comments","POST",Sdata);
+	    } else{
+	      return Query("Comments/update?where=%7B%22id%22%3A%20%22"+object["id"]
+	        +"%22%7D","POST",Sdata);
+	    }
+	  });
+	  return Promise;
+	}
+	  
+	function GetComm(id){
+	  var Sdata={
+	    where:{
+	      "id":id
+	    }
+	  };
+	  var Promise = Query("Comments?filter="+JSON.stringify(Sdata),"GET",null);;
+	  return Promise;
+	}
+
+	function DeleteComm(id){
+	  var Promise = CommExist(id).then(function(response){
+	    if(response.length>0)
+	      return Query("Comments/"+id,"DELETE",null);
+	  });
+	  return Promise;
+	}
+	  
+	function CommExist(id){
+	  var Sdata={
+	    where:{
+	      "id":id
+	    }
+	  };
+	  var Promise = Query("Comments?filter="+JSON.stringify(Sdata),"GET",null);
+	  return Promise;
+	}
+
+	global.GetCommList=function GetCommList(app){
+	  var Sdata={
+	    where:{
+	      App:app
+	    }
+	  };
+	  var Promise = Query("Comments?filter="+JSON.stringify(Sdata),"GET",null);
+	  return Promise;
+	};
+
+	function StorageIsClear(){
+	  return Query("AppUsers/count","GET",null).count==0;
+	}
+
+	//Добавление сообщения
+	function AlertMsg(parent,text){
+	  var alerts=$(".alert");
+	  for (var i = 0; i < alerts.length; i++) $(alerts[i]).remove();
+	  var element=document.createElement("div");
+	  element.className="alert";
+	  element.innerHTML=text;
+	  $(parent).append(element);
+	}
+	  
+	//Создание списка заявок
+	function GetAppsListItem(list,UserInfo){
+	  var element=document.createElement("div");
+	  var Tpl1 = __webpack_require__(4);
+	  var result = Tpl1({inInfo:UserInfo,inList:list});
+	  element.innerHTML=result;
+	  return element;
+	}
+	  
+	//Расстягивание TextArea
+	function TextAreaResize(event, LineHeight, MinLineCount) {
+	  var MinLineHeight = MinLineCount * LineHeight;
+	  var obj = event.target;
+	  var div = document.getElementById(obj.id + "Div");
+	  div.innerHTML = obj.value;
+	  var ObjHeight = div.offsetHeight;
+	  if (event.keyCode == 13)
+	    ObjHeight += LineHeight;
+	  else if (ObjHeight < MinLineHeight)
+	    ObjHeight = MinLineHeight;
+	  obj.style.height = ObjHeight + "px";
+	}
+	  
+	//Валидация
+	function ValidateValue(type, value){
+	  var patt;
+	  if(type=="login"){
+	    patt = /^[a-z][a-z0-9]*?([-_][a-z0-9]+){0,2}$/i;
+	    if(value.length>3 && patt.test(value)) return true;
+	  }
+	    
+	  if(type=="pass"){
+	    patt = /^[a-zA-Z0-9]+$/;
+	    if(value.length>3 && patt.test(value)) return true;
 	  }
 	  
-	  //Создание списка заявок
-	  function GetAppsListItem(list,UserInfo){
-	 	  var element=document.createElement('div');
-		  var Tpl1 = __webpack_require__(4);
-		  var result = Tpl1({inInfo:UserInfo,inList:list});
-		  element.innerHTML=result;	
-		  return element;
+	  if(type=="name"){
+	    /*FIX IT*/
+	    return true;
+	    /*patt = /^[а-яА-ЯёЁa-zA-Z0-9]+$/;
+	    if(value.length>3 && value.length<51 && patt.test(value)) return true;*/
 	  }
 	  
-	  //Расстягивание TextArea
-	  function TextAreaResize(event, LineHeight, MinLineCount)
-	  {
-	    var MinLineHeight = MinLineCount * LineHeight;
-	    var obj = event.target;
-	    var div = document.getElementById(obj.id + 'Div');
-	    div.innerHTML = obj.value;
-	    var ObjHeight = div.offsetHeight;
-	    if (event.keyCode == 13)
-	    	ObjHeight += LineHeight;
-	    else if (ObjHeight < MinLineHeight)
-	    	ObjHeight = MinLineHeight;
-	    obj.style.height = ObjHeight + 'px';
+	  if(type=="role"){
+	    patt = /^[0-9]+$/;
+	    if(value.length==1) if(patt.test(value)) return true;
 	  }
+	  return false;
+	}
 	  
-	  //Валидация
-	  function ValidateValue(type, value){
-		  if(type=="login"){
-			  var patt = /^[a-z][a-z0-9]*?([-_][a-z0-9]+){0,2}$/i;
-			  if(value.length>3)
-				  if(patt.test(value)) return true;
-		  }
-		  
-		  if(type=="pass"){
-			  var patt = /^[a-zA-Z0-9]+$/;
-			  if(value.length>3)
-				  if(patt.test(value)) return true;
-		  }
-		  
-		  if(type=="name"){
-			  /*FIX IT*/
-			  return true;
-			  var patt = /^[а-яА-ЯёЁa-zA-Z0-9]+$/;
-			  if(value.length>3 && value.length<51)
-				  if(patt.test(value)) return true;
-		  }
-		  
-		  if(type=="role"){ 
-			  var patt = /^[0-9]+$/;
-			  if(value.length==1)
-				  if(patt.test(value)) return true;
-		  }
-		  
-		  return false;
-	  }
-	  
-	  function WrongValueMessage(type){
-		  if(type=="login")
-			  return "Недопустимый логин. Логин должен "+
+	function WrongValueMessage(type){
+	  if(type=="login")
+	    return "Недопустимый логин. Логин должен "+
 				"содержать не менее 4х символов и начинаться с буквы " +
 				"латинского алфавита, заканчиваться буквой/цифрой. " +
 				"Может состоять из цифр и латинские букв, " +
 				"а также не более двух, не идущих подряд символов '-' и '_'.";
-		  if(type=="pass")
-			  return "Недопустимый пароль. Пароль должен содержать не менее " +
-			  		"4х символов, состоять только из цифр и латинских букв.";
-		  if(type=="name")
-			  return "Недопустимое имя. Имя должно содержать не менее 3 и " +
-			  		"не более 50 символов. Состоять из букв и цифр.";
-		  return "Недопустимое значение";
-	  }
+	  if(type=="pass")
+	    return "Недопустимый пароль. Пароль должен содержать не менее " +
+				"4х символов, состоять только из цифр и латинских букв.";
+	  if(type=="name")
+	    return "Недопустимое имя. Имя должно содержать не менее 3 и " +
+				"не более 50 символов. Состоять из букв и цифр.";
+	  return "Недопустимое значение";
+	}
 	 
 	global.GetRoleFromCode=GetRoleFromCode;
 	global.LocalDateTime=LocalDateTime;
@@ -10604,12 +10627,12 @@ var Main =
 /***/ function(module, exports) {
 
 	module.exports = {
-		UserInfo: null,
-		UsersList: null,
-		CommsList: null,
-		UsersFilter: [1,1,1],
-		UserFilterOpened: false,
-		TempAppID: null
+	  UserInfo: null,
+	  UsersList: null,
+	  CommsList: null,
+	  UsersFilter: [1,1,1],
+	  UserFilterOpened: false,
+	  TempAppID: null
 	};
 
 /***/ },
@@ -10643,29 +10666,17 @@ var Main =
 	((__t = (data.inList[x].Name)) == null ? '' : __t) +
 	'\r\n				 </td>\r\n				 <td>\r\n				  	' +
 	((__t = (new Date(Date.parse(data.inList[x].Date)).toUTCString())) == null ? '' : __t) +
-	'\r\n				 </td>\r\n				 \r\n				 \r\n				 \r\n				';
+	'\r\n				 </td>\r\n\r\n\r\n				 \r\n				';
 	 if(data.inInfo.role!=2){ ;
-	__p += '\r\n			    <td>\r\n				 	';
-	if(UserExist(data.inList[x].Client)){ ;
-	__p += '\r\n				 		' +
-	((__t = (GetUser(data.inList[x].Client).name )) == null ? '' : __t) +
-	'\r\n				 	';
-	 }else{ ;
-	__p += '\r\n				 		Client\r\n				 	';
-	 } ;
-	__p += '\r\n				 </td>\r\n				';
+	__p += '\r\n			    <td>\r\n                    ' +
+	((__t = (data.inList[x].ClientName )) == null ? '' : __t) +
+	'\r\n                </td>\r\n				';
 	 } ;
 	__p += '\r\n				\r\n				';
 	 if(data.inInfo.role==0){;
-	__p += '\r\n				<td>\r\n						';
-	 if(UserExist(data.inList[x].Executor)){ ;
-	__p += '\r\n						  ' +
-	((__t = (GetUser(data.inList[x].Executor).name )) == null ? '' : __t) +
-	'\r\n						';
-	 }else{ ;
-	__p += '\r\n							Нет\r\n						';
-	 } ;
-	__p += '\r\n				 </td>\r\n				 ';
+	__p += '\r\n				<td>\r\n                    ' +
+	((__t = (data.inList[x].ExecutorName )) == null ? '' : __t) +
+	'\r\n				 </td>\r\n				 ';
 	 } ;
 	__p += '\r\n				 \r\n				 <td>\r\n				 	';
 	if(data.inList[x].Priority==0){;
@@ -10697,54 +10708,62 @@ var Main =
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var MyFramework = __webpack_require__(1);
-
+	__webpack_require__(1);
 	//Авторизация
 	module.exports=function(){
-		$("#LoginForm").on("submit", function(event) {
-		  event.preventDefault();
-		  var data={
-		  	login: $("#LoginForm #username").val().trim(),
-		  	pass: $("#LoginForm #password").val().trim()
-		  };
-		  if(!ValidateValue('login',data.login)){
-				AlertMsg($("#LoginForm"),WrongValueMessage('login'));
-				return;
-		  }
-		  
-		  if(!ValidateValue('pass',data.pass)){
-				AlertMsg($("#LoginForm"),WrongValueMessage('pass'));
-				return;
-		  }
-		  
-		  if(!UserExist(data.login))
-			AlertMsg($("#LoginForm"),'Пользователь не существует!');
-		  else{
-		    if(!CheckPassword(data.login,data.pass))
-		    	AlertMsg($("#LoginForm"),'Неверный пароль!');
-		    else{
-		    	config.UserInfo=GetUser(data.login);
-		    	SaveUser(config.UserInfo);
-		    	SetWindow("MainWindow");
-		    }
-		  }
-		});
+	  var lf = $("#LoginForm");
+	  lf.on("submit", function(event) {
+	    event.preventDefault();
+	    var data={
+	      login: lf.find("#username").val().trim(),
+	      pass: lf.find("#password").val().trim()
+	    };
+	    if(!ValidateValue("login",data.login)){
+	      AlertMsg(lf,WrongValueMessage("login"));
+	      return;
+	    }
+	    
+	    if(!ValidateValue("pass",data.pass)){
+	      AlertMsg(lf,WrongValueMessage("pass"));
+	      return;
+	    }
+	    
+	    UserExist(data.login).then(function(response) {
+	      if(response.length==0)
+	        AlertMsg(lf,"Пользователь не существует!");
+	      else{
+	        CheckPassword(data.login,data.pass).then(function(response) {
+	          if(response.length==0)
+	            AlertMsg(lf,"Неверный пароль!");
+	          else{
+	            GetUser(data.login).then(function(response) {
+	              config.UserInfo=response[0];
+	              SaveUser(config.UserInfo);
+	              SetWindow("MainWindow");
+	            });
+	          }
+	        });
+	      }
+	    });
+	  });
 		
-		$("#RegHref").on("click",function(){
-			SetWindow("RegWindow");
-			event.preventDefault();
-		});
-
-		$("#RegHref").on("click",function(){
-			SetWindow("RegWindow");
-			event.preventDefault();
-		});
-		Show();
-	}
+	  var rh = $("#RegHref");
+	  rh.on("click",function(){
+	    SetWindow("RegWindow");
+	    event.preventDefault();
+	  });
+		
+	  rh.on("click",function(){
+	    SetWindow("RegWindow");
+	    event.preventDefault();
+	  });
+	  Show();
+	};
 
 	function Show(){
-		$("#LoginForm").trigger('reset');
-		AlertMsg($("#LoginForm"),'');
+	  var lf = $("#LoginForm");
+	  lf.trigger("reset");
+	  AlertMsg(lf,"");
 	}
 
 	module.exports.Show=Show;
@@ -10753,198 +10772,205 @@ var Main =
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var MyFramework = __webpack_require__(1);
+	__webpack_require__(1);
 	var LogonModule = __webpack_require__(5);
 	//Регистрация
 	module.exports=function(){
-		$("#RegistrationForm").on("submit", function(event) {
-	      event.preventDefault();
-		  var data={
-		  	login: $("#RegistrationForm #username").val().trim(),
-		  	pass: $("#RegistrationForm #password").val().trim(),
-	  	    name: $("#RegistrationForm #name").val().trim(),
-		  	role: (StorageIsClear()?0:2)
-		  };
-		  
-		  if(!ValidateValue('login',data.login)){
-				AlertMsg($("#RegistrationForm"),WrongValueMessage('login'));
-				return;
-		  }
-		
-		  if(!ValidateValue('pass',data.pass)){
-				AlertMsg($("#RegistrationForm"),WrongValueMessage('pass'));
-				return;
-		  }
-		  
-		  if(!ValidateValue('name',data.name)){
-				AlertMsg($("#RegistrationForm"),WrongValueMessage('name'));
-				return;
-		  }
-		  
-		  if(UserExist(data.login)){
-		  	AlertMsg($("#RegistrationForm"),"Логин занят!");
-		  	return;
-		  }
-		  
-		  SaveUser(data);
-		  SetWindow("LogonWindow");
-		  LogonModule.Show;
-		  AlertMsg($("#LoginForm"),"<font color = 'green'>Успешная регистрация!</font>");
-		});
-	}
+	  $("#RegistrationForm").on("submit", function(event) {
+	    event.preventDefault();
+	    var rf = $("#RegistrationForm");
+	    var data={
+	      login: rf.find("#username").val().trim(),
+	      pass: rf.find("#password").val().trim(),
+	      name: rf.find("#name").val().trim(),
+	      role: (StorageIsClear()?0:2)
+	    };
+	    
+	    if(!ValidateValue("login",data.login)){
+	      AlertMsg(rf,WrongValueMessage("login"));
+	      return;
+	    }
+	    
+	    if(!ValidateValue("pass",data.pass)){
+	      AlertMsg(rf,WrongValueMessage("pass"));
+	      return;
+	    }
+	    
+	    if(!ValidateValue("name",data.name)){
+	      AlertMsg(rf,WrongValueMessage("name"));
+	      return;
+	    }
+	    
+	    UserExist(data.login).then(function(response) {
+	      if (response.length > 0) {
+	        AlertMsg(rf, "Логин занят!");
+	      } else {
+	        SaveUser(data);
+	        SetWindow("LogonWindow");
+	        LogonModule.Show();
+	        AlertMsg($("#LoginForm"), "<span style='color:green'>Успешная регистрация!</span>");
+	      }
+	    });
+	  });
+	};
 
-	module.exports.Show=function(){
-		$("#RegistrationForm").trigger('reset');
-		AlertMsg($("#RegistrationForm"),'');
-	}
+	module.exports.Show=function() {
+	  var rf = $("#RegistrationForm");
+	  rf.trigger("reset");
+	  AlertMsg(rf, "");
+	};
 
 /***/ },
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var MyFramework = __webpack_require__(1);
+	__webpack_require__(1);
 	//Добавление нового пользователя администратором
 	module.exports=function(){
-		$("#AddNewUserFormHref").on("click",
-				function(){AddNewUserFormShow(true);});
-		$("#AddEditUserForm").css('display','none');
-		$("#AddEditUserForm").on("submit", function(event) {
-			  event.preventDefault();
-			  var data={
-			  	login: $("#AddEditUserForm #username").val().trim(),
-			  	pass: $("#AddEditUserForm #password").val().trim(),
-			  	name: $("#AddEditUserForm #name").val().trim(),
-			  	role: $("#AddEditUserForm #roleselect").val().trim()
-			  };
-			  if(!ValidateValue('login',data.login)){
-					AlertMsg($("#AddEditUserForm"),WrongValueMessage('login'));
-					return;
-			  }
-		
-			  if(!ValidateValue('pass',data.pass)){
-					AlertMsg($("#AddEditUserForm"),WrongValueMessage('pass'));
-					return;
-			  }
-			  
-			  if(!ValidateValue('name',data.name)){
-					AlertMsg($("#AddEditUserForm"),WrongValueMessage('name'));
-					return;
-			  }
-			  
-			  if(UserExist(data.login)){
-			  	AlertMsg($("#AddEditUserForm"),"Пользователь с таким логином существует!");
-			  	return;
-			  }
-			  
-			  SaveUser(data);
-			  AlertMsg($("#AddEditUserForm"),"<font color = 'green'>Пользователь создан!</font>");
-			  ShowIt();
-			});
-	}
+	  $("#AddNewUserFormHref").on("click",
+	      function(){AddNewUserFormShow(true);});
+	  $("#AddEditUserForm").css("display","none");
+	  $("#AddEditUserForm").on("submit", function(event) {
+	    event.preventDefault();
+	    var data={
+	      login: $("#AddEditUserForm #username").val().trim(),
+	      pass: $("#AddEditUserForm #password").val().trim(),
+	      name: $("#AddEditUserForm #name").val().trim(),
+	      role: $("#AddEditUserForm #roleselect").val().trim()
+	    };
+	    if(!ValidateValue("login",data.login)){
+	      AlertMsg($("#AddEditUserForm"),WrongValueMessage("login"));
+	      return;
+	    }
+	  
+	    if(!ValidateValue("pass",data.pass)){
+	      AlertMsg($("#AddEditUserForm"),WrongValueMessage("pass"));
+	      return;
+	    }
+	      
+	    if(!ValidateValue("name",data.name)){
+	      AlertMsg($("#AddEditUserForm"),WrongValueMessage("name"));
+	      return;
+	    }
+	    UserExist(data.login).then(function (response) {
+	      if(response.length>0){
+	        AlertMsg($("#AddEditUserForm"),"Пользователь с таким логином существует!");
+	        return;
+	      }else{
+	        SaveUser(data).then(function(){
+	          AlertMsg($("#AddEditUserForm"),"<span style='color: green'>Пользователь создан!</span>");
+	          ShowIt();
+	        });
+	      }
+	    });
+	  });
+	};
 
 	//Открытие фильтра пользователей
 	function DropFilter(){
-		config.UserFilterOpened=$('#filter').css('display')=='block'?false:true;
-		$('#filter').css('display',config.UserFilterOpened?"block":"none");
-		$('#ufilterdrop').html(config.UserFilterOpened?"Фильтр &#149;":"Фильтр ▼");
+	  config.UserFilterOpened=$("#filter").css("display")=="block"?false:true;
+	  $("#filter").css("display",config.UserFilterOpened?"block":"none");
+	  $("#ufilterdrop").html(config.UserFilterOpened?"Фильтр &#149;":"Фильтр ▼");
 	}
 
 	//Изменение фильтра пользователей
 	function UFilterChange(){
-		config.UsersFilter=[];
-		if($('#ufilter1').prop('checked'))config.UsersFilter[0]=1;
-		if($('#ufilter2').prop('checked'))config.UsersFilter[1]=1;
-		if($('#ufilter3').prop('checked'))config.UsersFilter[2]=1; 
-		ShowIt();
+	  config.UsersFilter=[];
+	  if($("#ufilter1").prop("checked"))config.UsersFilter[0]=1;
+	  if($("#ufilter2").prop("checked"))config.UsersFilter[1]=1;
+	  if($("#ufilter3").prop("checked"))config.UsersFilter[2]=1; 
+	  ShowIt();
 	}
 
 	//Клик по боковому списку пользователей
 	function SideUserMenuClick(x){
-		AddNewUserFormShow(false);
-		var Tpl1 = __webpack_require__(8);
-		var result = Tpl1({items:config.UsersList[x]});
-		$("#UsersContentEdit").html(result);
-		$('#EditUserBtn').on('click',
-				(function(i){ return function(){ChangeUserInfo(i);}})(x));
-		$('#DelUserBtn').on('click',
-				(function(i){ return function(){DeleteUserFromList(i);}})(x));
+	  AddNewUserFormShow(false);
+	  var Tpl1 = __webpack_require__(8);
+	  var result = Tpl1({items:config.UsersList[x]});
+	  $("#UsersContentEdit").html(result);
+	  $("#EditUserBtn").on("click",
+	      (function(i){ return function(){ChangeUserInfo(i);};})(x));
+	  $("#DelUserBtn").on("click",
+	      (function(i){ return function(){DeleteUserFromList(i);};})(x));
 	}
 
 	//Изменение информации о пользователе
 	function ChangeUserInfo(x){
-		  var data={
-				  	login: config.UsersList[x].login,
-				  	pass: $("#UsersContentEdit #newpw").val().trim(),
-				  	name: $("#UsersContentEdit #newnm").val().trim(),
-				  	role: $("#UsersContentEdit #rlsl").val().trim()
-				  };
-		  
-		  if(!ValidateValue('pass',data.pass)){
-				AlertMsg($("#UsersContentEdit"),WrongValueMessage('pass'));
-				return;
-		  }
+	  var data={
+	    login: config.UsersList[x].login,
+	    pass: $("#UsersContentEdit #newpw").val().trim(),
+	    name: $("#UsersContentEdit #newnm").val().trim(),
+	    role: $("#UsersContentEdit #rlsl").val().trim()
+	  };
+	    
+	  if(!ValidateValue("pass",data.pass)){
+	    AlertMsg($("#UsersContentEdit"),WrongValueMessage("pass"));
+	    return;
+	  }
 
-		  if(!ValidateValue('role',data.role)){
-				AlertMsg($("#UsersContentEdit"),WrongValueMessage('')+": "+data.role);
-				return;
-		  }
-		  
-		  if(!ValidateValue('name',data.name)){
-				AlertMsg($("#UsersContentEdit"),WrongValueMessage('name'));
-				return;
-		  }
-		  
-		  SaveUser(data);
-		  config.UsersList[x]=data;
-		  $("#UL"+x).html(config.UsersList[x].name);
-		  if(!(config.UsersList[x].role in config.UsersFilter))
-			  $("#UL"+x).parentNode.removeChild($("#UL"+x));
-		  AlertMsg($("#UsersContentEdit"),"<font color = 'green'>" +
-		  		"Изменения сохранены!</font>");
+	  if(!ValidateValue("role",data.role)){
+	    AlertMsg($("#UsersContentEdit"),WrongValueMessage("")+": "+data.role);
+	    return;
+	  }
+	    
+	  if(!ValidateValue("name",data.name)){
+	    AlertMsg($("#UsersContentEdit"),WrongValueMessage("name"));
+	    return;
+	  }
+	    
+	  SaveUser(data).then(function(){
+	    config.UsersList[x]=data;
+	    $("#UL"+x).html(config.UsersList[x].name);
+	    if(!(config.UsersList[x].role in config.UsersFilter))
+	      $("#UL"+x).parentNode.removeChild($("#UL"+x));
+	    AlertMsg($("#UsersContentEdit"),"<span style='color: green'>Изменения сохранены!</span>");
+	  });
 	}
 
 	//Удаление пользователя
 	function DeleteUserFromList(x){
-		if(!confirm("Действительно удалить запись о пользователе "+
-				config.UsersList[x].name+"("+config.UsersList[x].login+")?"))return;
-		if(DeleteUser(config.UsersList[x].login)){
-			$("#UsersContentEdit").html("");
-			$("#UL"+x).remove();
-		}
+	  if(!confirm("Действительно удалить запись о пользователе "+
+	      config.UsersList[x].name+"("+config.UsersList[x].login+")?"))return;
+	  DeleteUser(config.UsersList[x].login).then(function () {
+	    $("#UsersContentEdit").html("");
+	    $("#UL"+x).remove();
+	  });
 	}
 
 	//Показать форму добавления пользователя
 	function AddNewUserFormShow(flag){
-		$("#AddEditUserForm").css('display',(flag?"block":"none"));
-		$("#UsersContentEdit").html("");
-		$("#AddEditUserForm").trigger('reset');
-		AlertMsg($("#AddEditUserForm"),"");
+	  $("#AddEditUserForm").css("display",(flag?"block":"none"));
+	  $("#UsersContentEdit").html("");
+	  $("#AddEditUserForm").trigger("reset");
+	  AlertMsg($("#AddEditUserForm"),"");
 	}
 
 	function ShowIt(){
-		$("#MB1").css('backgroundColor',"");
-		$("#MB2").css('backgroundColor',"#d9dee2");
-		config.UsersList=GetUsersList(config.UsersFilter);
-
-		var Tpl1 = __webpack_require__(9);
-		var result = Tpl1({UFO:config.UserFilterOpened,items:config.UsersList});
-		$("#UsersMenu").html(result);
-		
-		$('#ufilter1').attr('checked',(0 in config.UsersFilter)?true:false);
-		$('#ufilter2').attr('checked',(1 in config.UsersFilter)?true:false);
-		$('#ufilter3').attr('checked',(2 in config.UsersFilter)?true:false);
-		$('#ufilter1').on('change',function(){UFilterChange();});
-		$('#ufilter2').on('change',function(){UFilterChange();});
-		$('#ufilter3').on('change',function(){UFilterChange();});
-		
-		$('#ufilterdrop').on('click',function(){DropFilter();});
-		
-		for (var it in config.UsersList) {
-			$('#UL'+it).on('click',
-					(function(i){ return function(){SideUserMenuClick(i);}})(it));
-		}
-		$("#AddEditUserForm").css('display','none');
-		$("#UsersContentEdit").html("");
+	  $("#MB1").css("backgroundColor","");
+	  $("#MB2").css("backgroundColor","#d9dee2");
+	  GetUsersList(config.UsersFilter).then(function (response) {
+	    config.UsersList=response;
+	  
+	    var Tpl1 = __webpack_require__(9);
+	    var result = Tpl1({UFO:config.UserFilterOpened,items:config.UsersList});
+	    $("#UsersMenu").html(result);
+	  
+	    $("#ufilter1").attr("checked",(0 in config.UsersFilter)?true:false);
+	    $("#ufilter2").attr("checked",(1 in config.UsersFilter)?true:false);
+	    $("#ufilter3").attr("checked",(2 in config.UsersFilter)?true:false);
+	    $("#ufilter1").on("change",function(){UFilterChange();});
+	    $("#ufilter2").on("change",function(){UFilterChange();});
+	    $("#ufilter3").on("change",function(){UFilterChange();});
+	  
+	    $("#ufilterdrop").on("click",function(){DropFilter();});
+	  
+	    for (var it in config.UsersList) {
+	      $("#UL"+it).on("click",
+	        (function(i){ return function(){SideUserMenuClick(i);};})(it));
+	    }
+	    $("#AddEditUserForm").css("display","none");
+	    $("#UsersContentEdit").html("");
+	  });
 	}
 
 	module.exports.Show=ShowIt;
@@ -27776,322 +27802,364 @@ var Main =
 /* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(_) {var MyFramework = __webpack_require__(1);
+	/* WEBPACK VAR INJECTION */(function(_) {__webpack_require__(1);
 
 	//Добавление новой заявки
 	module.exports=function(){
-		  $('#NewAppForm').on("submit", function(event) {
-		  event.preventDefault();
-		  var data={
-		        	name:$('#NewAppForm #appname').val().trim(),
-		        	date:$('#NewAppForm #appdate').val().trim(),
-		        	client:$('#NewAppForm #ClientSelect').val().trim(),
-		        	executor:$('#NewAppForm #ExecutorSelect').val().trim(),
-		        	discription:$('#NewAppForm #appdisc').val().trim(),
-		            priority:$('#NewAppForm #appprior').val().trim(),
-		        	estimated:$('#NewAppForm #appestdate').val().trim(),
-		        	deadline:$('#NewAppForm #appdeaddate').val().trim(),
-		        	progress:$('#NewAppForm #status').val().trim()
-		  };
-		  
-		  var textvar=data.name.trim();
-		  textvar=textvar.replace(/<.*?/g,'');
-		  if(textvar!=data.name.trim()){
-			  AlertMsg($("#NewAppForm"),"Скобки <> запрещенны!");
-			  return;
-		  }
-		  if(!textvar.length){
-			  AlertMsg($("#NewAppForm"),"Пустое значение названия.");
-			  return;
-		  }
-		  
-		  var textvar=data.discription.trim();
-		  textvar=textvar.replace(/<.*?/g,'');
-		  if(textvar!=data.discription.trim()){
-			  AlertMsg($("#NewAppForm"),"Скобки <> запрещенны!");
-			  return;
-		  }
-		  
-		  if(!textvar.length){
-			  AlertMsg($("#NewAppForm"),"Пустое значение описания.");
-			  return;
-		  }
-		  
-		  if(!UserExist(data.client)){
-			  AlertMsg($("#NewAppForm"),"Недопустимые данные: "+data.client);
-			  return;
-		  }
-		  
-		  if(data.priority<0 || data.priority>2){
-			  AlertMsg($("#NewAppForm"),"Недопустимые данные: "+data.priority);
-			  return;
-		  }
-		  
-		  SaveApp(data);
-		  AlertMsg($("#AppsFrameMsg"),"<font color = 'green'>Заявка создана!</font>");
-		  SetFrame('AppsFrame');
-		});
-		  
-		$('#FindString').change(function() {
-			  Find($('#FindString').val().trim());
-		});
-	}
+	  var naf = $("#NewAppForm");
+	  naf.on("submit", function(event) {
+	    event.preventDefault();
+	    var data={
+	      name:naf.find("#appname").val().trim(),
+	      date:naf.find("#appdate").val().trim(),
+	      client:naf.find("#ClientSelect").val().trim(),
+	      executor:naf.find("#ExecutorSelect").val().trim(),
+	      discription:naf.find("#appdisc").val().trim(),
+	      priority:naf.find("#appprior").val().trim(),
+	      estimated:naf.find("#appestdate").val().trim(),
+	      deadline:naf.find("#appdeaddate").val().trim(),
+	      progress:naf.find("#status").val().trim()
+	    };
+	  
+	    var textvar=data.name.trim();
+	    textvar=textvar.replace(/<.*?/g,"");
+	    if(textvar!=data.name.trim()){
+	      AlertMsg(naf,"Скобки <> запрещенны!");
+	      return;
+	    }
+	    if(!textvar.length){
+	      AlertMsg(naf,"Пустое значение названия.");
+	      return;
+	    }
+	  
+	    textvar=data.discription.trim();
+	    textvar=textvar.replace(/<.*?/g,"");
+	    if(textvar!=data.discription.trim()){
+	      AlertMsg(naf,"Скобки <> запрещенны!");
+	      return;
+	    }
+	  
+	    if(!textvar.length){
+	      AlertMsg(naf,"Пустое значение описания.");
+	      return;
+	    }
+	    
+	    if(!UserExist(data.client)){
+	      AlertMsg(naf,"Недопустимые данные: "+data.client);
+	      return;
+	    }
+	    
+	    if(data.priority<0 || data.priority>2){
+	      AlertMsg(naf,"Недопустимые данные: "+data.priority);
+	      return;
+	    }
+	    
+	    SaveApp(data).then(function () {
+	      AlertMsg(naf,"<span style='color: green'>Заявка создана!</span>");
+	      SetFrame("AppsFrame");
+	    });
+	  });
+	  
+	  var fs = $("#FindString");
+	  fs.change(function() {
+	    Find(fs.val().trim());
+	  });
+	};
 
 	function ShowCreateFrame(){
-		$("#MB1").css('backgroundColor',"#d9dee2");
-		$("#MB2").css('backgroundColor',"");
-		$('#NewAppForm').trigger('reset');
-		        	
-		$('#NewAppForm #appdate').val(LocalDateTime());
-		$('#NewAppForm #appestdate').val(LocalDateTime(30));
-		$('#NewAppForm #appdeaddate').val(LocalDateTime(30));
-		$('#NewAppForm #status').val(0);
-		if(config.UserInfo.role==2){
-			$('#NewAppForm #ClientSelect').html("<option value='"+
-				config.UserInfo.login.toLowerCase()+"' selected>"+
-				config.UserInfo.name+"</option>");
-			
-			$("#ClientSelect").prop('disabled',true);
-			$("#appdate").prop('disabled',true);
-			$("#ExecutorSelect").prop('disabled',true);
-			$('#NewAppForm #appestdate').prop('disabled',true);
-			$('#NewAppForm #status').prop('disabled',true);
+	  $("#MB1").css("backgroundColor","#d9dee2");
+	  $("#MB2").css("backgroundColor","");
+	  
+	  var naf =$("#NewAppForm");
+	  
+	  naf.trigger("reset");
+	  
+	  naf.find("#appdate").val(LocalDateTime());
+	  naf.find("#appestdate").val(LocalDateTime(30));
+	  naf.find("#appdeaddate").val(LocalDateTime(30));
+	  naf.find("#status").val(0);
+	  if(config.UserInfo.role==2){
+	    naf.find("#ClientSelect").html("<option value='" +
+	      config.UserInfo.login.toLowerCase()+"' selected>"+
+	      config.UserInfo.name+"</option>");
+	    
+	    var cs = $("#ClientSelect");
+	    cs.prop("disabled",true);
+	    $("#appdate").prop("disabled",true);
+	    $("#ExecutorSelect").prop("disabled",true);
+	    naf.find("#appestdate").prop("disabled",true);
+	    naf.find("#status").prop("disabled",true);
+	    
+	    cs.prop("hidden",true);
+	    $("#NewAppFormDTRow").prop("hidden",true);
+	    $("#NewAppFormCERow").prop("hidden",true);
+	    $("#NewAppFormDSRow").prop("hidden",true);
+	  }
+	  
+	  if(config.UserInfo.role>0)return;
+	  
+	  var result;
+	  var Tpl1 = __webpack_require__(13);
+	  GetUsersList([,,2]).then(function(response) {
+	    result = Tpl1({empty:null,list:response});
+	    $("#ClientSelect").html(result);
+	  
+	    Tpl1 = __webpack_require__(13);
+	    GetUsersList([,1]).then(function(response) {
+	      result = Tpl1({empty:"-пусто-",list:response});
+	      $("#ExecutorSelect").html(result);
+	    });
+	  });
 
-			$("#ClientSelect").prop('hidden',true);
-			$("#NewAppFormDTRow").prop('hidden',true);
-			$("#NewAppFormCERow").prop('hidden',true);
-			$("#NewAppFormDSRow").prop('hidden',true);
-		}
-		
-		if(config.UserInfo.role>0)return;
-		
-		var Tpl1 = __webpack_require__(13);
-		var result = Tpl1({empty:null,list:GetUsersList([,,2])});
-		$('#ClientSelect').html(result);
-		
-		var Tpl1 = __webpack_require__(13);
-		var result = Tpl1({empty:"-пусто-",list:GetUsersList([,1])});
-		$('#ExecutorSelect').html(result);
 	}
 
 	function ShowDetailAppsFrame(){
-		$("#MB1").css('backgroundColor',"#d9dee2");
-		$("#MB2").css('backgroundColor',"");
-		$("#CommArea").val("");
-		if($("#DeleteAppsBtn")!=null)$("#DeleteAppsBtn").remove();
-		if($("#EditAppsBtn")!=null)$("#EditAppsBtn").remove();
-		if(config.UserInfo.role==2)return;
-		
-		var elementbtn=document.createElement('button');
-		elementbtn.id='EditAppsBtn';
-		elementbtn.className ='btn';
-		elementbtn.style="float:right;"
-		elementbtn.innerHTML="Изменить";
-		$("#DetailFrameLabel").append(elementbtn);
-		$("#EditAppsBtn").on( "click",function(){
-			EditAppsFromDetail();
-			});
-		if(config.UserInfo.role==1)return;
-		
-		var elementbtn=document.createElement('button');
-		elementbtn.id='DeleteAppsBtn';
-		elementbtn.className ='btn';
-		elementbtn.style="float:right;"
-		elementbtn.innerHTML="Удалить";
-		$("#DetailFrameLabel").append(elementbtn);
-		$("#DeleteAppsBtn").on( "click",function(){
-				DeleteAppsFromDetail();
-			});
+	  $("#MB1").css("backgroundColor","#d9dee2");
+	  $("#MB2").css("backgroundColor","");
+	  $("#CommArea").val("");
+	  if($("#DeleteAppsBtn")!=null)$("#DeleteAppsBtn").remove();
+	  if($("#EditAppsBtn")!=null)$("#EditAppsBtn").remove();
+	  if(config.UserInfo.role==2)return;
+	  
+	  var elementbtn=document.createElement("button");
+	  elementbtn.id="EditAppsBtn";
+	  elementbtn.className ="btn";
+	  elementbtn.style="float:right;";
+	  elementbtn.innerHTML="Изменить";
+	  $("#DetailFrameLabel").append(elementbtn);
+	  $("#EditAppsBtn").on( "click",function(){
+	    EditAppsFromDetail();
+	  });
+	  if(config.UserInfo.role==1)return;
+	  
+	  elementbtn=document.createElement("button");
+	  elementbtn.id="DeleteAppsBtn";
+	  elementbtn.className ="btn";
+	  elementbtn.style="float:right;";
+	  elementbtn.innerHTML="Удалить";
+	  $("#DetailFrameLabel").append(elementbtn);
+	  $("#DeleteAppsBtn").on( "click",function(){
+	    DeleteAppsFromDetail();
+	  });
 	}
 
 	function ShowAppsFrame(){
-		$("#MB1").css('backgroundColor',"#d9dee2");
-		$("#MB2").css('backgroundColor',"");
-		var str="";
-		var filter=[];
-		if(config.UserInfo.role==1) filter["executor"]=config.UserInfo.login;
-		if(config.UserInfo.role==2) filter["client"]=config.UserInfo.login;
-		
-		var AppsList=GetAppList(filter);
-		AppListForSort=AppsList;
-		if($("#AppsList")!=null)$("#AppsList").parent().remove();
-		$("#AppsFrame").append(GetAppsListItem(AppsList,config.UserInfo));
-		$("#AddAppsBtn").css('display',(config.UserInfo.role==1?"none":"inline-block"));
+	  $("#MB1").css("backgroundColor","#d9dee2");
+	  $("#MB2").css("backgroundColor","");
 
-		var Tpl1 = __webpack_require__(13);
-		var result = Tpl1({empty:"Все",list:GetUsersList([,,2])});
-		$('#FilterClientSelect').html(result);
-		$('#FilterClientSelect').on('change',function(){
-				Filter($('#FilterClientSelect').val());
-			});
+	  var filter=[];
+	  if(config.UserInfo.role==1) filter["executor"]=config.UserInfo.login;
+	  if(config.UserInfo.role==2) filter["client"]=config.UserInfo.login;
+	  GetAppList(filter).then(function (response) {
+	    var AppsList=response;
+	    AppListForSort=AppsList;
+	    if($("#AppsList")!=null)$("#AppsList").parent().remove();
+	    $("#AppsFrame").append(GetAppsListItem(AppsList,config.UserInfo));
+	    $("#AddAppsBtn").css("display",(config.UserInfo.role==1?"none":"inline-block"));
+	    if(config.UserInfo.role==2)
+	      $("#FilterClientSelect").remove();
+	    else{
+	      var Tpl1 = __webpack_require__(13);
+	      GetUsersList([,,2]).then(function(response) {
+	        var result = Tpl1({empty:"Все",list:response});
+	        $("#FilterClientSelect").html(result);
+	        $("#FilterClientSelect").on("change",function(){
+	          Filter($("#FilterClientSelect").val());
+	        });
+	      });
+	    }
+	  });
 	}
 
 	//Детальная информация о заявке
 	function GetDetailInfo(id){
-		ShowDetailAppsFrame();
-		SetFrame("DetailAppsFrame");
-		var Record=AppExist(id)?GetApp(id):false;
-		if(Record)config.TempAppID=id; else return;
-		if($("#AppsDetail")!=null)$("#AppsDetail").remove();
-		var Tpl1 = __webpack_require__(14);
-		var result = Tpl1({inRec:Record,inList:GetUsersList([,1]),
-			inInfo:config.UserInfo});
-		$("#DetailFrameTable").append(result);
-		
-		
-		var str="";
-		config.CommsList=GetCommList(id);
-		var Tpl1 = __webpack_require__(15);
-		for (var x in config.CommsList) {
-			var result = Tpl1({UF:config.UserInfo,com:config.CommsList[x]});
-			str+=result;
-		}
-		$("#DetailFrameComments").html(str);
+	  ShowDetailAppsFrame();
+	  SetFrame("DetailAppsFrame");
+	  
+	  AppExist(id).then(function (response) {
+	    var flag = (response.length>0);
+	    GetApp(id).then(function (response) {
+	      var Record=flag?response[0]:false;
+	      if(Record)config.TempAppID=id; else return;
+	      if($("#AppsDetail")!=null)$("#AppsDetail").remove();
+	      var Tpl1 = __webpack_require__(14);
+	      GetUsersList([,1]).then(function(response) {
+	        var result = Tpl1({inRec:Record,inList:response,inInfo:config.UserInfo});
+	        $("#DetailFrameTable").append(result);
+	      });
+	    
+	      var str="";
+	      GetCommList(id).then(function(response){
+	        config.CommsList=response;
+	        Tpl1 = __webpack_require__(15);
+	        for (var x in config.CommsList) {
+	          var result = Tpl1({UF:config.UserInfo,com:config.CommsList[x]});
+	          str+=result;
+	        }
+	        $("#DetailFrameComments").html(str);
+	      });
+	    });
+	  });
 	}
 
 	//Изменить заявку
 	function EditAppsFromDetail(){
-		var Record=GetApp(config.TempAppID);
-		var data={
-	    		id:Record.id,
-	        	name:Record.Name,
-	        	date:Record.Date,
-	        	client:Record.Client,
-	        	executor:(config.UserInfo.role==0?$("#editappexecut").val().trim():Record.Executor),
-	        	discription:Record.Discription,
-	            priority:Record.Priority,
-	        	estimated:$("#editappestimated").val().trim(),
-	        	deadline:(config.UserInfo.role==0?$("#editappdeadline").val().trim():Record.Deadline),
-	        	progress:$("#editappstatus").val().trim()
-	  };
-		
-	  if(data.priority<0 || data.priority>2){
-		  AlertMsg($("#DetailAppsFrameMsg"),"Недопустимые данные: "+data.priority);
-		  return;
-	  }
+	  GetApp(config.TempAppID).then(function (response) {
+	    var Record=response[0];
+	    var data={
+	      id:Record.id,
+	      name:Record.Name,
+	      date:Record.Date,
+	      client:Record.Client,
+	      executor:(config.UserInfo.role==0?$("#editappexecut").val().trim():Record.Executor),
+	      discription:Record.Discription,
+	      priority:Record.Priority,
+	      estimated:$("#editappestimated").val().trim(),
+	      deadline:(config.UserInfo.role==0?$("#editappdeadline").val().trim():Record.Deadline),
+	      progress:$("#editappstatus").val().trim()
+	    };
 	  
-	  if(data.progress<0 || data.progress>100){
-		  AlertMsg($("#DetailAppsFrameMsg"),"Недопустимые данные: "+data.progress);
-		  return;
-	  }
-
-	  SaveApp(data);
-	  AlertMsg($("#DetailAppsFrameMsg"),"<font color = 'green'>Заявка изменена!</font>");
+	    if(data.priority<0 || data.priority>2){
+	      AlertMsg($("#DetailAppsFrameMsg"),"Недопустимые данные: "+data.priority);
+	      return;
+	    }
+	  
+	    if(data.progress<0 || data.progress>100){
+	      AlertMsg($("#DetailAppsFrameMsg"),"Недопустимые данные: "+data.progress);
+	      return;
+	    }
+	  
+	    SaveApp(data).then(function () {
+	      AlertMsg($("#DetailAppsFrameMsg"),"<span style='color: green'>Заявка изменена!</span>");
+	    });
+	  });
 	}
 
 	//Удалить заявку
 	function DeleteAppsFromDetail(){
-		if(!confirm("Действительно удалить запись о заявке "+
-				(AppExist(config.TempAppID)?GetApp(config.TempAppID).Name:"")+"?"))return;
-		if(DeleteApp(config.TempAppID)){
-			SetFrame('AppsFrame');
-		}
+	  AppExist(config.TempAppID).then(function (response) {
+	    var flag = (response.length>0);
+	    GetApp(config.TempAppID).then(function (response) {
+	      if(!confirm("Действительно удалить запись о заявке "+
+	          (flag?response[0].Name:"")+"?"))return;
+	      DeleteApp(config.TempAppID).then(function () {
+	        SetFrame("AppsFrame");
+	      });
+	    });
+	  });
 	}
 
 	//Добавить комментарий
 	function AddComment(){
-		  if($("#CommArea").val().trim()!=""){
-			  
-			  var textvar=$("#CommArea").val().trim();
-			  textvar=textvar.replace(/<.*?/g,'');
-			  
-			  if(textvar!=$("#CommArea").val().trim()){
-				  alert('Скобки <> запрещенны!');
-				  return;
-			  }
-			  
-			  var data={
-	    			app: config.TempAppID,
-	    			user: config.UserInfo.login,
-	    			date: LocalDateTime(),
-	    			text: textvar
-			  };
-			  
-			  var newcomm = SaveComm(data);
-			  $("#CommArea").val("");
-			  
-			  var Tpl1 = __webpack_require__(15);
-			  var result = Tpl1({UF:config.UserInfo,com:newcomm});
-			  $("#DetailFrameComments").append(result);
-		  }
+	  if($("#CommArea").val().trim()!=""){
+	  
+	    var textvar=$("#CommArea").val().trim();
+	    textvar=textvar.replace(/<.*?/g,"");
+	  
+	    if(textvar!=$("#CommArea").val().trim()){
+	      alert("Скобки <> запрещенны!");
+	      return;
+	    }
+	  
+	    var data={
+	      app: config.TempAppID,
+	      user: config.UserInfo.login,
+	      date: LocalDateTime(),
+	      text: textvar
+	    };
+	    SaveComm(data).then(function(response){
+	      var newcomm = response;
+	      $("#CommArea").val("");
+	  
+	      var Tpl1 = __webpack_require__(15);
+	      var result = Tpl1({UF:config.UserInfo,com:newcomm});
+	      $("#DetailFrameComments").append(result);
+	    });
+	  }
 	}
 
 	//Удалить комментарий
 	function DeleteComment(id){
-		if(DeleteComm(id)) $("#CM"+id).remove();
+	  DeleteComm(id).then(function(){
+	    $("#CM"+id).remove();
+	  });
 	}
 
 	var AppListForSort;
 	var AppListBeforeFilter;
 	var LastClick = 0;
 	function Sort(i){
-		////////////////Сделать обратную/////////
-		AppListForSort=_.sortBy(AppListForSort, function(o) { 
-				switch (i) {
-				case 1:
-					return o.Name;
-				case 2:
-					return o.Date;
-				case 3:
-					if(!UserExist(o.Client)) return "";
-					return GetUser(o.Client).name;
-				case 4:
-					if(!UserExist(o.Executor)) return "";
-					return GetUser(o.Executor).name;
-				case 5:
-					return o.Priority;
-				case 6:
-					return o.Estimated;
-				case 7:
-					return o.Deadline;
-				case 8:
-					return parseInt(o.Progress);
-				default:
-					return o.ID;
-				} 
-			});
+	  AppListForSort=_.sortBy(AppListForSort, function(o) { 
+	    switch (i) {
+	    case 1:
+	      return o.Name;
+	    case 2:
+	      return o.Date;
+	    case 3:
+	      if(!UserExist(o.Client)) return "";
+	      return GetUser(o.Client).name;
+	    case 4:
+	      if(!UserExist(o.Executor)) return "";
+	      return GetUser(o.Executor).name;
+	    case 5:
+	      return o.Priority;
+	    case 6:
+	      return o.Estimated;
+	    case 7:
+	      return o.Deadline;
+	    case 8:
+	      return parseInt(o.Progress);
+	    default:
+	      return o.ID;
+	    }
+	  });
 
-		if(LastClick==i){
-			AppListForSort=AppListForSort.reverse();
-			LastClick=0;
-		}else LastClick=i;
-		
-		if($("#AppsList")!=null)$("#AppsList").parent().remove();
-		$("#AppsFrame").append(GetAppsListItem(AppListForSort,config.UserInfo));
+	  if(LastClick==i){
+	    AppListForSort=AppListForSort.reverse();
+	    LastClick=0;
+	  }else LastClick=i;
+	  
+	  if($("#AppsList")!=null)$("#AppsList").parent().remove();
+	  $("#AppsFrame").append(GetAppsListItem(AppListForSort,config.UserInfo));
 	}
 
 	function Find(str){
-		var filter=[];
-		if(config.UserInfo.role==1) filter["executor"]=config.UserInfo.login;
-		if(config.UserInfo.role==2) filter["client"]=config.UserInfo.login;
-		
-		var AppsList=GetAppList(filter);
-		
-		AppListBeforeFilter=AppsList;
-		AppListBeforeFilter=_.filter(AppListBeforeFilter, _.conforms({ 'Name': function(n) { 
-			return n.toLowerCase().indexOf(str.toLowerCase())>=0;}
-		}));
-		Filter($('#FilterClientSelect').val());
+	  var filter=[];
+	  if(config.UserInfo.role==1) filter["executor"]=config.UserInfo.login;
+	  if(config.UserInfo.role==2) filter["client"]=config.UserInfo.login;
+	  
+	  GetAppList(filter).then(function (response) {
+	    var AppsList=response;
+	  
+	    AppListBeforeFilter=AppsList;
+	    AppListBeforeFilter=_.filter(AppListBeforeFilter, _.conforms({ "Name": function(n) {
+	      return n.toLowerCase().indexOf(str.toLowerCase())>=0;}
+	    }));
+	    Filter($("#FilterClientSelect").val());
+	  });
 	}
 
 	function Filter(filt){
-		if($('#FindString').val().trim()=='')
-			if(AppListBeforeFilter){
-				AppListForSort=AppListBeforeFilter;
-			}else{
-				var filter=[];
-				if(config.UserInfo.role==1) filter["executor"]=config.UserInfo.login;
-				if(config.UserInfo.role==2) filter["client"]=config.UserInfo.login;
-				var AppsList=GetAppList(filter);
-				AppListBeforeFilter=AppsList;
-			}
-		if(filt!='null')
-			AppListForSort=_.filter(AppListBeforeFilter, _.conforms({ 'Client': function(n) { 
-				return n.toLowerCase()==filt.toLowerCase()}
-			}));
-		else AppListForSort = AppListBeforeFilter;
-		if($("#AppsList")!=null)$("#AppsList").parent().remove();
-		$("#AppsFrame").append(GetAppsListItem(AppListForSort,config.UserInfo));
+	  var filter = [];
+	  if (config.UserInfo.role == 1) filter["executor"] = config.UserInfo.login;
+	  if (config.UserInfo.role == 2) filter["client"] = config.UserInfo.login;
+	  GetAppList(filter).then(function (response) {
+	    var AppsList = response;
+	    if($("#FindString").val().trim()=="") {
+	      if (AppListBeforeFilter) {
+	        AppListForSort = AppListBeforeFilter;
+	      } else {
+	        AppListBeforeFilter = AppsList;
+	      }
+	    }
+	    if(filt!="null")
+	      AppListForSort=_.filter(AppListBeforeFilter, _.conforms({ "Client": function(n) {
+	        return n.toLowerCase()==filt.toLowerCase();}
+	      }));
+	    else AppListForSort = AppListBeforeFilter;
+	    if($("#AppsList")!=null)$("#AppsList").parent().remove();
+	    $("#AppsFrame").append(GetAppsListItem(AppListForSort,config.UserInfo));
+	  });
 	}
 
 	module.exports.Sort=Sort;
@@ -28141,25 +28209,13 @@ var Main =
 	((__t = (data.inRec.Name)) == null ? '' : __t) +
 	'</td>\r\n		</tr>\r\n		\r\n		<tr>\r\n			<td>Дата:</td>\r\n			<td>' +
 	((__t = (new Date(Date.parse(data.inRec.Date)).toUTCString())) == null ? '' : __t) +
-	'</td>\r\n		</tr>\r\n				\r\n		<tr>\r\n			<td>Клиент:</td>\r\n			<td>';
-	 if(UserExist(data.inRec.Client)){;
-	__p += '\r\n					' +
-	((__t = (GetUser(data.inRec.Client).name)) == null ? '' : __t) +
-	'\r\n				';
-	}else{;
-	__p += '\r\n					Client\r\n				';
-	 } ;
-	__p += '\r\n			</td>\r\n		</tr>\r\n		\r\n		<tr>\r\n			<td>Исполнитель:</td>\r\n			<td>\r\n				';
+	'</td>\r\n		</tr>\r\n				\r\n		<tr>\r\n			<td>Клиент:</td>\r\n			<td>\r\n				' +
+	((__t = (data.inRec.ClientName)) == null ? '' : __t) +
+	'\r\n			</td>\r\n		</tr>\r\n		\r\n		<tr>\r\n			<td>Исполнитель:</td>\r\n			<td>\r\n				';
 	 if(data.inInfo.role>0){ ;
-	__p += '\r\n					';
-	 if(UserExist(data.inRec.Executor)){ ;
-	__p += '\r\n							' +
-	((__t = (GetUser(data.inRec.Executor).name )) == null ? '' : __t) +
-	'\r\n						';
-	 }else{ ;
-	__p += '\r\n							Не назначен\r\n						';
-	 } ;
-	__p += '\r\n				';
+	__p += '\r\n					' +
+	((__t = (data.inRec.ExecutorName)) == null ? '' : __t) +
+	'\r\n				';
 	 }else{ ;
 	__p += '\r\n					<select id=\'editappexecut\'><option value=\'null\'>-пусто-</option>\r\n					';
 	 for (var x in data.inList) { ;
@@ -28207,7 +28263,7 @@ var Main =
 	 }else{ ;
 	__p += '\r\n			<tr>\r\n				<td>Завершено:</td><td><input type=\'number\' \r\n				value=\'' +
 	((__t = (data.inRec.Progress )) == null ? '' : __t) +
-	'\' min=\'0\' max=\'100\' \r\n				id=\'editappstatus\'>\r\n				</input>%\r\n				</td>\r\n			</tr>\r\n		';
+	'\' min=\'0\' max=\'100\' \r\n				id=\'editappstatus\'>\r\n				%\r\n				</td>\r\n			</tr>\r\n		';
 	 } ;
 	__p += '\r\n		\r\n		<tr>\r\n			<td colspan=\'2\' style=\'vertical-align: top;\'>\r\n				Описание:<br>' +
 	((__t = (data.inRec.Discription)) == null ? '' : __t) +
@@ -28224,15 +28280,9 @@ var Main =
 	function print() { __p += __j.call(arguments, '') }
 	__p += '<div id=\'CM' +
 	((__t = (data.com.id)) == null ? '' : __t) +
-	'\' class=\'Comms\'>\r\n	<div class=\'CommsHeader\'>\r\n		<div class=\'CommsUser\'>\r\n			';
-	if(UserExist(data.com.User)){ ;
-	__p += '\r\n				' +
-	((__t = (GetUser(data.com.User).name )) == null ? '' : __t) +
-	'\r\n			';
-	}else{;
-	__p += '\r\n				User\r\n			';
-	 } ;
-	__p += '\r\n		</div>\r\n		<div class=\'CommsTime\'>\r\n			' +
+	'\' class=\'Comms\'>\r\n	<div class=\'CommsHeader\'>\r\n		<div class=\'CommsUser\'>\r\n            ' +
+	((__t = (data.com.UserName)) == null ? '' : __t) +
+	'\r\n		</div>\r\n		<div class=\'CommsTime\'>\r\n			' +
 	((__t = (new Date(Date.parse(data.com.Date)).toUTCString())) == null ? '' : __t) +
 	'\r\n		</div>\r\n	</div>\r\n	';
 	 if(data.UF.role==0 || data.com.User.toLowerCase()==data.UF.login.toLowerCase()){;

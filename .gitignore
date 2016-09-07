@@ -9,3 +9,14 @@ Exercise3/AppsManager/.editorconfig
 Exercise3/AppsManager/.eslintignore
 Exercise3/AppsManager/client/README.md
 Exercise3/build.js.map
+Task6/.idea/codeStyleSettings.xml
+*.xml
+*.cmd
+Task6/node_modules/
+Exercise3/AppsManager/.yo-rc.json
+*.iml
+.settings/org.eclipse.core.resources.prefs
+Exercise3/npm-debug.log
+Task6/.settings/.jsdtscope
+*.container
+Task6/.settings/org.eclipse.wst.jsdt.ui.superType.name

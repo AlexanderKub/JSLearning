@@ -12,11 +12,8 @@
 				
 		<tr>
 			<td>Клиент:</td>
-			<td><% if(UserExist(data.inRec.Client)){%>
-					<%=GetUser(data.inRec.Client).name%>
-				<%}else{%>
-					Client
-				<% } %>
+			<td>
+				<%=data.inRec.ClientName%>
 			</td>
 		</tr>
 		
@@ -24,11 +21,7 @@
 			<td>Исполнитель:</td>
 			<td>
 				<% if(data.inInfo.role>0){ %>
-					<% if(UserExist(data.inRec.Executor)){ %>
-							<%=GetUser(data.inRec.Executor).name %>
-						<% }else{ %>
-							Не назначен
-						<% } %>
+					<%=data.inRec.ExecutorName%>
 				<% }else{ %>
 					<select id='editappexecut'><option value='null'>-пусто-</option>
 					<% for (var x in data.inList) { %>
@@ -89,7 +82,7 @@
 				<td>Завершено:</td><td><input type='number' 
 				value='<%=data.inRec.Progress %>' min='0' max='100' 
 				id='editappstatus'>
-				</input>%
+				%
 				</td>
 			</tr>
 		<% } %>

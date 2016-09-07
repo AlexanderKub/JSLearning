@@ -49,26 +49,18 @@
 				 <td>
 				  	<%=new Date(Date.parse(data.inList[x].Date)).toUTCString()%>
 				 </td>
-				 
-				 
+
+
 				 
 				<% if(data.inInfo.role!=2){ %>
 			    <td>
-				 	<%if(UserExist(data.inList[x].Client)){ %>
-				 		<%=GetUser(data.inList[x].Client).name %>
-				 	<% }else{ %>
-				 		Client
-				 	<% } %>
-				 </td>
+                    <%=data.inList[x].ClientName %>
+                </td>
 				<% } %>
 				
 				<% if(data.inInfo.role==0){%>
 				<td>
-						<% if(UserExist(data.inList[x].Executor)){ %>
-						  <%=GetUser(data.inList[x].Executor).name %>
-						<% }else{ %>
-							Нет
-						<% } %>
+                    <%=data.inList[x].ExecutorName %>
 				 </td>
 				 <% } %>
 				 

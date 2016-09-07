@@ -14,6 +14,10 @@
     "User": {
       "type": "string",
       "required": true
+    },    
+	"UserName": {
+      "type": "string",
+      "required": true
     },
     "Date": {
       "type": "date",
