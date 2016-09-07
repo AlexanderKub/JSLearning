@@ -1,4 +1,3 @@
-var Main =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -45,505 +44,374 @@ var Main =
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {//Инициализация
+	"use strict";
+
 	__webpack_require__(1);
-	var LoginModule = __webpack_require__(5);
-	var RegisterModule = __webpack_require__(6);
-	var UsersPanelModule = __webpack_require__(7);
-	var AppsModule = __webpack_require__(12);
+	var $ = __webpack_require__(5);
 
-	var Tpl = __webpack_require__(16);
-	var page = $("#page");
-	page.append(Tpl);
-	Tpl = __webpack_require__(17);
-	page.append(Tpl);
-	Tpl = __webpack_require__(18);
-	page.append(Tpl);
-	var mainWind = $("#MainWindow");
-	Tpl = __webpack_require__(19);
-	mainWind.append(Tpl);
-	Tpl = __webpack_require__(20);
-	mainWind.append(Tpl);
+	var figurePage = __webpack_require__(6);
+	var personalPage = __webpack_require__(13);
 
-	SetWindow("LogonWindow");
-	LoginModule();
-	RegisterModule();
-	UsersPanelModule();
-	AppsModule();
+	$("#root").html(figurePage.HTML());
 
-	//Главное окно
-	$("#MB1").on("click",function(){
-	  SetFrame("AppsFrame");
-	  event.preventDefault();
+	$("#sw").on("change", function () {
+	  if ($("#sw").prop("checked")) {
+	    $("#root").html(personalPage.HTML());
+	  } else {
+	    $("#root").html(figurePage.HTML());
+	  }
 	});
-
-	$("#MB2").on("click",function(){
-	  SetFrame("UsersFrame");
-	  event.preventDefault();
-	});
-
-	function SetWindow(name){
-	  var windowsList=document.getElementsByClassName("WindowClass");
-	  for (var i = 0; i < windowsList.length; i++)
-	    windowsList[i].style.display=(windowsList[i].id==name?"block":"none");
-		
-	  if(name=="MainWindow"){
-	    SetFrame("AppsFrame");
-	    $("#MB2").css("display",(config.UserInfo.role==0?"inline":"none"));
-	    $("#StatusBar").html(config.UserInfo.name+"("+config.UserInfo.login+")");
-	    return;
-	  }
-		
-	  if(name=="RegWindow"){
-	    RegisterModule.Show();
-	    return;
-	  }
-		
-	  if(name=="LogonWindow"){
-	    LoginModule.Show();
-	    return;
-	  }
-	}
-
-	function SetFrame(name){
-	  var frameList=document.getElementsByClassName("FrameClass");
-	  for (var i = 0; i < frameList.length; i++)
-	    frameList[i].style.display=(frameList[i].id==name?"block":"none");
-		//Блок заявок
-	  if(name=="AppsFrame"){
-	    AppsModule.ShowAppsFrame();
-	    return;
-	  }
-	  
-	  AlertMsg($("#AppsFrameMsg"),"");
-	  AlertMsg($("#DetailAppsFrameMsg"),"");
-		
-		//Блок детальной информации о заявке
-	  if(name=="DetailAppsFrame"){
-	    AppsModule.ShowDetailAppsFrame();
-	    return;
-	  }
-		
-		//Блок создания заявки
-	  if(name=="CreateAppsFrame"){
-	    AppsModule.ShowCreateFrame();
-	    return;
-	  }
-		
-		//Блок информации о пользователях
-	  if(name=="UsersFrame"){
-	    UsersPanelModule.Show();
-	    return;
-	  }
-	}
-
-	global.SetWindow=SetWindow;
-	global.SetFrame=SetFrame;
-	module.exports.AppsModule=AppsModule;
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {var $ = __webpack_require__(2);
-	var config = __webpack_require__(3);
+	// style-loader: Adds some css to the DOM by adding a <style> tag
 
-	global.$ = $;
-	global.config = config;
-
-	//Вспомогательные функции
-
-	function GetRoleFromCode(id){
-	  if(id==0) return "Администратор";
-	  if(id==1) return "Исполнитель";
-	  if(id==2) return "Клиент";
+	// load the styles
+	var content = __webpack_require__(2);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../node_modules/css-loader/index.js!./style.css", function() {
+				var newContent = require("!!./../node_modules/css-loader/index.js!./style.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
 	}
-	  
-	function LocalDateTime(addDay){
-	  var str="";
-	  addDay = addDay || false;
-	  var d=new Date();
-	  if(addDay)d.setDate(d.getDate() + addDay);
-	  str=d.getFullYear() + "-" + (d.getMonth() + 1).toString().lpad("0", 2) +
-			"-" + d.getDate().toString().lpad("0", 2)+"T"+
-	    d.getHours().toString().lpad("0", 2)+
-	    ":"+d.getMinutes().toString().lpad("0", 2);
-	  return str;
-	}
-	  
-	function dateFormat1(date) {
-	  date = new Date(date);
-	  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-	  return date.toISOString().replace(/\..*$/, "");
-	}
-	  
-	String.prototype.lpad = function(padString, length) {
-	  var str = this;
-	  while (str.length < length) str = padString + str;
-	  return str;
-	};
-	  
-	//Функции базы данных
-	function Query(url,metod,Sdata){
-	  /*var result;
-	    $.ajax({
-	    url: "http://localhost:3000/api/"+url,
-	    dataType: "json",
-	    type: metod,
-	    async:false,
-	    contentType: "application/json",
-	    data: JSON.stringify(Sdata),
-	    success: function(data){
-	      result = data;
-	    }
-	  });*/
-	  
-	  var Promise = fetch("http://localhost:3000/api/"+url, {
-	    method: metod,
-	    headers: {
-	      "Accept": "application/json",
-	      "Content-Type": "application/json"
-	    },
-	    body: (metod=="POST")?JSON.stringify(Sdata):null
-	  }).then(function(response) {
-	    return response.json();
-	  }).catch(function(err) {
-	    return "Fetch Error :-S", err;
-	  });
-	  
-	  return Promise;
-	  //return result;
-	}
-	  
-	//ПОЛЬЗОВАТЕЛИ
-	function SaveUser(object){
-	  var Sdata={
-	    login: object["login"].toLowerCase(),
-	    pass: object["pass"],
-	    role: object["role"],
-	    name: object["name"],
-	    lastsession: new Date()
-	  };
-	  var Promise = UserExist(Sdata.login).then(function (response) {
-	    if(response.length==0) Query("AppUsers","POST",Sdata);
-	    else Query("AppUsers/update?where=%7B%22login%22%3A%20%22"+Sdata.login +
-	      "%22%7D","POST",Sdata);
-	  });
-	  return Promise;
-	}
-	  
-	function GetUser(login){
-	  var Sdata={
-	    where:{
-	      "login":login.toLowerCase()
-	    }
-	  };
-	  var Promise = Query("AppUsers?filter="+JSON.stringify(Sdata),"GET",null);
-	  return Promise;
-	}
-	  
-	function DeleteUser(login) {
-	  var Promise = GetUser(login).then(function (response) {
-	    var id = response[0].id;
-	    return Query("AppUsers/" + id, "DELETE", null);
-	  });
-	  return Promise;
-	}
-	  
-	function UserExist(login){
-	  if(!login) return false;
-	  var Sdata={
-	    where:{
-	      "login":login.toLowerCase()
-	    }
-	  };
-	  var Promise = Query("AppUsers?filter="+JSON.stringify(Sdata),"GET",null);
-	  return Promise;
-	}
-	  
-	function GetUsersList(filter){
-	  filter = filter || false;
-	  var Sdata={};
-	  if(filter){
-	    Sdata={
-	      where:{
-	        or:[{"role":(0 in filter)?0:3},
-						{"role":(1 in filter)?1:3},
-						{"role":(2 in filter)?2:3}
-						]
-	      }
-	    };
-	  }
-	  var Promise = Query("AppUsers?filter="+JSON.stringify(Sdata),"GET",null);
-	  return Promise;
-	}
-	  
-	function CheckPassword(login,pass){
-	  var Sdata={
-	    where:{
-	      "login":login.toLowerCase(),
-	      "pass":pass
-	    }
-	  };
-	  var Promise = Query("AppUsers?filter="+JSON.stringify(Sdata),"GET",null);
-	  return Promise;
-	}
-	  
-	//ЗАЯВКИ
-	function SaveApp(object){
-	  var cn;
-	  var en;
-	  var Promise = GetUser(object["client"]).then(function (response) {
-	    cn = (response.length>0)?response[0].name:"Client";
-	    GetUser(object["executor"]).then(function (response) {
-	      en = (response.length>0)?response[0].name:"Нет";
-	      var Sdata={
-	        Name: object["name"],
-	        Date: object["date"],
-	        Client: object["client"],
-	        ClientName: cn,
-	        Executor: object["executor"],
-	        ExecutorName: en,
-	        Discription: object["discription"],
-	        Priority: object["priority"],
-	        Estimated: object["estimated"],
-	        Deadline: object["deadline"],
-	        Progress: object["progress"]
-	      };
-	  
-	      if(!object["id"]){
-	        return Query("Apps","POST",Sdata);
-	      }else{
-	        var getfilter={
-	          id:object["id"]
-	        };
-	        return Query("Apps/update?where="+JSON.stringify(getfilter),"POST",Sdata);
-	      }
-	    });
-	  });
-	  return Promise;
-	}
-	  
-	function GetApp(id){
-	  var Sdata={
-	    where:{
-	      "id":id
-	    }
-	  };
-	  var Promise = Query("Apps?filter="+JSON.stringify(Sdata),"GET",null);
-	  return Promise;
-	}
-
-	function DeleteApp(id){
-	  var Promise = AppExist(id).then(function(response){
-	    if(response.length>0)
-	      return Query("Apps/"+id,"DELETE",null);
-	  });
-	  
-	  return Promise;
-	}
-
-	function AppExist(id){
-	  var Sdata={
-	    where:{
-	      "id":id
-	    }
-	  };
-	  var Promise = Query("Apps?filter="+JSON.stringify(Sdata),"GET",null);
-	  return Promise;
-	}
-	  
-	function GetAppList(filter){
-	  var result;
-	  var Sdata={};
-	  if(filter){
-	    Sdata={
-	      where:{
-	        or:[
-	          {"Client":(filter["client"]? filter["client"].toLowerCase():"")},
-						{"Executor":(filter["executor"]? filter["executor"].toLowerCase():"")}
-	        ]
-	      }
-	    };
-	  }
-	  if(!filter["client"] && !filter["executor"]){
-	    result = Query("Apps","GET",null);
-	  }else{
-	    result = Query("Apps?filter="+JSON.stringify(Sdata),"GET",null);
-	  }
-	  var Promise = result;
-	  return Promise;
-	}
-	  
-	//КОММЕНТАРИИ
-	function SaveComm(object){
-	  var un;
-	  var Promise = GetUser(object["user"]).then(function (response) {
-	    un = (response.length>0)?response[0].name:"User";
-	    var Sdata={
-	      App: object["app"],
-	      User: object["user"],
-	      UserName: un,
-	      Date: object["date"],
-	      Text: object["text"]
-	    };
-	    if(!object["id"]){
-	      return Query("Comments","POST",Sdata);
-	    } else{
-	      return Query("Comments/update?where=%7B%22id%22%3A%20%22"+object["id"]
-	        +"%22%7D","POST",Sdata);
-	    }
-	  });
-	  return Promise;
-	}
-	  
-	function GetComm(id){
-	  var Sdata={
-	    where:{
-	      "id":id
-	    }
-	  };
-	  var Promise = Query("Comments?filter="+JSON.stringify(Sdata),"GET",null);;
-	  return Promise;
-	}
-
-	function DeleteComm(id){
-	  var Promise = CommExist(id).then(function(response){
-	    if(response.length>0)
-	      return Query("Comments/"+id,"DELETE",null);
-	  });
-	  return Promise;
-	}
-	  
-	function CommExist(id){
-	  var Sdata={
-	    where:{
-	      "id":id
-	    }
-	  };
-	  var Promise = Query("Comments?filter="+JSON.stringify(Sdata),"GET",null);
-	  return Promise;
-	}
-
-	global.GetCommList=function GetCommList(app){
-	  var Sdata={
-	    where:{
-	      App:app
-	    }
-	  };
-	  var Promise = Query("Comments?filter="+JSON.stringify(Sdata),"GET",null);
-	  return Promise;
-	};
-
-	function StorageIsClear(){
-	  return Query("AppUsers/count","GET",null).count==0;
-	}
-
-	//Добавление сообщения
-	function AlertMsg(parent,text){
-	  var alerts=$(".alert");
-	  for (var i = 0; i < alerts.length; i++) $(alerts[i]).remove();
-	  var element=document.createElement("div");
-	  element.className="alert";
-	  element.innerHTML=text;
-	  $(parent).append(element);
-	}
-	  
-	//Создание списка заявок
-	function GetAppsListItem(list,UserInfo){
-	  var element=document.createElement("div");
-	  var Tpl1 = __webpack_require__(4);
-	  var result = Tpl1({inInfo:UserInfo,inList:list});
-	  element.innerHTML=result;
-	  return element;
-	}
-	  
-	//Расстягивание TextArea
-	function TextAreaResize(event, LineHeight, MinLineCount) {
-	  var MinLineHeight = MinLineCount * LineHeight;
-	  var obj = event.target;
-	  var div = document.getElementById(obj.id + "Div");
-	  div.innerHTML = obj.value;
-	  var ObjHeight = div.offsetHeight;
-	  if (event.keyCode == 13)
-	    ObjHeight += LineHeight;
-	  else if (ObjHeight < MinLineHeight)
-	    ObjHeight = MinLineHeight;
-	  obj.style.height = ObjHeight + "px";
-	}
-	  
-	//Валидация
-	function ValidateValue(type, value){
-	  var patt;
-	  if(type=="login"){
-	    patt = /^[a-z][a-z0-9]*?([-_][a-z0-9]+){0,2}$/i;
-	    if(value.length>3 && patt.test(value)) return true;
-	  }
-	    
-	  if(type=="pass"){
-	    patt = /^[a-zA-Z0-9]+$/;
-	    if(value.length>3 && patt.test(value)) return true;
-	  }
-	  
-	  if(type=="name"){
-	    /*FIX IT*/
-	    return true;
-	    /*patt = /^[а-яА-ЯёЁa-zA-Z0-9]+$/;
-	    if(value.length>3 && value.length<51 && patt.test(value)) return true;*/
-	  }
-	  
-	  if(type=="role"){
-	    patt = /^[0-9]+$/;
-	    if(value.length==1) if(patt.test(value)) return true;
-	  }
-	  return false;
-	}
-	  
-	function WrongValueMessage(type){
-	  if(type=="login")
-	    return "Недопустимый логин. Логин должен "+
-				"содержать не менее 4х символов и начинаться с буквы " +
-				"латинского алфавита, заканчиваться буквой/цифрой. " +
-				"Может состоять из цифр и латинские букв, " +
-				"а также не более двух, не идущих подряд символов '-' и '_'.";
-	  if(type=="pass")
-	    return "Недопустимый пароль. Пароль должен содержать не менее " +
-				"4х символов, состоять только из цифр и латинских букв.";
-	  if(type=="name")
-	    return "Недопустимое имя. Имя должно содержать не менее 3 и " +
-				"не более 50 символов. Состоять из букв и цифр.";
-	  return "Недопустимое значение";
-	}
-	 
-	global.GetRoleFromCode=GetRoleFromCode;
-	global.LocalDateTime=LocalDateTime;
-	global.SaveUser=SaveUser;
-	global.GetUser=GetUser;
-	global.DeleteUser=DeleteUser;
-	global.UserExist=UserExist;
-	global.GetUsersList=GetUsersList;
-	global.CheckPassword=CheckPassword;
-	global.SaveApp=SaveApp;
-	global.GetApp=GetApp;
-	global.DeleteApp=DeleteApp;
-	global.AppExist=AppExist;
-	global.GetAppList=GetAppList;
-	global.SaveComm=SaveComm;
-	global.GetComm=GetComm;
-	global.DeleteComm=DeleteComm;
-	global.CommExist=CommExist;
-	global.StorageIsClear=StorageIsClear;
-	global.AlertMsg=AlertMsg;
-	global.GetAppsListItem=GetAppsListItem;
-	global.TextAreaResize=TextAreaResize;
-	global.ValidateValue=ValidateValue;
-	global.WrongValueMessage=WrongValueMessage;
-	global.dateFormat1=dateFormat1;
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
 /* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "button{\r\n  text-align: center;\r\n  display: inline-block;\r\n  font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;\r\n  font-weight: bold;\r\n  color: rgb(68,68,68);\r\n  text-decoration: none;\r\n  user-select: none;\r\n  padding: .2em 1.2em;\r\n  outline: none;\r\n  border: 1px solid rgba(0,0,0,.1);\r\n  border-radius: 2px;\r\n  background: rgb(245,245,245) linear-gradient(#f4f4f4, #f1f1f1);\r\n  transition: all .218s ease 0s;\r\n  cursor:pointer;\r\n}\r\n\r\nbutton:hover{\r\n  color: rgb(24,24,24);\r\n  border: 1px solid rgb(198,198,198);\r\n  background: #f7f7f7 linear-gradient(#f7f7f7, #f1f1f1);\r\n  box-shadow: 0 1px 2px rgba(0,0,0,.1);\r\n}\r\n\r\nbutton:active{\r\n  color: rgb(51,51,51);\r\n  border: 1px solid rgb(204,204,204);\r\n  box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;\r\n}\r\n\r\nbutton:disabled{\r\n    cursor: default;\r\n    pointer-events: none;\r\n    color: rgb(114, 114, 114);\r\n    border: 1px solid rgb(204,204,204);\r\n    box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;\r\n    background: #e7e7e7 linear-gradient(#dcdcdc, #d8d8d8);\r\n}\r\n\r\ninput{\r\n    width: 100px;\r\n}\r\n\r\ninput[type=\"number\"] {\r\n  width: 50px;\r\n  margin: 2px;\r\n}\r\n\r\n#Container{\r\n    position: absolute;\r\n    margin: 5px;\r\n    display: table;\r\n    text-align: center;\r\n    outline: none;\r\n    border: 1px solid rgba(0,0,0,.1);\r\n    border-radius: 4px;\r\n    background: rgb(238, 238, 238) linear-gradient(#eaeaea, #ebebeb);\r\n    padding: 6px;\r\n    z-index: 1;\r\n}\r\n\r\n.switcher {\r\n    width: 156px;\r\n    height: 22px;\r\n    cursor: pointer;\r\n    position: relative;\r\n    display: block;\r\n    margin-bottom: 10px;\r\n    margin-left: 8px;\r\n}\r\n.switcher * {\r\n    transition: all .4s;\r\n    -moz-transition: all .4s;\r\n    -webkit-transition: all .4s;\r\n    -o-transition: all .4s;\r\n    -ms-transition: all .4s;\r\n}\r\n.switcher .sw_btn {\r\n    background: linear-gradient(rgb(244, 244, 244), rgb(241, 241, 241));\r\n    width: 82px;\r\n    height: 25px;\r\n    display: block;\r\n    cursor: pointer;\r\n    z-index: 1;\r\n    position: relative;\r\n    border-radius: 5px;\r\n    margin-left: 1px;\r\n}\r\n.switcher .bg {\r\n    background: #e7e7e7 linear-gradient(#dcdcdc, #d8d8d8);\r\n    padding: 4px;\r\n    border-radius: 5px;\r\n}\r\n.switcher input.switcher-value { display: none; }\r\n.switcher .bg {\r\n    width: 100%;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    z-index: 0;\r\n    cursor: default;\r\n}\r\n.switcher input.switcher-value:checked ~ .sw_btn { margin-left: 81px;}\r\n\r\n.switcher .inlineBlock{\r\n    width: 76px;\r\n    display: inline-block;\r\n    text-align: center;\r\n    font: 13px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;\r\n    color: rgb(114, 114, 114);\r\n    font-weight: bold;\r\n    height: 15px;\r\n}\r\n\r\n.page{\r\n    border: 2px groove  #424242;\r\n    border-radius: 12px;\r\n    margin: -2px;\r\n    padding: 6px;\r\n    width: 740px;\r\n    height: 549px;\r\n}\r\n\r\n.borderedLine{\r\n    border-bottom: 2px groove  #424242;\r\n    padding: 2px;\r\n}\r\n\r\n#canvas{\r\n    display: block;\r\n    padding-top: 2px;\r\n    border-bottom-right-radius: 10px;\r\n    border-bottom-left-radius: 10px;\r\n}\r\n\r\n.simple-little-table {\r\n    table-layout: fixed;\r\n    font-family:Arial, Helvetica, sans-serif;\r\n    color:#666;\r\n    font-size:12px;\r\n    text-shadow: 1px 1px 0px #fff;\r\n    background:#eaebec;\r\n    margin-bottom:20px;\r\n    border:#ccc 1px solid;\r\n    border-collapse:separate;\r\n    width:100%;\r\n    -moz-border-radius:3px;\r\n    -webkit-border-radius:3px;\r\n    border-radius:3px;\r\n\r\n    -moz-box-shadow: 0 1px 2px #d1d1d1;\r\n    -webkit-box-shadow: 0 1px 2px #d1d1d1;\r\n    box-shadow: 0 1px 2px #d1d1d1;\r\n}\r\n\r\n.simple-little-table th {\r\n    font-weight:bold;\r\n    padding:4px 8px 5px 8px;\r\n    border-top:1px solid #fafafa;\r\n    border-bottom:1px solid #e0e0e0;\r\n    border-right:1px solid #e0e0e0;\r\n    border-left:1px solid #e0e0e0;\r\n\r\n    background: #ededed;\r\n    background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#ebebeb));\r\n    background: -moz-linear-gradient(top,  #ededed,  #ebebeb);\r\n}\r\n\r\n.simple-little-table th:first-child{\r\n    text-align: left;\r\n    padding-left:20px;\r\n}\r\n\r\n.simple-little-table tr:first-child th:first-child{\r\n    -moz-border-radius-topleft:3px;\r\n    -webkit-border-top-left-radius:3px;\r\n    border-top-left-radius:3px;\r\n}\r\n\r\n.simple-little-table tr:first-child th:last-child{\r\n    -moz-border-radius-topright:3px;\r\n    -webkit-border-top-right-radius:3px;\r\n    border-top-right-radius:3px;\r\n}\r\n\r\n.simple-little-table tr{\r\n    text-align: center;\r\n    padding-left:20px;\r\n}\r\n\r\n.simple-little-table tr td:first-child{\r\n    text-align: left;\r\n    padding-left:20px;\r\n    border-left: 0;\r\n}\r\n\r\n.simple-little-table tr td {\r\n    padding:3px;\r\n    border-top: 1px solid #ffffff;\r\n    border-bottom:1px solid #e0e0e0;\r\n    border-left: 1px solid #e0e0e0;\r\n\r\n    background: #fafafa;\r\n    background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));\r\n    background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);\r\n}\r\n\r\n.simple-little-table tr:nth-child(even) td{\r\n    background: #f6f6f6;\r\n    background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));\r\n    background: -moz-linear-gradient(top,  #f8f8f8,  #f6f6f6);\r\n}\r\n\r\n.simple-little-table tr:last-child td{\r\n    border-bottom:0;\r\n}\r\n\r\n.simple-little-table tr:last-child td:first-child{\r\n    -moz-border-radius-bottomleft:3px;\r\n    -webkit-border-bottom-left-radius:3px;\r\n    border-bottom-left-radius:3px;\r\n}\r\n\r\n.simple-little-table tr:last-child td:last-child{\r\n    -moz-border-radius-bottomright:3px;\r\n    -webkit-border-bottom-right-radius:3px;\r\n    border-bottom-right-radius:3px;\r\n}\r\n\r\n.simple-little-table tr:hover td{\r\n    background: #f2f2f2;\r\n    background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));\r\n    background: -moz-linear-gradient(top,  #f2f2f2,  #f0f0f0);\r\n}\r\n\r\n.simple-little-table a:link {\r\n    color: #666;\r\n    text-decoration:none;\r\n}\r\n\r\n.simple-little-table a:visited {\r\n    color: #666;\r\n    text-decoration:none;\r\n}\r\n\r\n.simple-little-table a:active,\r\n.simple-little-table a:hover {\r\n    color: #bd5a35;\r\n    text-decoration:underline;\r\n}\r\n\r\n#PersonsList{\r\n    margin-top: 5px;\r\n    height: 450px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.alert {\r\n    color: #f03917;\r\n    position: absolute;\r\n    left: 30%;\r\n    right: 30%;\r\n    top: 30%;\r\n    visibility: visible;\r\n    opacity: 1;\r\n}\r\n\r\n.alert.hidden {\r\n    color: #f03917;\r\n    position: absolute;\r\n    left: 30%;\r\n    right: 30%;\r\n    top: 30%;\r\n    opacity: 0;\r\n    visibility: hidden;\r\n    transition: opacity 2s, visibility 0s 1.5s;\r\n}\r\n\r\n.file_upload{\r\n    position: relative;\r\n    overflow: hidden;\r\n}\r\n\r\n.file_upload input[type=file]{\r\n    position: absolute;\r\n    top: 0;\r\n    opacity: 0;\r\n    left: 50px;\r\n    width: 10px;\r\n    z-index: -5;\r\n}\r\n\r\n.DelMiniBtn{\r\n    background-color: #424242;\r\n    color: #ffffff;\r\n    padding: 1px;\r\n    border-radius: 20px;\r\n    position: absolute;\r\n    left:705px;\r\n    text-shadow: none;\r\n    font-weight: bold;\r\n    cursor: pointer;\r\n}", ""]);
+
+	// exports
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
+
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	var stylesInDom = {},
+		memoize = function(fn) {
+			var memo;
+			return function () {
+				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+				return memo;
+			};
+		},
+		isOldIE = memoize(function() {
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+		}),
+		getHeadElement = memoize(function () {
+			return document.head || document.getElementsByTagName("head")[0];
+		}),
+		singletonElement = null,
+		singletonCounter = 0,
+		styleElementsInsertedAtTop = [];
+
+	module.exports = function(list, options) {
+		if(false) {
+			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+		}
+
+		options = options || {};
+		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+		// tags it will allow on a page
+		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+		// By default, add <style> tags to the bottom of <head>.
+		if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+
+		var styles = listToStyles(list);
+		addStylesToDom(styles, options);
+
+		return function update(newList) {
+			var mayRemove = [];
+			for(var i = 0; i < styles.length; i++) {
+				var item = styles[i];
+				var domStyle = stylesInDom[item.id];
+				domStyle.refs--;
+				mayRemove.push(domStyle);
+			}
+			if(newList) {
+				var newStyles = listToStyles(newList);
+				addStylesToDom(newStyles, options);
+			}
+			for(var i = 0; i < mayRemove.length; i++) {
+				var domStyle = mayRemove[i];
+				if(domStyle.refs === 0) {
+					for(var j = 0; j < domStyle.parts.length; j++)
+						domStyle.parts[j]();
+					delete stylesInDom[domStyle.id];
+				}
+			}
+		};
+	}
+
+	function addStylesToDom(styles, options) {
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			if(domStyle) {
+				domStyle.refs++;
+				for(var j = 0; j < domStyle.parts.length; j++) {
+					domStyle.parts[j](item.parts[j]);
+				}
+				for(; j < item.parts.length; j++) {
+					domStyle.parts.push(addStyle(item.parts[j], options));
+				}
+			} else {
+				var parts = [];
+				for(var j = 0; j < item.parts.length; j++) {
+					parts.push(addStyle(item.parts[j], options));
+				}
+				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+			}
+		}
+	}
+
+	function listToStyles(list) {
+		var styles = [];
+		var newStyles = {};
+		for(var i = 0; i < list.length; i++) {
+			var item = list[i];
+			var id = item[0];
+			var css = item[1];
+			var media = item[2];
+			var sourceMap = item[3];
+			var part = {css: css, media: media, sourceMap: sourceMap};
+			if(!newStyles[id])
+				styles.push(newStyles[id] = {id: id, parts: [part]});
+			else
+				newStyles[id].parts.push(part);
+		}
+		return styles;
+	}
+
+	function insertStyleElement(options, styleElement) {
+		var head = getHeadElement();
+		var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+		if (options.insertAt === "top") {
+			if(!lastStyleElementInsertedAtTop) {
+				head.insertBefore(styleElement, head.firstChild);
+			} else if(lastStyleElementInsertedAtTop.nextSibling) {
+				head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+			} else {
+				head.appendChild(styleElement);
+			}
+			styleElementsInsertedAtTop.push(styleElement);
+		} else if (options.insertAt === "bottom") {
+			head.appendChild(styleElement);
+		} else {
+			throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+		}
+	}
+
+	function removeStyleElement(styleElement) {
+		styleElement.parentNode.removeChild(styleElement);
+		var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+		if(idx >= 0) {
+			styleElementsInsertedAtTop.splice(idx, 1);
+		}
+	}
+
+	function createStyleElement(options) {
+		var styleElement = document.createElement("style");
+		styleElement.type = "text/css";
+		insertStyleElement(options, styleElement);
+		return styleElement;
+	}
+
+	function createLinkElement(options) {
+		var linkElement = document.createElement("link");
+		linkElement.rel = "stylesheet";
+		insertStyleElement(options, linkElement);
+		return linkElement;
+	}
+
+	function addStyle(obj, options) {
+		var styleElement, update, remove;
+
+		if (options.singleton) {
+			var styleIndex = singletonCounter++;
+			styleElement = singletonElement || (singletonElement = createStyleElement(options));
+			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+		} else if(obj.sourceMap &&
+			typeof URL === "function" &&
+			typeof URL.createObjectURL === "function" &&
+			typeof URL.revokeObjectURL === "function" &&
+			typeof Blob === "function" &&
+			typeof btoa === "function") {
+			styleElement = createLinkElement(options);
+			update = updateLink.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+				if(styleElement.href)
+					URL.revokeObjectURL(styleElement.href);
+			};
+		} else {
+			styleElement = createStyleElement(options);
+			update = applyToTag.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+			};
+		}
+
+		update(obj);
+
+		return function updateStyle(newObj) {
+			if(newObj) {
+				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+					return;
+				update(obj = newObj);
+			} else {
+				remove();
+			}
+		};
+	}
+
+	var replaceText = (function () {
+		var textStore = [];
+
+		return function (index, replacement) {
+			textStore[index] = replacement;
+			return textStore.filter(Boolean).join('\n');
+		};
+	})();
+
+	function applyToSingletonTag(styleElement, index, remove, obj) {
+		var css = remove ? "" : obj.css;
+
+		if (styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = replaceText(index, css);
+		} else {
+			var cssNode = document.createTextNode(css);
+			var childNodes = styleElement.childNodes;
+			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+			if (childNodes.length) {
+				styleElement.insertBefore(cssNode, childNodes[index]);
+			} else {
+				styleElement.appendChild(cssNode);
+			}
+		}
+	}
+
+	function applyToTag(styleElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+
+		if(media) {
+			styleElement.setAttribute("media", media)
+		}
+
+		if(styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = css;
+		} else {
+			while(styleElement.firstChild) {
+				styleElement.removeChild(styleElement.firstChild);
+			}
+			styleElement.appendChild(document.createTextNode(css));
+		}
+	}
+
+	function updateLink(linkElement, obj) {
+		var css = obj.css;
+		var sourceMap = obj.sourceMap;
+
+		if(sourceMap) {
+			// http://stackoverflow.com/a/26603875
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+		}
+
+		var blob = new Blob([css], { type: "text/css" });
+
+		var oldSrc = linkElement.href;
+
+		linkElement.href = URL.createObjectURL(blob);
+
+		if(oldSrc)
+			URL.revokeObjectURL(oldSrc);
+	}
+
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*eslint-disable no-unused-vars*/
@@ -10623,427 +10491,684 @@ var Main =
 
 
 /***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	  UserInfo: null,
-	  UsersList: null,
-	  CommsList: null,
-	  UsersFilter: [1,1,1],
-	  UserFilterOpened: false,
-	  TempAppID: null
-	};
-
-/***/ },
-/* 4 */
-/***/ function(module, exports) {
-
-	module.exports = function (data) {
-	var __t, __p = '', __j = Array.prototype.join;
-	function print() { __p += __j.call(arguments, '') }
-	__p += '<div id=\'AppsList\'>\r\n	  <table class=\'simple-little-table\'  cellspacing=\'0\'>\r\n		  <tr>\r\n		  		<th style=\'cursor:pointer;\' onclick=\'Main.AppsModule.Sort(1);\'>\r\n				 	Название\r\n				</th>\r\n		  		<th style=\'cursor:pointer;\' onclick=\'Main.AppsModule.Sort(2);\'>\r\n		  			Дата\r\n		  		</th>\r\n		  		';
-	 if(data.inInfo.role!=2){ ;
-	__p += '\r\n		  			<th style=\'cursor:pointer;\' onclick=\'Main.AppsModule.Sort(3);\'>\r\n		  				Клиент\r\n		  			</th>\r\n		  		';
-	 } ;
-	__p += '\r\n		  		';
-	 if(data.inInfo.role==0){;
-	__p += '\r\n		  			<th style=\'cursor:pointer;\' onclick=\'Main.AppsModule.Sort(4);\'>\r\n		  				Исполнитель\r\n		  			</th>\r\n		  		';
-	 } ;
-	__p += '\r\n		  		<th style=\'cursor:pointer;\' onclick=\'Main.AppsModule.Sort(5);\'>\r\n		  			Приоритет\r\n		  		</th>\r\n		  		<th style=\'cursor:pointer;\' onclick=\'Main.AppsModule.Sort(6);\'>\r\n		  			Предельный срок\r\n		  		</th>\r\n		  		';
-	 if(data.inInfo.role!=2){ ;
-	__p += '\r\n		  			<th style=\'cursor:pointer;\' onclick=\'Main.AppsModule.Sort(7);\'>\r\n		  				Предпологаемый срок\r\n		  			</th>\r\n		  		';
-	 } ;
-	__p += '\r\n		  		<th style=\'cursor:pointer;\' onclick=\'Main.AppsModule.Sort(8);\'>\r\n		  			Завершено\r\n		  		</th>\r\n		  </tr>\r\n		  \r\n		  ';
-	 if(data.inList.length==0){ ;
-	__p += '\r\n			  <tr>\r\n			  	<td colspan=\'8\' style=\'text-align:center;\'>Нет заявок</td>\r\n			  </tr>\r\n		  </table>\r\n			  \r\n		  ';
-	 }else{ ;
-	__p += '\r\n			  ';
-	 for (var x in data.inList) { ;
-	__p += '\r\n			    <tr style=\'cursor:pointer;\' \r\n				 	onclick=\'Main.AppsModule.GetDetailInfo(' +
-	((__t = (data.inList[x].id)) == null ? '' : __t) +
-	')\'>\r\n				 <td>\r\n				 	' +
-	((__t = (data.inList[x].Name)) == null ? '' : __t) +
-	'\r\n				 </td>\r\n				 <td>\r\n				  	' +
-	((__t = (new Date(Date.parse(data.inList[x].Date)).toUTCString())) == null ? '' : __t) +
-	'\r\n				 </td>\r\n\r\n\r\n				 \r\n				';
-	 if(data.inInfo.role!=2){ ;
-	__p += '\r\n			    <td>\r\n                    ' +
-	((__t = (data.inList[x].ClientName )) == null ? '' : __t) +
-	'\r\n                </td>\r\n				';
-	 } ;
-	__p += '\r\n				\r\n				';
-	 if(data.inInfo.role==0){;
-	__p += '\r\n				<td>\r\n                    ' +
-	((__t = (data.inList[x].ExecutorName )) == null ? '' : __t) +
-	'\r\n				 </td>\r\n				 ';
-	 } ;
-	__p += '\r\n				 \r\n				 <td>\r\n				 	';
-	if(data.inList[x].Priority==0){;
-	__p += '\r\n				 		"Низкий"\r\n				 	';
-	 }else if(data.inList[x].Priority==1){;
-	__p += '\r\n				 		"Средний"\r\n				 	';
-	 }else{ ;
-	__p += ' \r\n				 		"Высокий"\r\n				 	';
-	 } ;
-	__p += '\r\n				</td>\r\n				\r\n				\r\n				<td>\r\n				  ' +
-	((__t = (new Date(Date.parse(data.inList[x].Deadline)).toUTCString())) == null ? '' : __t) +
-	'\r\n				</td>\r\n				';
-	 if(data.inInfo.role!=2){ ;
-	__p += '\r\n				<td>\r\n				  	' +
-	((__t = (new Date(Date.parse(data.inList[x].Estimated)).toUTCString())) == null ? '' : __t) +
-	'\r\n				</td>\r\n				';
-	 } ;
-	__p += '\r\n				<td>\r\n				  ' +
-	((__t = (data.inList[x].Progress )) == null ? '' : __t) +
-	'%\r\n				 </td>\r\n			    </tr>\r\n			  ';
-	 } ;
-	__p += '\r\n		  ';
-	 } ;
-	__p += '\r\n	  </table>\r\n</div>';
-	return __p
-	}
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(1);
-	//Авторизация
-	module.exports=function(){
-	  var lf = $("#LoginForm");
-	  lf.on("submit", function(event) {
-	    event.preventDefault();
-	    var data={
-	      login: lf.find("#username").val().trim(),
-	      pass: lf.find("#password").val().trim()
-	    };
-	    if(!ValidateValue("login",data.login)){
-	      AlertMsg(lf,WrongValueMessage("login"));
-	      return;
-	    }
-	    
-	    if(!ValidateValue("pass",data.pass)){
-	      AlertMsg(lf,WrongValueMessage("pass"));
-	      return;
-	    }
-	    
-	    UserExist(data.login).then(function(response) {
-	      if(response.length==0)
-	        AlertMsg(lf,"Пользователь не существует!");
-	      else{
-	        CheckPassword(data.login,data.pass).then(function(response) {
-	          if(response.length==0)
-	            AlertMsg(lf,"Неверный пароль!");
-	          else{
-	            GetUser(data.login).then(function(response) {
-	              config.UserInfo=response[0];
-	              SaveUser(config.UserInfo);
-	              SetWindow("MainWindow");
-	            });
-	          }
-	        });
-	      }
-	    });
-	  });
-		
-	  var rh = $("#RegHref");
-	  rh.on("click",function(){
-	    SetWindow("RegWindow");
-	    event.preventDefault();
-	  });
-		
-	  rh.on("click",function(){
-	    SetWindow("RegWindow");
-	    event.preventDefault();
-	  });
-	  Show();
-	};
-
-	function Show(){
-	  var lf = $("#LoginForm");
-	  lf.trigger("reset");
-	  AlertMsg(lf,"");
-	}
-
-	module.exports.Show=Show;
-
-/***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(1);
-	var LogonModule = __webpack_require__(5);
-	//Регистрация
-	module.exports=function(){
-	  $("#RegistrationForm").on("submit", function(event) {
-	    event.preventDefault();
-	    var rf = $("#RegistrationForm");
-	    var data={
-	      login: rf.find("#username").val().trim(),
-	      pass: rf.find("#password").val().trim(),
-	      name: rf.find("#name").val().trim(),
-	      role: (StorageIsClear()?0:2)
-	    };
-	    
-	    if(!ValidateValue("login",data.login)){
-	      AlertMsg(rf,WrongValueMessage("login"));
-	      return;
-	    }
-	    
-	    if(!ValidateValue("pass",data.pass)){
-	      AlertMsg(rf,WrongValueMessage("pass"));
-	      return;
-	    }
-	    
-	    if(!ValidateValue("name",data.name)){
-	      AlertMsg(rf,WrongValueMessage("name"));
-	      return;
-	    }
-	    
-	    UserExist(data.login).then(function(response) {
-	      if (response.length > 0) {
-	        AlertMsg(rf, "Логин занят!");
-	      } else {
-	        SaveUser(data);
-	        SetWindow("LogonWindow");
-	        LogonModule.Show();
-	        AlertMsg($("#LoginForm"), "<span style='color:green'>Успешная регистрация!</span>");
-	      }
-	    });
-	  });
-	};
+	"use strict";
 
-	module.exports.Show=function() {
-	  var rf = $("#RegistrationForm");
-	  rf.trigger("reset");
-	  AlertMsg(rf, "");
-	};
+	(function (exports) {
+	  var _this = exports;
+	  var $ = __webpack_require__(5);
+	  var FFS = __webpack_require__(7);
+	  var Tmpl = __webpack_require__(8);
+	  var timesTmpl = __webpack_require__(9);
+	  var window = __webpack_require__(10);
+	  var TmplParams = __webpack_require__(11);
+	  var figurePageTemplate = __webpack_require__(12);
+
+	  _this.Div = $("<div id='figurePage' class='page'></div>");
+	  _this.Div.append(figurePageTemplate());
+
+	  var canvas = _this.Div.find("#canvas").get(0);
+	  var FiguresFactory = FFS.FiguresFactory(canvas);
+
+	  var figure = void 0;
+
+	  _this.Init = function () {
+	    _this.Div.find("#CreateFigure").on("click", function () {
+	      ShowForm();
+	    });
+
+	    _this.Div.find("#IncreaseFigure").on("click", function () {
+	      ShowTimesForm(0);
+	    });
+
+	    _this.Div.find("#DecreaseFigure").on("click", function () {
+	      ShowTimesForm(1);
+	    });
+
+	    _this.Div.find("#GetAreaFigure").on("click", function () {
+	      ShowWindow(figure.getArea().toFixed(2));
+	    });
+
+	    _this.Div.find("#IncreaseFigure").prop("disabled", !figure);
+	    _this.Div.find("#DecreaseFigure").prop("disabled", !figure);
+	    _this.Div.find("#GetAreaFigure").prop("disabled", !figure);
+
+	    ClearContainer();
+	  };
+
+	  function ShowForm() {
+	    _this.Div.find("#Container").html(Tmpl());
+	    _this.Div.find("#Container").show();
+	    ShowParams();
+	    _this.Div.find("#FigureSelect").on("change", function () {
+	      ShowParams();
+	    });
+	  }
+
+	  function ShowParams() {
+	    _this.Div.find("#FigureParams").html(TmplParams({ typ: _this.Div.find("#FigureSelect").val() }));
+	    _this.Div.find("#FigureBtn").on("click", function () {
+	      var typ = _this.Div.find("#FigureSelect").val();
+
+	      var x = _this.Div.find("#FigureX").val();
+	      var y = _this.Div.find("#FigureY").val();
+	      var w = _this.Div.find("#FigureW").val();
+	      var h = _this.Div.find("#FigureH").val();
+	      var r = _this.Div.find("#FigureR").val();
+
+	      if (typ == "Sqr") figure = FiguresFactory.createSquare(x, y, w);
+	      if (typ == "Rec") figure = FiguresFactory.createRectangle(x, y, w, h);
+	      if (typ == "Cir") figure = FiguresFactory.createCircle(x, y, r);
+	      figure.render();
+
+	      _this.Div.find("#IncreaseFigure").prop("disabled", false);
+	      _this.Div.find("#DecreaseFigure").prop("disabled", false);
+	      _this.Div.find("#GetAreaFigure").prop("disabled", false);
+
+	      ClearContainer();
+	    });
+	    _this.Div.find("#CancelBtn").on("click", function () {
+	      ClearContainer();
+	    });
+	  }
+
+	  function ShowTimesForm(a) {
+	    _this.Div.find("#Container").html(timesTmpl({ text: a == 0 ? "Увеличить" : "Уменьшить" }));
+	    _this.Div.find("#Container").show();
+	    _this.Div.find("#TimesBtn").on("click", function () {
+	      var times = _this.Div.find("#TimesVal").val();
+	      if (a == 0) figure.increase(times);else figure.decrease(times);
+	      ClearContainer();
+	    });
+	  }
+
+	  function ShowWindow(a) {
+	    _this.Div.find("#Container").html(window({ cont: "Площадь: " + a }));
+	    _this.Div.find("#Container").show();
+	    _this.Div.find("#WindowBtn").on("click", function () {
+	      ClearContainer();
+	    });
+	  }
+
+	  function ClearContainer() {
+	    _this.Div.find("#Container").html("");
+	    _this.Div.find("#Container").hide();
+	  }
+
+	  _this.HTML = function () {
+	    _this.Init();
+	    return _this.Div;
+	  };
+	})( false ? undefined["figurePage"] = {} : exports);
 
 /***/ },
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(1);
-	//Добавление нового пользователя администратором
-	module.exports=function(){
-	  $("#AddNewUserFormHref").on("click",
-	      function(){AddNewUserFormShow(true);});
-	  $("#AddEditUserForm").css("display","none");
-	  $("#AddEditUserForm").on("submit", function(event) {
-	    event.preventDefault();
-	    var data={
-	      login: $("#AddEditUserForm #username").val().trim(),
-	      pass: $("#AddEditUserForm #password").val().trim(),
-	      name: $("#AddEditUserForm #name").val().trim(),
-	      role: $("#AddEditUserForm #roleselect").val().trim()
-	    };
-	    if(!ValidateValue("login",data.login)){
-	      AlertMsg($("#AddEditUserForm"),WrongValueMessage("login"));
-	      return;
-	    }
-	  
-	    if(!ValidateValue("pass",data.pass)){
-	      AlertMsg($("#AddEditUserForm"),WrongValueMessage("pass"));
-	      return;
-	    }
-	      
-	    if(!ValidateValue("name",data.name)){
-	      AlertMsg($("#AddEditUserForm"),WrongValueMessage("name"));
-	      return;
-	    }
-	    UserExist(data.login).then(function (response) {
-	      if(response.length>0){
-	        AlertMsg($("#AddEditUserForm"),"Пользователь с таким логином существует!");
-	        return;
-	      }else{
-	        SaveUser(data).then(function(){
-	          AlertMsg($("#AddEditUserForm"),"<span style='color: green'>Пользователь создан!</span>");
-	          ShowIt();
-	        });
+	"use strict";
+
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	(function (exports) {
+	  exports.FiguresFactory = function (cnv) {
+	    var canvas = cnv;
+	    var ctx = canvas.getContext("2d");
+	    var color = "red";
+	    ctx.fillStyle = color;
+
+	    //ФАБРИКА
+	    var Figures = {
+	      createSquare: function createSquare(x, y, w) {
+	        return new Square(x, y, w);
+	      },
+	      createRectangle: function createRectangle(x, y, w, h) {
+	        return new Rectangle(x, y, w, h);
+	      },
+	      createCircle: function createCircle(x, y, r) {
+	        return new Circle(x, y, r);
 	      }
-	    });
-	  });
-	};
+	    };
 
-	//Открытие фильтра пользователей
-	function DropFilter(){
-	  config.UserFilterOpened=$("#filter").css("display")=="block"?false:true;
-	  $("#filter").css("display",config.UserFilterOpened?"block":"none");
-	  $("#ufilterdrop").html(config.UserFilterOpened?"Фильтр &#149;":"Фильтр ▼");
-	}
+	    var fromPrototype = function fromPrototype(prototype, object) {
+	      var newObject = Object.create(prototype);
+	      for (var prop in object) {
+	        if (object.hasOwnProperty(prop)) {
+	          newObject[prop] = object[prop];
+	        }
+	      }
+	      return newObject;
+	    };
 
-	//Изменение фильтра пользователей
-	function UFilterChange(){
-	  config.UsersFilter=[];
-	  if($("#ufilter1").prop("checked"))config.UsersFilter[0]=1;
-	  if($("#ufilter2").prop("checked"))config.UsersFilter[1]=1;
-	  if($("#ufilter3").prop("checked"))config.UsersFilter[2]=1; 
-	  ShowIt();
-	}
+	    Figures.createBlueFigures = function () {
+	      color = "blue";
+	      return fromPrototype(Figures, {
+	        createSquare: function createSquare(x, y, w) {
+	          return new Square(x, y, w);
+	        },
+	        createRectangle: function createRectangle(x, y, w, h) {
+	          return new Rectangle(x, y, w, h);
+	        },
+	        createCircle: function createCircle(x, y, r) {
+	          return new Circle(x, y, r);
+	        }
+	      });
+	    };
 
-	//Клик по боковому списку пользователей
-	function SideUserMenuClick(x){
-	  AddNewUserFormShow(false);
-	  var Tpl1 = __webpack_require__(8);
-	  var result = Tpl1({items:config.UsersList[x]});
-	  $("#UsersContentEdit").html(result);
-	  $("#EditUserBtn").on("click",
-	      (function(i){ return function(){ChangeUserInfo(i);};})(x));
-	  $("#DelUserBtn").on("click",
-	      (function(i){ return function(){DeleteUserFromList(i);};})(x));
-	}
+	    //КЛАССЫ
 
-	//Изменение информации о пользователе
-	function ChangeUserInfo(x){
-	  var data={
-	    login: config.UsersList[x].login,
-	    pass: $("#UsersContentEdit #newpw").val().trim(),
-	    name: $("#UsersContentEdit #newnm").val().trim(),
-	    role: $("#UsersContentEdit #rlsl").val().trim()
-	  };
-	    
-	  if(!ValidateValue("pass",data.pass)){
-	    AlertMsg($("#UsersContentEdit"),WrongValueMessage("pass"));
-	    return;
-	  }
+	    var Figure = function () {
+	      function Figure(x, y) {
+	        _classCallCheck(this, Figure);
 
-	  if(!ValidateValue("role",data.role)){
-	    AlertMsg($("#UsersContentEdit"),WrongValueMessage("")+": "+data.role);
-	    return;
-	  }
-	    
-	  if(!ValidateValue("name",data.name)){
-	    AlertMsg($("#UsersContentEdit"),WrongValueMessage("name"));
-	    return;
-	  }
-	    
-	  SaveUser(data).then(function(){
-	    config.UsersList[x]=data;
-	    $("#UL"+x).html(config.UsersList[x].name);
-	    if(!(config.UsersList[x].role in config.UsersFilter))
-	      $("#UL"+x).parentNode.removeChild($("#UL"+x));
-	    AlertMsg($("#UsersContentEdit"),"<span style='color: green'>Изменения сохранены!</span>");
-	  });
-	}
+	        this.x = parseFloat(x);
+	        this.y = parseFloat(y);
+	      }
 
-	//Удаление пользователя
-	function DeleteUserFromList(x){
-	  if(!confirm("Действительно удалить запись о пользователе "+
-	      config.UsersList[x].name+"("+config.UsersList[x].login+")?"))return;
-	  DeleteUser(config.UsersList[x].login).then(function () {
-	    $("#UsersContentEdit").html("");
-	    $("#UL"+x).remove();
-	  });
-	}
+	      _createClass(Figure, [{
+	        key: "render",
+	        value: function render() {
+	          canvas.width = canvas.width;
+	          ctx.fillStyle = color;
+	        }
+	      }]);
 
-	//Показать форму добавления пользователя
-	function AddNewUserFormShow(flag){
-	  $("#AddEditUserForm").css("display",(flag?"block":"none"));
-	  $("#UsersContentEdit").html("");
-	  $("#AddEditUserForm").trigger("reset");
-	  AlertMsg($("#AddEditUserForm"),"");
-	}
+	      return Figure;
+	    }();
 
-	function ShowIt(){
-	  $("#MB1").css("backgroundColor","");
-	  $("#MB2").css("backgroundColor","#d9dee2");
-	  GetUsersList(config.UsersFilter).then(function (response) {
-	    config.UsersList=response;
-	  
-	    var Tpl1 = __webpack_require__(9);
-	    var result = Tpl1({UFO:config.UserFilterOpened,items:config.UsersList});
-	    $("#UsersMenu").html(result);
-	  
-	    $("#ufilter1").attr("checked",(0 in config.UsersFilter)?true:false);
-	    $("#ufilter2").attr("checked",(1 in config.UsersFilter)?true:false);
-	    $("#ufilter3").attr("checked",(2 in config.UsersFilter)?true:false);
-	    $("#ufilter1").on("change",function(){UFilterChange();});
-	    $("#ufilter2").on("change",function(){UFilterChange();});
-	    $("#ufilter3").on("change",function(){UFilterChange();});
-	  
-	    $("#ufilterdrop").on("click",function(){DropFilter();});
-	  
-	    for (var it in config.UsersList) {
-	      $("#UL"+it).on("click",
-	        (function(i){ return function(){SideUserMenuClick(i);};})(it));
+	    var Square = function (_Figure) {
+	      _inherits(Square, _Figure);
+
+	      function Square(x, y, w) {
+	        _classCallCheck(this, Square);
+
+	        var _this = _possibleConstructorReturn(this, (Square.__proto__ || Object.getPrototypeOf(Square)).call(this, x, y));
+
+	        _this.width = w;
+	        return _this;
+	      }
+
+	      _createClass(Square, [{
+	        key: "increase",
+	        value: function increase(times) {
+	          var oldw = this.width;
+	          this.width *= times;
+	          this.x -= (this.width - oldw) / 2;
+	          this.y -= (this.width - oldw) / 2;
+	          this.render();
+	        }
+	      }, {
+	        key: "decrease",
+	        value: function decrease(times) {
+	          var oldw = this.width;
+	          this.width /= times;
+	          this.x += (oldw - this.width) / 2;
+	          this.y += (oldw - this.width) / 2;
+	          this.render();
+	        }
+	      }, {
+	        key: "getArea",
+	        value: function getArea() {
+	          return this.width * this.width;
+	        }
+	      }, {
+	        key: "render",
+	        value: function render() {
+	          _get(Square.prototype.__proto__ || Object.getPrototypeOf(Square.prototype), "render", this).call(this);
+	          ctx.fillRect(this.x, this.y, this.width, this.width);
+	        }
+	      }]);
+
+	      return Square;
+	    }(Figure);
+
+	    var Rectangle = function (_Figure2) {
+	      _inherits(Rectangle, _Figure2);
+
+	      function Rectangle(x, y, w, h) {
+	        _classCallCheck(this, Rectangle);
+
+	        var _this2 = _possibleConstructorReturn(this, (Rectangle.__proto__ || Object.getPrototypeOf(Rectangle)).call(this, x, y));
+
+	        _this2.width = w;
+	        _this2.height = h;
+	        return _this2;
+	      }
+
+	      _createClass(Rectangle, [{
+	        key: "increase",
+	        value: function increase(times) {
+	          var oldw = this.width;
+	          var oldh = this.height;
+	          this.width *= times;
+	          this.height *= times;
+	          this.x -= (this.width - oldw) / 2;
+	          this.y -= (this.height - oldh) / 2;
+	          this.render();
+	        }
+	      }, {
+	        key: "decrease",
+	        value: function decrease(times) {
+	          var oldw = this.width;
+	          var oldh = this.height;
+	          this.width /= times;
+	          this.height /= times;
+	          this.x += (oldw - this.width) / 2;
+	          this.y += (oldh - this.height) / 2;
+	          this.render();
+	        }
+	      }, {
+	        key: "getArea",
+	        value: function getArea() {
+	          return this.width * this.height;
+	        }
+	      }, {
+	        key: "render",
+	        value: function render() {
+	          _get(Rectangle.prototype.__proto__ || Object.getPrototypeOf(Rectangle.prototype), "render", this).call(this);
+	          ctx.fillRect(this.x, this.y, this.width, this.height);
+	        }
+	      }]);
+
+	      return Rectangle;
+	    }(Figure);
+
+	    var Circle = function (_Figure3) {
+	      _inherits(Circle, _Figure3);
+
+	      function Circle(x, y, r) {
+	        _classCallCheck(this, Circle);
+
+	        var _this3 = _possibleConstructorReturn(this, (Circle.__proto__ || Object.getPrototypeOf(Circle)).call(this, x, y));
+
+	        _this3.radius = r;
+	        return _this3;
+	      }
+
+	      _createClass(Circle, [{
+	        key: "increase",
+	        value: function increase(times) {
+	          var oldr = this.radius;
+	          this.radius *= times;
+	          this.x -= (this.radius - oldr) / 4;
+	          this.y -= (this.radius - oldr) / 4;
+	          this.render();
+	        }
+	      }, {
+	        key: "decrease",
+	        value: function decrease(times) {
+	          var oldr = this.radius;
+	          this.radius /= times;
+	          this.x += (oldr - this.radius) / 4;
+	          this.y += (oldr - this.radius) / 4;
+	          this.render();
+	        }
+	      }, {
+	        key: "getArea",
+	        value: function getArea() {
+	          return Math.PI * this.radius * this.radius;
+	        }
+	      }, {
+	        key: "render",
+	        value: function render() {
+	          _get(Circle.prototype.__proto__ || Object.getPrototypeOf(Circle.prototype), "render", this).call(this);
+	          ctx.beginPath();
+	          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+	          ctx.fill();
+	        }
+	      }]);
+
+	      return Circle;
+	    }(Figure);
+
+	    if (!Object.create) {
+	      Object.create = function (o) {
+	        if (arguments.length > 1) {
+	          throw new Error("Object.create implementation only accepts the first parameter.");
+	        }
+	        function F() {}
+
+	        F.prototype = o;
+	        return new F();
+	      };
 	    }
-	    $("#AddEditUserForm").css("display","none");
-	    $("#UsersContentEdit").html("");
-	  });
-	}
 
-	module.exports.Show=ShowIt;
-	module.exports.DropFilter=DropFilter;
-	module.exports.UFilterChange=UFilterChange;
-	module.exports.SideUserMenuClick=SideUserMenuClick;
-	module.exports.ChangeUserInfo=ChangeUserInfo;
-	module.exports.DeleteUserFromList=DeleteUserFromList;
-	module.exports.AddNewUserFormShow=AddNewUserFormShow;
+	    return Figures.createBlueFigures();
+	  };
+	})( false ? undefined["figuresFactory"] = {} : exports);
 
 /***/ },
 /* 8 */
 /***/ function(module, exports) {
 
 	module.exports = function (data) {
-	var __t, __p = '', __j = Array.prototype.join;
-	function print() { __p += __j.call(arguments, '') }
-	__p += 'Логин: ' +
-	((__t = (data.items.login)) == null ? '' : __t) +
-	' <button class=\'btn\' id=\'DelUserBtn\'>Удалить</button> \r\n				<br>Пароль: <input id=\'newpw\' required type=\'text\' \r\n				value=\'' +
-	((__t = (data.items.pass)) == null ? '' : __t) +
-	'\'><br> Роль:\r\n				<select id=\'rlsl\'>\r\n					<option value=\'2\'\r\n						';
-	 if(data.items.role==2){;
-	__p += ' selected=\'selected\'';
-	};
-	__p += '\r\n					>Клиент</option>\r\n					\r\n					<option value=\'1\'\r\n						';
-	 if(data.items.role==1){;
-	__p += ' selected=\'selected\'';
-	};
-	__p += '\r\n					>Исполнитель</option>\r\n					\r\n					<option value=\'0\'\r\n						';
-	 if(data.items.role==0){;
-	__p += ' selected=\'selected\'';
-	};
-	__p += '\r\n					>Администратор</option>\r\n				</select>\r\n				<br>Имя: <input id=\'newnm\' required\r\n				type=\'text\' value=\'' +
-	((__t = (data.items.name )) == null ? '' : __t) +
-	'\'>\r\n				<br><button class=\'btn\' id=\'EditUserBtn\'>\r\n				Изменить</button>';
+	var __t, __p = '';
+	__p += '<div id="CreateForm">\r\n    <select id="FigureSelect">\r\n        <option value="Sqr">Квадрат</option>\r\n        <option value="Rec">Прямоугольник</option>\r\n        <option value="Cir">Круг</option>\r\n    </select>\r\n    <div id="FigureParams"></div>\r\n</div>';
 	return __p
 	}
 
 /***/ },
 /* 9 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function(_) {module.exports = function (data) {
-	var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
-	function print() { __p += __j.call(arguments, '') }
-	__p += '<ul>\r\n	<li>\r\n		<a href="#" id="ufilterdrop" style="color:blue;">\r\n			';
-	 if(data.UFO){;
-	__p += ' Фильтр &#149;';
-	 }else{ ;
-	__p += ' Фильтр ▼';
-	};
-	__p += ' \r\n		</a>\r\n		<div id="filter" style="display:\r\n			';
-	 if(data.UFO){ ;
-	__p += ' \'block\'; ';
-	 }else{ ;
-	__p += ' \'none\';';
-	 } ;
-	__p += ' \r\n			padding-left: 40px;">\r\n			Администраторы <input id="ufilter1" type="checkbox">\r\n			<br>Исполнители<input id="ufilter2" type="checkbox">\r\n			<br>Клиенты<input id="ufilter3" type="checkbox" >\r\n		</div>\r\n	</li>\r\n	\r\n	';
-	 for (var x in data.items) { ;
-	__p += '\r\n   		<li><a href="#" id="UL' +
-	((__t = (x)) == null ? '' : __t) +
-	'">' +
-	__e(data.items[x].name) +
-	'</a></li>\r\n    ';
-	 } ;
-	__p += '\r\n</ul>';
+	module.exports = function (data) {
+	var __t, __p = '';
+	__p += '<div id="TimesForm">\r\n    ' +
+	((__t = (data.text)) == null ? '' : __t) +
+	' в\r\n    <br><input type="number" value="10" id="TimesVal"> раз\r\n    <br><button id="TimesBtn">Ок</button>\r\n</div>';
 	return __p
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ },
 /* 10 */
+/***/ function(module, exports) {
+
+	module.exports = function (data) {
+	var __t, __p = '';
+	__p += '<div id="WindowForm">\r\n    <div id="WindowText">\r\n        ' +
+	((__t = (data.cont)) == null ? '' : __t) +
+	'\r\n    </div>\r\n    <button id="WindowBtn">Ок</button>\r\n</div>';
+	return __p
+	}
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	module.exports = function (data) {
+	var __t, __p = '', __j = Array.prototype.join;
+	function print() { __p += __j.call(arguments, '') }
+	__p += 'X:<input type="number" value="0" id="FigureX"><br>\r\nY:<input type="number" value="0" id="FigureY"><br>\r\n\r\n';
+	if(data.typ=="Cir"){ print("Радиус:<input type='number'' value='100'' id='FigureR'><br>");
+	__p += '\r\n';
+	}else{;
+	__p += '\r\n';
+	print("Ширина:<input type='number'' value='100'' id='FigureW'><br>");
+	__p += '\r\n';
+	if(data.typ=="Rec") print("Высота:<input type='number'' value='100'' id='FigureH'><br>");
+	__p += '\r\n';
+	};
+	__p += '\r\n\r\n<button id="FigureBtn">Ок</button>\r\n<button id="CancelBtn">Отмена</button>';
+	return __p
+	}
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	module.exports = function (data) {
+	var __t, __p = '';
+	__p += '<div class="borderedLine">\r\n    <button id="CreateFigure">Создать</button>\r\n    <button id="IncreaseFigure">Увеличить</button>\r\n    <button id="DecreaseFigure">Уменьшить</button>\r\n    <button id="GetAreaFigure">Площадь</button>\r\n</div>\r\n<div id="Container"></div>\r\n\r\n<canvas id="canvas" width=740 height=500></canvas>';
+	return __p
+	}
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	(function (exports) {
+	  var _this = exports;
+	  var $ = __webpack_require__(5);
+	  var _ = __webpack_require__(14);
+	  var Personals = __webpack_require__(16).Personals;
+	  var personalPageTemplate = __webpack_require__(17);
+	  var listTmpl = __webpack_require__(18);
+	  var formTmpl = __webpack_require__(19);
+
+	  var Persons = [];
+
+	  _this.Div = $("<div id='personalPage' class='page'></div>");
+	  _this.Div.html(personalPageTemplate());
+
+	  _this.Init = function () {
+	    _this.Div.find("#AddList").on("click", function () {
+	      _this.Div.find("#Container").html(formTmpl({ id: (Persons.length > 0 ? parseInt(_.maxBy(Persons, "id").id) : 0) + 1 }));
+	      _this.Div.find("#Container").show();
+
+	      _this.Div.find("#TypeSelect").on("change", function () {
+	        var CreationType = _this.Div.find("#TypeSelect").val();
+	        _this.Div.find("#txt").html(CreationType == "Fix" ? "Зарплата" : "Ставка");
+	      });
+
+	      _this.Div.find("#AddBtn").on("click", function () {
+	        var CreationType = _this.Div.find("#TypeSelect").val();
+	        var CreationID = _this.Div.find("#ID").val();
+	        if (_.find(Persons, _.matchesProperty("id", CreationID))) {
+	          var alertMsg = _this.Div.find("#Alert");
+	          alertMsg.removeClass("hidden");
+	          alertMsg.html("Работник с таким ID уже существует.");
+	          alertMsg.addClass("hidden");
+	          return;
+	        }
+	        var CreationName = _this.Div.find("#Name").val();
+	        var CreationSum = _this.Div.find("#Sum").val();
+	        if (CreationType == "Fix") {
+	          Persons.push(Personals.createFixedPersonal(CreationID, CreationName, CreationSum));
+	        } else {
+	          Persons.push(Personals.createRatePersonal(CreationID, CreationName, CreationSum));
+	        }
+	        ShowSortList();
+	        ClearContainer();
+	      });
+
+	      _this.Div.find("#CancelBtn").on("click", function () {
+	        ClearContainer();
+	      });
+	    });
+
+	    _this.Div.find("#ImportList").on("click", function () {
+	      _this.Div.find("#FileInput").click();
+	    });
+
+	    _this.Div.find("#FileInput").on("change", function () {
+	      loadData();
+	    });
+
+	    this.Div.find("#ExportList").prop("disabled", Persons.length == 0);
+	    _this.Div.find("#ExportList").on("click", function () {
+	      saveData(Persons);
+	    });
+	    ShowSortList();
+	    ClearContainer();
+	  };
+
+	  function ShowSortList() {
+	    _this.Div.find("#ExportList").prop("disabled", Persons.length == 0);
+	    var FirstFiveStr = [];
+	    var LastThreeIDs = [];
+	    Persons = _.sortBy(Persons, "sum", function (o) {
+	      return 8000 - o.name.toLowerCase().charCodeAt(0);
+	    }).reverse();
+	    _this.Div.find("#PersonsList").html(listTmpl({ List: Persons }));
+	    Persons.forEach(function (item, i, arr) {
+	      if (i < 5) FirstFiveStr.push(item.name);
+	      LastThreeIDs.push(arr[i].id);
+	      if (LastThreeIDs.length > 3) LastThreeIDs.shift();
+	      _this.Div.find("#DelItem" + item.id).hide();
+	      _this.Div.find("#DelItem" + item.id).on("click", function () {
+	        _this.Div.find("#ListItem" + item.id).remove();
+	        _.remove(Persons, function (o) {
+	          return o.id == item.id;
+	        });
+	        ShowSortList();
+	      });
+
+	      _this.Div.find("#ListItem" + item.id).on("mouseover", function () {
+	        _this.Div.find("#DelItem" + item.id).show();
+	      });
+
+	      _this.Div.find("#ListItem" + item.id).on("mouseout", function () {
+	        _this.Div.find("#DelItem" + item.id).hide();
+	      });
+
+	      _this.Div.find("#ListItem" + item.id + " #tid").on("click", function () {
+	        var td = _this.Div.find("#ListItem" + item.id + " #tid").parent();
+	        td.html("<input type='text' id='tidinp" + item.id + "' style='width: 50px;' value='" + item.id + "'>");
+	        var input = _this.Div.find("#tidinp" + item.id);
+
+	        input.focus();
+	        input.setCursorPosition(input.val().length);
+	        input.on("blur", function () {
+	          ChangeId(input.val(), item);
+	        });
+	        input.on("keyup", function (event) {
+	          if (event.keyCode == 13) {
+	            ChangeId(input.val(), item);
+	          }
+	        });
+	      });
+
+	      function ChangeId(val, item) {
+	        val = val.trim();
+	        val = parseInt(val);
+	        if (_.find(Persons, _.matchesProperty("id", val))) {
+	          if (val != item.id) {
+	            var alertMsg = _this.Div.find("#Alert");
+	            alertMsg.removeClass("hidden");
+	            alertMsg.html("Работник с таким ID уже существует.");
+	            alertMsg.addClass("hidden");
+	            return;
+	          }
+	        }
+	        item.id = val;
+	        ShowSortList();
+	      }
+
+	      _this.Div.find("#ListItem" + item.id + " #tname").on("click", function () {
+	        var td = _this.Div.find("#ListItem" + item.id + " #tname").parent();
+	        td.html("<input type='text' id='tnameinp" + item.id + "' style='width: 300px;' value='" + item.name + "'>");
+	        var input = _this.Div.find("#tnameinp" + item.id);
+
+	        input.focus();
+	        input.setCursorPosition(input.val().length);
+	        input.on("blur", function () {
+	          ChangeName(input.val(), item);
+	        });
+	        input.on("keyup", function (event) {
+	          if (event.keyCode == 13) {
+	            ChangeName(input.val(), item);
+	          }
+	        });
+	      });
+
+	      function ChangeName(val, item) {
+	        item.name = val;
+	        ShowSortList();
+	      }
+
+	      _this.Div.find("#ListItem" + item.id + " #tsum").on("click", function () {
+	        var td = _this.Div.find("#ListItem" + item.id + " #tsum").parent();
+	        td.html("<input type='text' id='tsuminp" + item.id + "' style='width: 180px;' value='" + item.sum + "'>");
+	        var input = _this.Div.find("#tsuminp" + item.id);
+
+	        input.focus();
+	        input.setCursorPosition(input.val().length);
+	        input.on("blur", function () {
+	          ChangeSum(input.val(), item);
+	        });
+	        input.on("keyup", function (event) {
+	          if (event.keyCode == 13) {
+	            ChangeSum(input.val(), item);
+	          }
+	        });
+	      });
+	    });
+
+	    function ChangeSum(val, item) {
+	      item.sum = parseFloat(val);
+	      item.rate = item.sum / (20.8 * 8);
+	      ShowSortList();
+	    }
+
+	    if (FirstFiveStr.length > 0) {
+	      _this.Div.find("#Result").html("Имена первых " + FirstFiveStr.length + "-" + NumText(FirstFiveStr.length) + ": " + FirstFiveStr.toString() + "<br>ID последних " + LastThreeIDs.length + "-" + NumText(LastThreeIDs.length) + ": " + LastThreeIDs.toString());
+	    } else {
+	      _this.Div.find("#Result").html("");
+	    }
+	  }
+
+	  function ClearContainer() {
+	    _this.Div.find("#Container").html("");
+	    _this.Div.find("#Container").hide();
+	  }
+
+	  _this.HTML = function () {
+	    _this.Init();
+	    return _this.Div;
+	  };
+
+	  var saveData = function () {
+	    var a = document.createElement("a");
+	    document.body.appendChild(a);
+	    a.style = "display: none";
+	    return function (data) {
+	      var json = JSON.stringify(data);
+	      var blob = new Blob([json], { type: "octet/stream" });
+	      var url = window.URL.createObjectURL(blob);
+	      a.href = url;
+	      a.download = "Persons" + Date.now() + ".json";
+	      a.click();
+	      window.URL.revokeObjectURL(url);
+	    };
+	  }();
+
+	  function loadData() {
+	    var reader = new FileReader();
+	    reader.onload = function (event) {
+	      var contents = event.target.result;
+	      Persons = JSON.parse(contents);
+	      ShowSortList();
+	      ClearContainer();
+	      _this.Div.find("#FileInput").prop("value", null);
+	    };
+
+	    reader.onerror = function (event) {
+	      var alertMsg = _this.Div.find("#Alert");
+	      alertMsg.removeClass("hidden");
+	      alertMsg.html("Файл не может быть прочитан! код " + event.target.error.code);
+	      alertMsg.addClass("hidden");
+	      _this.Div.find("#FileInput").prop("value", null);
+	    };
+
+	    var file = _this.Div.find("#FileInput").get(0).files[0];
+	    reader.readAsText(file);
+	  }
+
+	  function NumText(a) {
+	    if (a == 1) return "го";
+	    if (a < 5) return "х";
+	    if (a > 4) return "ти";
+	  }
+
+	  $.fn.setCursorPosition = function (pos) {
+	    this.each(function (index, elem) {
+	      if (elem.setSelectionRange) {
+	        elem.setSelectionRange(pos, pos);
+	      } else if (elem.createTextRange) {
+	        var range = elem.createTextRange();
+	        range.collapse(true);
+	        range.moveEnd("character", pos);
+	        range.moveStart("character", pos);
+	        range.select();
+	      }
+	    });
+	    return this;
+	  };
+	})( false ? undefined["personalPage"] = {} : exports);
+
+/***/ },
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module, _) {/**
@@ -27780,10 +27905,10 @@ var Main =
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(11)(module), __webpack_require__(10)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(15)(module), __webpack_require__(14)))
 
 /***/ },
-/* 11 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -27799,514 +27924,92 @@ var Main =
 
 
 /***/ },
-/* 12 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(_) {__webpack_require__(1);
+	"use strict";
 
-	//Добавление новой заявки
-	module.exports=function(){
-	  var naf = $("#NewAppForm");
-	  naf.on("submit", function(event) {
-	    event.preventDefault();
-	    var data={
-	      name:naf.find("#appname").val().trim(),
-	      date:naf.find("#appdate").val().trim(),
-	      client:naf.find("#ClientSelect").val().trim(),
-	      executor:naf.find("#ExecutorSelect").val().trim(),
-	      discription:naf.find("#appdisc").val().trim(),
-	      priority:naf.find("#appprior").val().trim(),
-	      estimated:naf.find("#appestdate").val().trim(),
-	      deadline:naf.find("#appdeaddate").val().trim(),
-	      progress:naf.find("#status").val().trim()
-	    };
-	  
-	    var textvar=data.name.trim();
-	    textvar=textvar.replace(/<.*?/g,"");
-	    if(textvar!=data.name.trim()){
-	      AlertMsg(naf,"Скобки <> запрещенны!");
-	      return;
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	(function (exports) {
+
+	  var Personals = {
+	    createFixedPersonal: function createFixedPersonal(id, name, sum) {
+	      return new PersonalFixed(id, name, sum);
+	    },
+	    createRatePersonal: function createRatePersonal(id, name, rate) {
+	      return new PersonalRate(id, name, rate);
 	    }
-	    if(!textvar.length){
-	      AlertMsg(naf,"Пустое значение названия.");
-	      return;
+	  };
+
+	  var Personal = function () {
+	    function Personal(id, name) {
+	      _classCallCheck(this, Personal);
+
+	      this.id = id;
+	      this.name = name;
+	      this.sum = 0;
 	    }
-	  
-	    textvar=data.discription.trim();
-	    textvar=textvar.replace(/<.*?/g,"");
-	    if(textvar!=data.discription.trim()){
-	      AlertMsg(naf,"Скобки <> запрещенны!");
-	      return;
-	    }
-	  
-	    if(!textvar.length){
-	      AlertMsg(naf,"Пустое значение описания.");
-	      return;
-	    }
-	    
-	    if(!UserExist(data.client)){
-	      AlertMsg(naf,"Недопустимые данные: "+data.client);
-	      return;
-	    }
-	    
-	    if(data.priority<0 || data.priority>2){
-	      AlertMsg(naf,"Недопустимые данные: "+data.priority);
-	      return;
-	    }
-	    
-	    SaveApp(data).then(function () {
-	      AlertMsg(naf,"<span style='color: green'>Заявка создана!</span>");
-	      SetFrame("AppsFrame");
-	    });
-	  });
-	  
-	  var fs = $("#FindString");
-	  fs.change(function() {
-	    Find(fs.val().trim());
-	  });
-	};
 
-	function ShowCreateFrame(){
-	  $("#MB1").css("backgroundColor","#d9dee2");
-	  $("#MB2").css("backgroundColor","");
-	  
-	  var naf =$("#NewAppForm");
-	  
-	  naf.trigger("reset");
-	  
-	  naf.find("#appdate").val(LocalDateTime());
-	  naf.find("#appestdate").val(LocalDateTime(30));
-	  naf.find("#appdeaddate").val(LocalDateTime(30));
-	  naf.find("#status").val(0);
-	  if(config.UserInfo.role==2){
-	    naf.find("#ClientSelect").html("<option value='" +
-	      config.UserInfo.login.toLowerCase()+"' selected>"+
-	      config.UserInfo.name+"</option>");
-	    
-	    var cs = $("#ClientSelect");
-	    cs.prop("disabled",true);
-	    $("#appdate").prop("disabled",true);
-	    $("#ExecutorSelect").prop("disabled",true);
-	    naf.find("#appestdate").prop("disabled",true);
-	    naf.find("#status").prop("disabled",true);
-	    
-	    cs.prop("hidden",true);
-	    $("#NewAppFormDTRow").prop("hidden",true);
-	    $("#NewAppFormCERow").prop("hidden",true);
-	    $("#NewAppFormDSRow").prop("hidden",true);
-	  }
-	  
-	  if(config.UserInfo.role>0)return;
-	  
-	  var result;
-	  var Tpl1 = __webpack_require__(13);
-	  GetUsersList([,,2]).then(function(response) {
-	    result = Tpl1({empty:null,list:response});
-	    $("#ClientSelect").html(result);
-	  
-	    Tpl1 = __webpack_require__(13);
-	    GetUsersList([,1]).then(function(response) {
-	      result = Tpl1({empty:"-пусто-",list:response});
-	      $("#ExecutorSelect").html(result);
-	    });
-	  });
-
-	}
-
-	function ShowDetailAppsFrame(){
-	  $("#MB1").css("backgroundColor","#d9dee2");
-	  $("#MB2").css("backgroundColor","");
-	  $("#CommArea").val("");
-	  if($("#DeleteAppsBtn")!=null)$("#DeleteAppsBtn").remove();
-	  if($("#EditAppsBtn")!=null)$("#EditAppsBtn").remove();
-	  if(config.UserInfo.role==2)return;
-	  
-	  var elementbtn=document.createElement("button");
-	  elementbtn.id="EditAppsBtn";
-	  elementbtn.className ="btn";
-	  elementbtn.style="float:right;";
-	  elementbtn.innerHTML="Изменить";
-	  $("#DetailFrameLabel").append(elementbtn);
-	  $("#EditAppsBtn").on( "click",function(){
-	    EditAppsFromDetail();
-	  });
-	  if(config.UserInfo.role==1)return;
-	  
-	  elementbtn=document.createElement("button");
-	  elementbtn.id="DeleteAppsBtn";
-	  elementbtn.className ="btn";
-	  elementbtn.style="float:right;";
-	  elementbtn.innerHTML="Удалить";
-	  $("#DetailFrameLabel").append(elementbtn);
-	  $("#DeleteAppsBtn").on( "click",function(){
-	    DeleteAppsFromDetail();
-	  });
-	}
-
-	function ShowAppsFrame(){
-	  $("#MB1").css("backgroundColor","#d9dee2");
-	  $("#MB2").css("backgroundColor","");
-
-	  var filter=[];
-	  if(config.UserInfo.role==1) filter["executor"]=config.UserInfo.login;
-	  if(config.UserInfo.role==2) filter["client"]=config.UserInfo.login;
-	  GetAppList(filter).then(function (response) {
-	    var AppsList=response;
-	    AppListForSort=AppsList;
-	    if($("#AppsList")!=null)$("#AppsList").parent().remove();
-	    $("#AppsFrame").append(GetAppsListItem(AppsList,config.UserInfo));
-	    $("#AddAppsBtn").css("display",(config.UserInfo.role==1?"none":"inline-block"));
-	    if(config.UserInfo.role==2)
-	      $("#FilterClientSelect").remove();
-	    else{
-	      var Tpl1 = __webpack_require__(13);
-	      GetUsersList([,,2]).then(function(response) {
-	        var result = Tpl1({empty:"Все",list:response});
-	        $("#FilterClientSelect").html(result);
-	        $("#FilterClientSelect").on("change",function(){
-	          Filter($("#FilterClientSelect").val());
-	        });
-	      });
-	    }
-	  });
-	}
-
-	//Детальная информация о заявке
-	function GetDetailInfo(id){
-	  ShowDetailAppsFrame();
-	  SetFrame("DetailAppsFrame");
-	  
-	  AppExist(id).then(function (response) {
-	    var flag = (response.length>0);
-	    GetApp(id).then(function (response) {
-	      var Record=flag?response[0]:false;
-	      if(Record)config.TempAppID=id; else return;
-	      if($("#AppsDetail")!=null)$("#AppsDetail").remove();
-	      var Tpl1 = __webpack_require__(14);
-	      GetUsersList([,1]).then(function(response) {
-	        var result = Tpl1({inRec:Record,inList:response,inInfo:config.UserInfo});
-	        $("#DetailFrameTable").append(result);
-	      });
-	    
-	      var str="";
-	      GetCommList(id).then(function(response){
-	        config.CommsList=response;
-	        Tpl1 = __webpack_require__(15);
-	        for (var x in config.CommsList) {
-	          var result = Tpl1({UF:config.UserInfo,com:config.CommsList[x]});
-	          str+=result;
-	        }
-	        $("#DetailFrameComments").html(str);
-	      });
-	    });
-	  });
-	}
-
-	//Изменить заявку
-	function EditAppsFromDetail(){
-	  GetApp(config.TempAppID).then(function (response) {
-	    var Record=response[0];
-	    var data={
-	      id:Record.id,
-	      name:Record.Name,
-	      date:Record.Date,
-	      client:Record.Client,
-	      executor:(config.UserInfo.role==0?$("#editappexecut").val().trim():Record.Executor),
-	      discription:Record.Discription,
-	      priority:Record.Priority,
-	      estimated:$("#editappestimated").val().trim(),
-	      deadline:(config.UserInfo.role==0?$("#editappdeadline").val().trim():Record.Deadline),
-	      progress:$("#editappstatus").val().trim()
-	    };
-	  
-	    if(data.priority<0 || data.priority>2){
-	      AlertMsg($("#DetailAppsFrameMsg"),"Недопустимые данные: "+data.priority);
-	      return;
-	    }
-	  
-	    if(data.progress<0 || data.progress>100){
-	      AlertMsg($("#DetailAppsFrameMsg"),"Недопустимые данные: "+data.progress);
-	      return;
-	    }
-	  
-	    SaveApp(data).then(function () {
-	      AlertMsg($("#DetailAppsFrameMsg"),"<span style='color: green'>Заявка изменена!</span>");
-	    });
-	  });
-	}
-
-	//Удалить заявку
-	function DeleteAppsFromDetail(){
-	  AppExist(config.TempAppID).then(function (response) {
-	    var flag = (response.length>0);
-	    GetApp(config.TempAppID).then(function (response) {
-	      if(!confirm("Действительно удалить запись о заявке "+
-	          (flag?response[0].Name:"")+"?"))return;
-	      DeleteApp(config.TempAppID).then(function () {
-	        SetFrame("AppsFrame");
-	      });
-	    });
-	  });
-	}
-
-	//Добавить комментарий
-	function AddComment(){
-	  if($("#CommArea").val().trim()!=""){
-	  
-	    var textvar=$("#CommArea").val().trim();
-	    textvar=textvar.replace(/<.*?/g,"");
-	  
-	    if(textvar!=$("#CommArea").val().trim()){
-	      alert("Скобки <> запрещенны!");
-	      return;
-	    }
-	  
-	    var data={
-	      app: config.TempAppID,
-	      user: config.UserInfo.login,
-	      date: LocalDateTime(),
-	      text: textvar
-	    };
-	    SaveComm(data).then(function(response){
-	      var newcomm = response;
-	      $("#CommArea").val("");
-	  
-	      var Tpl1 = __webpack_require__(15);
-	      var result = Tpl1({UF:config.UserInfo,com:newcomm});
-	      $("#DetailFrameComments").append(result);
-	    });
-	  }
-	}
-
-	//Удалить комментарий
-	function DeleteComment(id){
-	  DeleteComm(id).then(function(){
-	    $("#CM"+id).remove();
-	  });
-	}
-
-	var AppListForSort;
-	var AppListBeforeFilter;
-	var LastClick = 0;
-	function Sort(i){
-	  AppListForSort=_.sortBy(AppListForSort, function(o) { 
-	    switch (i) {
-	    case 1:
-	      return o.Name;
-	    case 2:
-	      return o.Date;
-	    case 3:
-	      if(!UserExist(o.Client)) return "";
-	      return GetUser(o.Client).name;
-	    case 4:
-	      if(!UserExist(o.Executor)) return "";
-	      return GetUser(o.Executor).name;
-	    case 5:
-	      return o.Priority;
-	    case 6:
-	      return o.Estimated;
-	    case 7:
-	      return o.Deadline;
-	    case 8:
-	      return parseInt(o.Progress);
-	    default:
-	      return o.ID;
-	    }
-	  });
-
-	  if(LastClick==i){
-	    AppListForSort=AppListForSort.reverse();
-	    LastClick=0;
-	  }else LastClick=i;
-	  
-	  if($("#AppsList")!=null)$("#AppsList").parent().remove();
-	  $("#AppsFrame").append(GetAppsListItem(AppListForSort,config.UserInfo));
-	}
-
-	function Find(str){
-	  var filter=[];
-	  if(config.UserInfo.role==1) filter["executor"]=config.UserInfo.login;
-	  if(config.UserInfo.role==2) filter["client"]=config.UserInfo.login;
-	  
-	  GetAppList(filter).then(function (response) {
-	    var AppsList=response;
-	  
-	    AppListBeforeFilter=AppsList;
-	    AppListBeforeFilter=_.filter(AppListBeforeFilter, _.conforms({ "Name": function(n) {
-	      return n.toLowerCase().indexOf(str.toLowerCase())>=0;}
-	    }));
-	    Filter($("#FilterClientSelect").val());
-	  });
-	}
-
-	function Filter(filt){
-	  var filter = [];
-	  if (config.UserInfo.role == 1) filter["executor"] = config.UserInfo.login;
-	  if (config.UserInfo.role == 2) filter["client"] = config.UserInfo.login;
-	  GetAppList(filter).then(function (response) {
-	    var AppsList = response;
-	    if($("#FindString").val().trim()=="") {
-	      if (AppListBeforeFilter) {
-	        AppListForSort = AppListBeforeFilter;
-	      } else {
-	        AppListBeforeFilter = AppsList;
+	    _createClass(Personal, [{
+	      key: "Sum",
+	      get: function get() {
+	        return this.sum;
 	      }
+	    }, {
+	      key: "ID",
+	      get: function get() {
+	        return this.id;
+	      }
+	    }, {
+	      key: "Name",
+	      get: function get() {
+	        return this.name;
+	      }
+	    }]);
+
+	    return Personal;
+	  }();
+
+	  var PersonalFixed = function (_Personal) {
+	    _inherits(PersonalFixed, _Personal);
+
+	    function PersonalFixed(id, name, sum) {
+	      _classCallCheck(this, PersonalFixed);
+
+	      var _this = _possibleConstructorReturn(this, (PersonalFixed.__proto__ || Object.getPrototypeOf(PersonalFixed)).call(this, id, name));
+
+	      _this.sum = sum;
+	      return _this;
 	    }
-	    if(filt!="null")
-	      AppListForSort=_.filter(AppListBeforeFilter, _.conforms({ "Client": function(n) {
-	        return n.toLowerCase()==filt.toLowerCase();}
-	      }));
-	    else AppListForSort = AppListBeforeFilter;
-	    if($("#AppsList")!=null)$("#AppsList").parent().remove();
-	    $("#AppsFrame").append(GetAppsListItem(AppListForSort,config.UserInfo));
-	  });
-	}
 
-	module.exports.Sort=Sort;
-	module.exports.AddComment=AddComment;
-	module.exports.DeleteComment=DeleteComment;
-	module.exports.DeleteAppsFromDetail=DeleteAppsFromDetail;
-	module.exports.EditAppsFromDetail=EditAppsFromDetail;
-	module.exports.GetDetailInfo=GetDetailInfo;
-	module.exports.ShowDetailAppsFrame=ShowDetailAppsFrame;
-	module.exports.ShowCreateFrame=ShowCreateFrame;
-	module.exports.ShowAppsFrame=ShowAppsFrame;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
+	    return PersonalFixed;
+	  }(Personal);
 
-/***/ },
-/* 13 */
-/***/ function(module, exports) {
+	  var PersonalRate = function (_Personal2) {
+	    _inherits(PersonalRate, _Personal2);
 
-	module.exports = function (data) {
-	var __t, __p = '', __j = Array.prototype.join;
-	function print() { __p += __j.call(arguments, '') }
+	    function PersonalRate(id, name, rate) {
+	      _classCallCheck(this, PersonalRate);
 
-	 if(data.empty) { ;
-	__p += ' <option value=\'null\'>' +
-	((__t = (data.empty)) == null ? '' : __t) +
-	'</option> ';
-	 } ;
-	__p += '\r\n	var ExecutorList=GetUsersList([,1]);\r\n	';
-	 for (var x in data.list) { ;
-	__p += '\r\n		<option value=\'' +
-	((__t = (data.list[x].login.toLowerCase())) == null ? '' : __t) +
-	'\'>\r\n		' +
-	((__t = (data.list[x].name)) == null ? '' : __t) +
-	'\r\n	';
-	 } ;
-	__p += '\r\n</option>';
-	return __p
-	}
+	      var _this2 = _possibleConstructorReturn(this, (PersonalRate.__proto__ || Object.getPrototypeOf(PersonalRate)).call(this, id, name));
 
-/***/ },
-/* 14 */
-/***/ function(module, exports) {
+	      _this2.rate = rate;
+	      _this2.sum = 20.8 * 8 * _this2.rate;
+	      return _this2;
+	    }
 
-	module.exports = function (data) {
-	var __t, __p = '', __j = Array.prototype.join;
-	function print() { __p += __j.call(arguments, '') }
-	__p += '<div id=\'AppsDetail\'>\r\n	<table class=\'simple-little-table\' cellspacing=\'0\'>\r\n		<tr>\r\n			<td>Название:</td>\r\n			<td>' +
-	((__t = (data.inRec.Name)) == null ? '' : __t) +
-	'</td>\r\n		</tr>\r\n		\r\n		<tr>\r\n			<td>Дата:</td>\r\n			<td>' +
-	((__t = (new Date(Date.parse(data.inRec.Date)).toUTCString())) == null ? '' : __t) +
-	'</td>\r\n		</tr>\r\n				\r\n		<tr>\r\n			<td>Клиент:</td>\r\n			<td>\r\n				' +
-	((__t = (data.inRec.ClientName)) == null ? '' : __t) +
-	'\r\n			</td>\r\n		</tr>\r\n		\r\n		<tr>\r\n			<td>Исполнитель:</td>\r\n			<td>\r\n				';
-	 if(data.inInfo.role>0){ ;
-	__p += '\r\n					' +
-	((__t = (data.inRec.ExecutorName)) == null ? '' : __t) +
-	'\r\n				';
-	 }else{ ;
-	__p += '\r\n					<select id=\'editappexecut\'><option value=\'null\'>-пусто-</option>\r\n					';
-	 for (var x in data.inList) { ;
-	__p += '\r\n						<option value=\'' +
-	((__t = (data.inList[x].login.toLowerCase())) == null ? '' : __t) +
-	'\'\r\n						\r\n						';
-	 if(data.inRec.Executor && data.inRec.Executor.toLowerCase()==
-								data.inList[x].login.toLowerCase()){ ;
-	__p += '\r\n								selected=\'selected\'\r\n							';
-	 } ;
-	__p += '\r\n							>\r\n							' +
-	((__t = (data.inList[x].name )) == null ? '' : __t) +
-	'\r\n						</option>\r\n					';
-	 } ;
-	__p += '\r\n				';
-	 } ;
-	__p += '\r\n				</select>\r\n			</td>\r\n		</tr>\r\n		\r\n		<tr>\r\n			<td>Приоритет:</td>\r\n			<td>\r\n				';
-	 (data.inRec.Priority==0? print("Низкий"):
-					(data.inRec.Priority==1?print("Средний"):print("Высокий"))) ;
-	__p += '\r\n			</td>\r\n		</tr>\r\n		\r\n		<tr>\r\n			<td>Предельный срок:</td>\r\n			<td>\r\n			';
-	 if(data.inInfo.role>0){;
-	__p += '\r\n				' +
-	((__t = (new Date(Date.parse(data.inRec.Deadline)).toUTCString())) == null ? '' : __t) +
-	'\r\n			';
-	 }else{ ;
-	__p += '\r\n				<input type="datetime-local" id="editappdeadline" \r\n				value="' +
-	((__t = (dateFormat1(data.inRec.Deadline))) == null ? '' : __t) +
-	'">\r\n			';
-	 } ;
-	__p += '\r\n			</td>\r\n		</tr>\r\n				\r\n		<tr>\r\n			<td>Предпологаемый срок:</td>\r\n			<td>\r\n				';
-	 if(data.inInfo.role==2){;
-	__p += '\r\n					' +
-	((__t = (new Date(Date.parse(data.inRec.Estimated)).toUTCString())) == null ? '' : __t) +
-	'\r\n				';
-	}else{ ;
-	__p += '\r\n					<input type="datetime-local" id="editappestimated"\r\n					value="' +
-	((__t = (dateFormat1(data.inRec.Estimated))) == null ? '' : __t) +
-	'">\r\n				';
-	} ;
-	__p += '\r\n			</td>\r\n		</tr>\r\n		\r\n		';
-	 if(data.inInfo.role==2){ ;
-	__p += '\r\n			<tr>\r\n				<td>Завершено:</td>\r\n				<td> ' +
-	((__t = (data.inRec.Progress )) == null ? '' : __t) +
-	'%</td>\r\n			</tr>\r\n		';
-	 }else{ ;
-	__p += '\r\n			<tr>\r\n				<td>Завершено:</td><td><input type=\'number\' \r\n				value=\'' +
-	((__t = (data.inRec.Progress )) == null ? '' : __t) +
-	'\' min=\'0\' max=\'100\' \r\n				id=\'editappstatus\'>\r\n				%\r\n				</td>\r\n			</tr>\r\n		';
-	 } ;
-	__p += '\r\n		\r\n		<tr>\r\n			<td colspan=\'2\' style=\'vertical-align: top;\'>\r\n				Описание:<br>' +
-	((__t = (data.inRec.Discription)) == null ? '' : __t) +
-	'\r\n			</td>\r\n		</tr>\r\n	</table>\r\n</div>';
-	return __p
-	}
+	    return PersonalRate;
+	  }(Personal);
 
-/***/ },
-/* 15 */
-/***/ function(module, exports) {
-
-	module.exports = function (data) {
-	var __t, __p = '', __j = Array.prototype.join;
-	function print() { __p += __j.call(arguments, '') }
-	__p += '<div id=\'CM' +
-	((__t = (data.com.id)) == null ? '' : __t) +
-	'\' class=\'Comms\'>\r\n	<div class=\'CommsHeader\'>\r\n		<div class=\'CommsUser\'>\r\n            ' +
-	((__t = (data.com.UserName)) == null ? '' : __t) +
-	'\r\n		</div>\r\n		<div class=\'CommsTime\'>\r\n			' +
-	((__t = (new Date(Date.parse(data.com.Date)).toUTCString())) == null ? '' : __t) +
-	'\r\n		</div>\r\n	</div>\r\n	';
-	 if(data.UF.role==0 || data.com.User.toLowerCase()==data.UF.login.toLowerCase()){;
-	__p += '\r\n	<button id=\'CMDelBtn' +
-	((__t = (data.com.ID)) == null ? '' : __t) +
-	'\' class=\'btn\' style=\'float: right;\'\r\n					onclick=\'Main.AppsModule.DeleteComment(' +
-	((__t = (data.com.id)) == null ? '' : __t) +
-	');\'\r\n	>Удалить</button>\r\n	';
-	 } ;
-	__p += '\r\n	<div class=\'CommsText\'>' +
-	((__t = (data.com.Text)) == null ? '' : __t) +
-	'</div>\r\n</div>';
-	return __p
-	}
-
-/***/ },
-/* 16 */
-/***/ function(module, exports) {
-
-	module.exports = function (data) {
-	var __t, __p = '';
-	__p += '<div id="LogonWindow" class="WindowClass">\r\n	<form id="LoginForm" class="FormsStyle">\r\n	    <h1>Войти</h1>\r\n	    <fieldset id="inputs">\r\n	        <input id="username" placeholder="Логин" autofocus required type="text">   \r\n	        <input id="password" placeholder="Пароль" required type="password">\r\n	    </fieldset>\r\n	    <fieldset id="actions">\r\n	        <input class=\'btn\' value="Войти" type="submit">\r\n	        <a href="" id="RegHref">Зарегистрироваться</a>\r\n	    </fieldset>\r\n	</form>\r\n</div>';
-	return __p
-	}
+	  exports.Personals = Personals;
+	})( false ? undefined["figuresFactory"] = {} : exports);
 
 /***/ },
 /* 17 */
@@ -28314,7 +28017,7 @@ var Main =
 
 	module.exports = function (data) {
 	var __t, __p = '';
-	__p += '<div id="RegWindow" class="WindowClass">\r\n	<form id="RegistrationForm" class="FormsStyle">\r\n	    <h1>Регистрация</h1>\r\n	    <fieldset id="inputs">\r\n	        <input id="username" placeholder="Логин" autofocus required type="text">   \r\n	        <input id="password" placeholder="Пароль" required type="password">\r\n	        <input id="name" placeholder="Имя" required type="text"> \r\n	    </fieldset>\r\n	    <button class=\'btn\' type="submit">Регистрация</button>\r\n	    <div class="RightsAllight">\r\n	    	<button type="button" class=\'btn\' \r\n	    		onClick=\'SetWindow("LogonWindow");\'>&laquo;Назад</button>\r\n	    </div>\r\n	</form>\r\n</div>';
+	__p += '<div class="borderedLine">\r\n    <button id="AddList">Добавить</button>\r\n    <span class="file_upload">\r\n        <button id="ImportList">Импорт</button>\r\n        <input type="file" id="FileInput">\r\n    </span>\r\n    <button id="ExportList">Экспорт</button>\r\n</div>\r\n<div id="Container"></div>\r\n<span id="Alert" class="alert"></span>\r\n<div id="Result" class="borderedLine" style="height: 2.2em;"></div>\r\n<div id="PersonsList"></div>';
 	return __p
 	}
 
@@ -28323,8 +28026,27 @@ var Main =
 /***/ function(module, exports) {
 
 	module.exports = function (data) {
-	var __t, __p = '';
-	__p += '<div id="MainWindow" class="WindowClass">\r\n	<h1>Система учёта заявок</h1>\r\n	<div id="MenuBar">\r\n	 	<a href="#" id="MB1">Заявки</a><a href="#" id="MB2">Пользователи</a>\r\n	 	<div class="RightsAllight">\r\n		 	<div id="StatusBar">Статус</div>\r\n		 	<a href="">Выйти</a>\r\n	 	</div>\r\n	</div>\r\n</div>';
+	var __t, __p = '', __j = Array.prototype.join;
+	function print() { __p += __j.call(arguments, '') }
+	__p += '<table class="simple-little-table" style="width: 723px; position: absolute; margin-top: -2px">\r\n    <thead>\r\n        <th style="width: 80px;">ID</th>\r\n        <th style="width: 350px;">Имя</th>\r\n        <th style="width: 210px;">среднемесячная заработная плата</th>\r\n    </thead>\r\n</table>\r\n\r\n<table class="simple-little-table">\r\n    <thead>\r\n        <th style="width: 80px;">ID</th>\r\n        <th style="width: 350px;">Имя</th>\r\n        <th style="width: 210px;">среднемесячная заработная плата</th>\r\n    </thead>\r\n    ';
+	data.List.forEach(function(item, i, arr){;
+	__p += '\r\n        <tr id="ListItem' +
+	((__t = (item.id)) == null ? '' : __t) +
+	'">\r\n            <td><span><a href="#" id="tid">' +
+	((__t = (item.id)) == null ? '' : __t) +
+	'</a></span></td>\r\n            <td><span><a href="#" id="tname">' +
+	((__t = (item.name)) == null ? '' : __t) +
+	'</a></span></td>\r\n            <td>\r\n                <span><a href="#" id="tsum">' +
+	((__t = (parseInt(item.sum).toFixed(2))) == null ? '' : __t) +
+	'</a></span>\r\n                <span class="DelMiniBtn" id="DelItem' +
+	((__t = (item.id)) == null ? '' : __t) +
+	'">&nbsp;x&nbsp;</span>\r\n            </td>\r\n        </tr>\r\n    ';
+	});;
+	__p += '\r\n    ';
+	if(data.List.length==0){;
+	__p += '\r\n        <tr>\r\n            <td colspan="3" style="text-align:center;">Список пуст</td>\r\n        </tr>\r\n    ';
+	};
+	__p += '\r\n</table>';
 	return __p
 	}
 
@@ -28334,17 +28056,9 @@ var Main =
 
 	module.exports = function (data) {
 	var __t, __p = '';
-	__p += '<div id="UsersFrame" class="FrameClass">\r\n	<div id="UsersMenu"  class="SideMenu">\r\n	</div>\r\n	<div id="UsersContent" class="main-content">\r\n        <p> Просмотр и изменение информации о пользователях.\r\n        <a href="#" id="AddNewUserFormHref">\r\n        	Добавить пользователя</a>\r\n        </p>\r\n        <div id="UsersContentEdit">\r\n        </div>\r\n        <form id="AddEditUserForm" class="FormsStyle">\r\n		    <fieldset id="inputs">\r\n		        <input id="username" placeholder="Логин" autofocus \r\n		        	required type="text">   \r\n		        <input id="password" placeholder="Пароль" \r\n		        	required type="text">\r\n		        <input id="name" placeholder="Имя" required type="text"> \r\n		        <select class="myselect" id="roleselect">\r\n					<option value="2">Клиент</option>\r\n					<option value="1">Исполнитель</option>\r\n					<option value="0">Администратор</option>\r\n				</select>\r\n		    </fieldset>\r\n		    <input class="btn" value="Добавить" type="submit">\r\n		</form>\r\n	</div>\r\n</div>';
-	return __p
-	}
-
-/***/ },
-/* 20 */
-/***/ function(module, exports) {
-
-	module.exports = function (data) {
-	var __t, __p = '';
-	__p += '	<div id="AppsFrame" class="FrameClass" style="margin-left:2%; margin-right:2%;">\r\n		<div id="AppsFrameMsg"></div>\r\n			<p>\r\n				Список заявок:\r\n				<button class="btn" id="AddAppsBtn" \r\n					onclick="SetFrame(\'CreateAppsFrame\');"\r\n					style="float:right;">\r\n					Добавить заявку\r\n				</button>\r\n				<input type=\'text\' id="FindString" \r\n					style="float:right;margin:2px;" placeholder=\'Поиск..\'>\r\n				<select id="FilterClientSelect" id="appclient" \r\n						  	style="width:222px;float:right;margin:4px;" required>\r\n				</select>\r\n			</p>\r\n	</div>\r\n	\r\n	<div id="DetailAppsFrame" class="FrameClass" style="margin-left:25%; margin-right:25%;">\r\n			<div id="DetailAppsFrameMsg"></div>\r\n			<p id="DetailFrameLabel">\r\n				Детальная информация:\r\n				<button class="btn" id="BackAppsBtn" \r\n					onclick="SetFrame(\'AppsFrame\');"\r\n					style="float:right;"> &laquo;Назад\r\n				</button>\r\n			</p>\r\n			<div id=DetailFrameTable></div>\r\n			<textarea id="CommArea" placeholder=\'Написать комментарий..\' \r\n			rows="2" onkeyup="TextAreaResize(event, 15, 2);"></textarea>\r\n			<div id="CommAreaDiv"></div>\r\n			<br><button class=\'btn\' onclick="Main.AppsModule.AddComment();">\r\n			Отправить</button>\r\n			<div id=DetailFrameComments></div>\r\n	</div>\r\n	\r\n	<div id="CreateAppsFrame" class="FrameClass">\r\n		<form id="NewAppForm" style=" margin-left: 22%;">\r\n			<fieldset>\r\n				<table>\r\n					<tr>\r\n						<td colspan="4"><h1>Создание заявки</h1></td>\r\n					</tr>\r\n				    <tr> \r\n					     <td  width="140">Название:</td>\r\n					     <td width="250">\r\n					     	<input type="text" id="appname" \r\n					     	style="width:220px;" required>\r\n					    </td>\r\n					     <td align="right" width="100" id="NewAppFormDTRow">Дата:</td>\r\n					     <td width="160">\r\n					     	<input type="datetime-local" id="appdate"\r\n						  	style="width:220px;" required>\r\n						 </td>\r\n				    </tr>\r\n				    <tr id="NewAppFormCERow">\r\n				    	<td >Клиент:</td>\r\n				    	<td>	        \r\n						  <select id="ClientSelect" id="appclient" \r\n						  	style="width:222px;" required>\r\n						  </select>\r\n						</td> \r\n				    	<td align="right">Исполнитель:</td> \r\n				    	<td>\r\n					      <select id="ExecutorSelect" id="appexecut" \r\n					      	style="width:222px;" required>\r\n						    <option value="null">-пусто-</option>\r\n						  </select>\r\n				    	</td> \r\n				    </tr>\r\n				    <tr>\r\n				    	<td>Описание:</td>\r\n				    	<td colspan="3"></td>\r\n				    </tr>\r\n				    <tr>\r\n				    	<td colspan="4">\r\n					    	<textarea rows="10" style="width:99%" id="appdisc" \r\n					    	required></textarea>\r\n				    	</td>\r\n				    </tr> \r\n				    <tr>\r\n					    <td >Предельный срок:</td>\r\n					    <td>\r\n					      <input type="datetime-local" id="appdeaddate"\r\n						  	style="width:220px;" required>\r\n					    </td>\r\n					    <td align="right">Приоритет:</td>\r\n				    	<td>\r\n				    	  <select id="appprior" style="width:222px;" required>\r\n							<option value="0">Низкий</option>\r\n							<option value="1">Средний</option>\r\n							<option value="2">Высокий</option>\r\n						  </select>\r\n				    	</td>\r\n				    </tr>\r\n				    <tr id="NewAppFormDSRow">\r\n					    <td>Предпологаемый срок:</td>\r\n					    <td>\r\n						  <input type="datetime-local" id="appestdate" \r\n						  	style="width:220px;" required>\r\n					    </td>\r\n					    <td align="right">Готовность(%):</td>\r\n				    	<td>\r\n							 <input type="number" id="status" min="0" max="100" \r\n							 style="width:220px;" required>\r\n				    	</td>\r\n				    </tr>\r\n				    <tr>\r\n				    	<td colspan="3"></td>\r\n				    	<td align="right" >\r\n				    		<input type="button"  class=\'btn\' value="&laquo;Назад" \r\n				    			onclick="SetFrame(\'AppsFrame\');">\r\n				    		<input type="submit"  class=\'btn\' value="Создать">\r\n				    	</td>\r\n				    </tr>\r\n			   </table>\r\n			</fieldset>\r\n		</form>\r\n	</div>';
+	__p += '<div id="CreateForm">\r\n    <select id="TypeSelect">\r\n        <option value="Fix">Фиксированная</option>\r\n        <option value="Rate">Почасовая</option>\r\n    </select>\r\n    <br>ID:<input type="number" value="' +
+	((__t = (data.id)) == null ? '' : __t) +
+	'" id="ID">\r\n    <br>Имя:<input value="Работник" id="Name">\r\n    <br><span id="txt">Зарплата</span>:<input type="number" value="100" id="Sum">\r\n    <br><button id="AddBtn">Добавить</button>\r\n    <button id="CancelBtn">Отмена</button>\r\n</div>';
 	return __p
 	}
 

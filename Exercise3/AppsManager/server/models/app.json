@@ -18,8 +18,16 @@
       "type": "string",
       "required": true
     },
+    "ClientName": {
+      "type": "string",
+      "required": true
+    },
     "Executor": {
       "type": "string"
+    },
+    "ExecutorName": {
+      "type": "string",
+      "required": true
     },
     "Discription": {
       "type": "string"

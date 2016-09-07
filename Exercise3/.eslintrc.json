@@ -1,0 +1,55 @@
+{
+    "extends": [
+        "eslint:recommended"
+    ],
+    "rules": {
+        // enable additional rules
+        "indent": ["error", 2],
+        "quotes": ["error", "double"],
+        "semi": ["error", "always"],
+
+        // override default options for rules from base configurations
+        "comma-dangle": ["error", "never"],
+        "no-cond-assign": ["error", "always"],
+
+        // disable rules from base configurations
+        "no-console": "off"
+    },
+    "env": {
+        "browser": true,
+        "node": true,
+        "es6": true
+    },
+    "globals": {
+      "$": true,
+      "_":true,
+      "config": true,
+      "GetCommList": true,
+      "GetRoleFromCode": true,
+      "LocalDateTime": true,
+      "SaveUser": true,
+      "GetUser": true,
+      "DeleteUser": true,
+      "UserExist": true,
+      "GetUsersList": true,
+      "CheckPassword": true,
+      "SaveApp": true,
+      "GetApp": true,
+      "DeleteApp": true,
+      "AppExist": true,
+      "GetAppList": true,
+      "SaveComm": true,
+      "GetComm": true,
+      "DeleteComm": true,
+      "CommExist": true,
+      "StorageIsClear": true,
+      "AlertMsg": true,
+      "GetAppsListItem": true,
+      "TextAreaResize": true,
+      "ValidateValue": true,
+      "WrongValueMessage": true,
+      "dateFormat1": true,
+      "SetWindow": true,
+      "SetFrame": true
+    }
+}

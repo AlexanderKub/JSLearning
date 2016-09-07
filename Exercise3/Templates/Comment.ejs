@@ -1,11 +1,7 @@
 <div id='CM<%=data.com.id%>' class='Comms'>
 	<div class='CommsHeader'>
 		<div class='CommsUser'>
-			<%if(UserExist(data.com.User)){ %>
-				<%=GetUser(data.com.User).name %>
-			<%}else{%>
-				User
-			<% } %>
+            <%=data.com.UserName%>
 		</div>
 		<div class='CommsTime'>
 			<%=new Date(Date.parse(data.com.Date)).toUTCString()%>
