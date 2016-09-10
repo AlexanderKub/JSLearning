@@ -13,6 +13,11 @@
 	</li>
 	
 	<% for (var x in data.items) { %>
-   		<li><a href="#" id="UL<%=x%>"><%-data.items[x].name%></a></li>
+
+   		<li>
+            <a href="#UsersDetail?log=<%-data.items[x].login%>" id="UL<%=x%>">
+                <%-data.items[x].name%>
+            </a>
+        </li>
     <% } %>
 </ul>

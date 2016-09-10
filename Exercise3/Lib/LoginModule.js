@@ -2,6 +2,30 @@ require("./Framework");
 //Авторизация
 module.exports=function(){
   var lf = $("#LoginForm");
+  if (!config.UserInfo && sessionStorage.getItem("User_login") && sessionStorage.getItem("User_pass")) {
+    var log = sessionStorage.getItem("User_login");
+    var ps = sessionStorage.getItem("User_pass");
+    UserExist(log).then(function(response) {
+      if(response.length==0)
+        AlertMsg(lf,"Пользователь не существует!");
+      else{
+        CheckPassword(log,ps).then(function(response) {
+          if(response.length==0)
+            AlertMsg(lf,"Неверный пароль!");
+          else{
+            GetUser(log).then(function(response) {
+              config.UserInfo=response[0];
+              SaveUser(config.UserInfo);
+              getContent("#Apps", true);
+              sessionStorage.setItem("User_login", config.UserInfo.login);
+              sessionStorage.setItem("User_pass", config.UserInfo.pass);
+            });
+          }
+        });
+      }
+    });
+  }
+  
   lf.on("submit", function(event) {
     event.preventDefault();
     var data={
@@ -29,24 +53,16 @@ module.exports=function(){
             GetUser(data.login).then(function(response) {
               config.UserInfo=response[0];
               SaveUser(config.UserInfo);
-              SetWindow("MainWindow");
+              getContent("#Apps", true);
+              sessionStorage.setItem("User_login", config.UserInfo.login);
+              sessionStorage.setItem("User_pass", config.UserInfo.pass);
             });
           }
         });
       }
     });
   });
-	
-  var rh = $("#RegHref");
-  rh.on("click",function(){
-    SetWindow("RegWindow");
-    event.preventDefault();
-  });
-	
-  rh.on("click",function(){
-    SetWindow("RegWindow");
-    event.preventDefault();
-  });
+  
   Show();
 };
 

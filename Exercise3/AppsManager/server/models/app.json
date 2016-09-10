@@ -49,7 +49,19 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "comments": {
+      "type": "hasMany",
+      "model": "comment",
+      "foreignKey": "App"
+    },
+
+    "app-users": {
+      "type": "belongsTo",
+      "model": "app-user",
+      "foreignKey": "Client"
+    }
+  },
   "acls": [],
   "methods": {}
 }

@@ -14,22 +14,22 @@
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "MyStorageDataSource"
   },
   "AccessToken": {
-    "dataSource": "db",
+    "dataSource": "MyStorageDataSource",
     "public": false
   },
   "ACL": {
-    "dataSource": "db",
+    "dataSource": "MyStorageDataSource",
     "public": false
   },
   "RoleMapping": {
-    "dataSource": "db",
+    "dataSource": "MyStorageDataSource",
     "public": false
   },
   "Role": {
-    "dataSource": "db",
+    "dataSource": "MyStorageDataSource",
     "public": false
   },
   "AppUser": {

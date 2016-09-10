@@ -10945,21 +10945,25 @@
 	        var CreationType = _this.Div.find("#TypeSelect").val();
 	        var CreationID = _this.Div.find("#ID").val();
 	        if (_.find(Persons, _.matchesProperty("id", CreationID))) {
-	          var alertMsg = _this.Div.find("#Alert");
-	          alertMsg.removeClass("hidden");
-	          alertMsg.html("Работник с таким ID уже существует.");
-	          alertMsg.addClass("hidden");
-	          return;
-	        }
-	        var CreationName = _this.Div.find("#Name").val();
-	        var CreationSum = _this.Div.find("#Sum").val();
-	        if (CreationType == "Fix") {
-	          Persons.push(Personals.createFixedPersonal(CreationID, CreationName, CreationSum));
+	          (function () {
+	            var alertMsg = _this.Div.find("#Alert");
+	            alertMsg.html("Работник с таким ID уже существует.");
+	            alertMsg.removeClass("hidden");
+	            setTimeout(function () {
+	              alertMsg.addClass("hidden");
+	            }, 100);
+	          })();
 	        } else {
-	          Persons.push(Personals.createRatePersonal(CreationID, CreationName, CreationSum));
+	          var CreationName = _this.Div.find("#Name").val();
+	          var CreationSum = _this.Div.find("#Sum").val();
+	          if (CreationType == "Fix") {
+	            Persons.push(Personals.createFixedPersonal(CreationID, CreationName, CreationSum));
+	          } else {
+	            Persons.push(Personals.createRatePersonal(CreationID, CreationName, CreationSum));
+	          }
+	          ShowSortList();
+	          ClearContainer();
 	        }
-	        ShowSortList();
-	        ClearContainer();
 	      });
 
 	      _this.Div.find("#CancelBtn").on("click", function () {
@@ -11029,22 +11033,6 @@
 	        });
 	      });
 
-	      function ChangeId(val, item) {
-	        val = val.trim();
-	        val = parseInt(val);
-	        if (_.find(Persons, _.matchesProperty("id", val))) {
-	          if (val != item.id) {
-	            var alertMsg = _this.Div.find("#Alert");
-	            alertMsg.removeClass("hidden");
-	            alertMsg.html("Работник с таким ID уже существует.");
-	            alertMsg.addClass("hidden");
-	            return;
-	          }
-	        }
-	        item.id = val;
-	        ShowSortList();
-	      }
-
 	      _this.Div.find("#ListItem" + item.id + " #tname").on("click", function () {
 	        var td = _this.Div.find("#ListItem" + item.id + " #tname").parent();
 	        td.html("<input type='text' id='tnameinp" + item.id + "' style='width: 300px;' value='" + item.name + "'>");
@@ -11061,11 +11049,6 @@
 	          }
 	        });
 	      });
-
-	      function ChangeName(val, item) {
-	        item.name = val;
-	        ShowSortList();
-	      }
 
 	      _this.Div.find("#ListItem" + item.id + " #tsum").on("click", function () {
 	        var td = _this.Div.find("#ListItem" + item.id + " #tsum").parent();
@@ -11084,12 +11067,6 @@
 	        });
 	      });
 	    });
-
-	    function ChangeSum(val, item) {
-	      item.sum = parseFloat(val);
-	      item.rate = item.sum / (20.8 * 8);
-	      ShowSortList();
-	    }
 
 	    if (FirstFiveStr.length > 0) {
 	      _this.Div.find("#Result").html("Имена первых " + FirstFiveStr.length + "-" + NumText(FirstFiveStr.length) + ": " + FirstFiveStr.toString() + "<br>ID последних " + LastThreeIDs.length + "-" + NumText(LastThreeIDs.length) + ": " + LastThreeIDs.toString());
@@ -11128,9 +11105,10 @@
 	    reader.onload = function (event) {
 	      var contents = event.target.result;
 	      Persons = JSON.parse(contents);
-	      ShowSortList();
-	      ClearContainer();
 	      _this.Div.find("#FileInput").prop("value", null);
+	      ClearContainer();
+	      ShowSortList();
+	      ChangeId(Persons[0].id, Persons[0]);
 	    };
 
 	    reader.onerror = function (event) {
@@ -11165,6 +11143,37 @@
 	    });
 	    return this;
 	  };
+
+	  function ChangeId(val, item) {
+	    val = val.trim();
+	    val = parseInt(val);
+	    if (_.find(Persons, _.matchesProperty("id", val))) {
+	      if (val != item.id) {
+	        (function () {
+	          var alertMsg = _this.Div.find("#Alert");
+	          alertMsg.html("Работник с таким ID уже существует.");
+	          alertMsg.removeClass("hidden");
+	          setTimeout(function () {
+	            alertMsg.addClass("hidden");
+	          }, 100);
+	        })();
+	      }
+	    } else {
+	      item.id = val;
+	    }
+	    ShowSortList();
+	  }
+
+	  function ChangeSum(val, item) {
+	    item.sum = parseFloat(val);
+	    item.rate = item.sum / (20.8 * 8);
+	    ShowSortList();
+	  }
+
+	  function ChangeName(val, item) {
+	    item.name = val;
+	    ShowSortList();
+	  }
 	})( false ? undefined["personalPage"] = {} : exports);
 
 /***/ },
@@ -17517,8 +17526,7 @@
 	      return root.setTimeout(func, wait);
 	    };
 
-	    /**
-	     * Sets the `toString` method of `wrapper` to mimic the source of `reference`
+	    /**]);  * Sets the `toString` method of `wrapper` to mimic the source of `reference`
 	     * with wrapper details in a comment at the top of the source body.
 	     *
 	     * @private
@@ -28063,4 +28071,4 @@
 	}
 
 /***/ }
-/******/ ]);
+/******/ ]););

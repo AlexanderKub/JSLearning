@@ -65,80 +65,137 @@ var Main =
 	Tpl = __webpack_require__(20);
 	mainWind.append(Tpl);
 
-	SetWindow("LogonWindow");
+	Tpl = __webpack_require__(21);
+	page.append(Tpl);
+	var NotFound = page.find("#404");
+
 	LoginModule();
 	RegisterModule();
 	UsersPanelModule();
 	AppsModule();
 
-	//Главное окно
-	$("#MB1").on("click",function(){
-	  SetFrame("AppsFrame");
-	  event.preventDefault();
+	$("document").ready(function(){
+	  getContent(window.location.hash, true);
 	});
 
-	$("#MB2").on("click",function(){
-	  SetFrame("UsersFrame");
-	  event.preventDefault();
+	window.addEventListener("popstate", function(e) {
+	  getContent(location.hash, false);
 	});
 
-	function SetWindow(name){
-	  var windowsList=document.getElementsByClassName("WindowClass");
-	  for (var i = 0; i < windowsList.length; i++)
-	    windowsList[i].style.display=(windowsList[i].id==name?"block":"none");
-		
-	  if(name=="MainWindow"){
-	    SetFrame("AppsFrame");
-	    $("#MB2").css("display",(config.UserInfo.role==0?"inline":"none"));
-	    $("#StatusBar").html(config.UserInfo.name+"("+config.UserInfo.login+")");
-	    return;
-	  }
-		
-	  if(name=="RegWindow"){
-	    RegisterModule.Show();
-	    return;
-	  }
-		
-	  if(name=="LogonWindow"){
+	function getContent(url, addEntry) {
+	  if(addEntry) history.pushState(null, null, url);
+	  HideWindows();
+	  HideFrames();
+	  console.log(url);
+
+	  if(url=="" || url=="#" || url=="#Login"){
+	    $("#LogonWindow").show();
 	    LoginModule.Show();
 	    return;
 	  }
-	}
-
-	function SetFrame(name){
-	  var frameList=document.getElementsByClassName("FrameClass");
-	  for (var i = 0; i < frameList.length; i++)
-	    frameList[i].style.display=(frameList[i].id==name?"block":"none");
-		//Блок заявок
-	  if(name=="AppsFrame"){
-	    AppsModule.ShowAppsFrame();
-	    return;
-	  }
 	  
-	  AlertMsg($("#AppsFrameMsg"),"");
-	  AlertMsg($("#DetailAppsFrameMsg"),"");
-		
-		//Блок детальной информации о заявке
-	  if(name=="DetailAppsFrame"){
-	    AppsModule.ShowDetailAppsFrame();
+	  if(url=="#Registration"){
+	    $("#RegWindow").show();
+	    RegisterModule.Show();
 	    return;
 	  }
-		
-		//Блок создания заявки
-	  if(name=="CreateAppsFrame"){
-	    AppsModule.ShowCreateFrame();
-	    return;
+
+	  if(config.UserInfo){
+	    $("#MB2").css("display",(config.UserInfo.role==0?"inline":"none"));
+	    $("#StatusBar").html(config.UserInfo.name+"("+config.UserInfo.login+")");
+
+	    if(url=="#Users"){
+	      $("#MainWindow").show();
+	      $("#UsersFrame").show();
+
+	      UsersPanelModule.Show();
+	      return;
+	    }
+
+	    if(url=="#CreateUser"){
+	      $("#MainWindow").show();
+	      $("#UsersFrame").show();
+	      UsersPanelModule.Show().then(function(){
+	        UsersPanelModule.AddNewUserFormShow(true);
+	      });
+	      return;
+	    }
+
+	    if(url=="#Apps"){
+	      $("#MainWindow").show();
+	      $("#AppsFrame").show();
+
+	      AppsModule.ShowAppsFrame();
+	      return;
+	    }
+
+	    AlertMsg($("#AppsFrameMsg"),"");
+	    AlertMsg($("#DetailAppsFrameMsg"),"");
+
+	    if(url=="#CreateApp"){
+	      $("#MainWindow").show();
+	      $("#CreateAppsFrame").show();
+
+	      AppsModule.ShowCreateFrame();
+	      return;
+	    }
+
+	    if(url.indexOf("#AppsDetail")>-1){
+	      $("#MainWindow").show();
+	      $("#DetailAppsFrame").show();
+	      var id = parseInt(url.split("=")[1]);
+	      AppsModule.GetDetailInfo(id);
+	      return;
+	    }
+
+	    if(url.indexOf("#UsersDetail")>-1){
+	      $("#MainWindow").show();
+	      $("#UsersFrame").show();
+	      var id = url.split("=")[1];
+	      UsersPanelModule.ShowUserInfo(id);
+	      return;
+	    }
+	  }else{
+	    if (sessionStorage.getItem("User_login") && sessionStorage.getItem("User_pass")) {
+	      var log = sessionStorage.getItem("User_login");
+	      var ps = sessionStorage.getItem("User_pass");
+	      UserExist(log).then(function(response) {
+	        if(response.length>0){
+	          CheckPassword(log,ps).then(function(response) {
+	           if(response.length>0){
+	             GetUser(log).then(function(response) {
+	               config.UserInfo=response[0];
+	                 SaveUser(config.UserInfo);
+	                 getContent((url=="" || url=="#" || url=="#Login")?"#Apps":url, true);
+	                 sessionStorage.setItem("User_login", config.UserInfo.login);
+	                 sessionStorage.setItem("User_pass", config.UserInfo.pass);
+	                 return;
+	             });
+	           }
+	        });
+	      }
+	     });
+	    }else {
+	      getContent("#Login", true);
+	      return;
+	    }
 	  }
-		
-		//Блок информации о пользователях
-	  if(name=="UsersFrame"){
-	    UsersPanelModule.Show();
-	    return;
-	  }
+	  NotFound.show();
 	}
 
-	global.SetWindow=SetWindow;
-	global.SetFrame=SetFrame;
+	function HideWindows() {
+	    NotFound.hide();
+	    var windowsList=document.getElementsByClassName("WindowClass");
+	    for (var i = 0; i < windowsList.length; i++)
+	        windowsList[i].style.display="none";
+	}
+
+	function HideFrames(){
+	    var frameList=document.getElementsByClassName("FrameClass");
+	    for (var i = 0; i < frameList.length; i++)
+	        frameList[i].style.display=(frameList[i].id==name?"block":"none");
+	}
+	global.getContent=getContent;
 	module.exports.AppsModule=AppsModule;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
@@ -226,8 +283,8 @@ var Main =
 	    lastsession: new Date()
 	  };
 	  var Promise = UserExist(Sdata.login).then(function (response) {
-	    if(response.length==0) Query("AppUsers","POST",Sdata);
-	    else Query("AppUsers/update?where=%7B%22login%22%3A%20%22"+Sdata.login +
+	    if(response.length==0) return Query("AppUsers","POST",Sdata);
+	    else return Query("AppUsers/update?where=%7B%22login%22%3A%20%22"+Sdata.login +
 	      "%22%7D","POST",Sdata);
 	  });
 	  return Promise;
@@ -296,7 +353,7 @@ var Main =
 	  var en;
 	  var Promise = GetUser(object["client"]).then(function (response) {
 	    cn = (response.length>0)?response[0].name:"Client";
-	    GetUser(object["executor"]).then(function (response) {
+	    return GetUser(object["executor"]).then(function (response) {
 	      en = (response.length>0)?response[0].name:"Нет";
 	      var Sdata={
 	        Name: object["name"],
@@ -404,7 +461,7 @@ var Main =
 	      "id":id
 	    }
 	  };
-	  var Promise = Query("Comments?filter="+JSON.stringify(Sdata),"GET",null);;
+	  var Promise = Query("Comments?filter="+JSON.stringify(Sdata),"GET",null);
 	  return Promise;
 	}
 
@@ -10660,9 +10717,9 @@ var Main =
 	 }else{ ;
 	__p += '\r\n			  ';
 	 for (var x in data.inList) { ;
-	__p += '\r\n			    <tr style=\'cursor:pointer;\' \r\n				 	onclick=\'Main.AppsModule.GetDetailInfo(' +
+	__p += '\r\n			    <tr style=\'cursor:pointer;\' \r\n				 	onclick=\'getContent("#AppsDetail?id=' +
 	((__t = (data.inList[x].id)) == null ? '' : __t) +
-	')\'>\r\n				 <td>\r\n				 	' +
+	'",true);\'>\r\n				 <td>\r\n				 	' +
 	((__t = (data.inList[x].Name)) == null ? '' : __t) +
 	'\r\n				 </td>\r\n				 <td>\r\n				  	' +
 	((__t = (new Date(Date.parse(data.inList[x].Date)).toUTCString())) == null ? '' : __t) +
@@ -10712,6 +10769,30 @@ var Main =
 	//Авторизация
 	module.exports=function(){
 	  var lf = $("#LoginForm");
+	  if (!config.UserInfo && sessionStorage.getItem("User_login") && sessionStorage.getItem("User_pass")) {
+	    var log = sessionStorage.getItem("User_login");
+	    var ps = sessionStorage.getItem("User_pass");
+	    UserExist(log).then(function(response) {
+	      if(response.length==0)
+	        AlertMsg(lf,"Пользователь не существует!");
+	      else{
+	        CheckPassword(log,ps).then(function(response) {
+	          if(response.length==0)
+	            AlertMsg(lf,"Неверный пароль!");
+	          else{
+	            GetUser(log).then(function(response) {
+	              config.UserInfo=response[0];
+	              SaveUser(config.UserInfo);
+	              getContent("#Apps", true);
+	              sessionStorage.setItem("User_login", config.UserInfo.login);
+	              sessionStorage.setItem("User_pass", config.UserInfo.pass);
+	            });
+	          }
+	        });
+	      }
+	    });
+	  }
+	  
 	  lf.on("submit", function(event) {
 	    event.preventDefault();
 	    var data={
@@ -10739,24 +10820,16 @@ var Main =
 	            GetUser(data.login).then(function(response) {
 	              config.UserInfo=response[0];
 	              SaveUser(config.UserInfo);
-	              SetWindow("MainWindow");
+	              getContent("#Apps", true);
+	              sessionStorage.setItem("User_login", config.UserInfo.login);
+	              sessionStorage.setItem("User_pass", config.UserInfo.pass);
 	            });
 	          }
 	        });
 	      }
 	    });
 	  });
-		
-	  var rh = $("#RegHref");
-	  rh.on("click",function(){
-	    SetWindow("RegWindow");
-	    event.preventDefault();
-	  });
-		
-	  rh.on("click",function(){
-	    SetWindow("RegWindow");
-	    event.preventDefault();
-	  });
+	  
 	  Show();
 	};
 
@@ -10806,7 +10879,7 @@ var Main =
 	        AlertMsg(rf, "Логин занят!");
 	      } else {
 	        SaveUser(data);
-	        SetWindow("LogonWindow");
+	        getContent("#Login", true);
 	        LogonModule.Show();
 	        AlertMsg($("#LoginForm"), "<span style='color:green'>Успешная регистрация!</span>");
 	      }
@@ -10827,8 +10900,6 @@ var Main =
 	__webpack_require__(1);
 	//Добавление нового пользователя администратором
 	module.exports=function(){
-	  $("#AddNewUserFormHref").on("click",
-	      function(){AddNewUserFormShow(true);});
 	  $("#AddEditUserForm").css("display","none");
 	  $("#AddEditUserForm").on("submit", function(event) {
 	    event.preventDefault();
@@ -10948,7 +11019,7 @@ var Main =
 	function ShowIt(){
 	  $("#MB1").css("backgroundColor","");
 	  $("#MB2").css("backgroundColor","#d9dee2");
-	  GetUsersList(config.UsersFilter).then(function (response) {
+	  return GetUsersList(config.UsersFilter).then(function (response) {
 	    config.UsersList=response;
 	  
 	    var Tpl1 = __webpack_require__(9);
@@ -10973,6 +11044,14 @@ var Main =
 	  });
 	}
 
+	function ShowUserInfo(log){
+	  ShowIt().then(function () {
+	    for(var i=0; i<config.UsersList.length; i++){
+	      if(config.UsersList[i].login==log) SideUserMenuClick(i);
+	    }
+	  });
+	}
+
 	module.exports.Show=ShowIt;
 	module.exports.DropFilter=DropFilter;
 	module.exports.UFilterChange=UFilterChange;
@@ -10980,6 +11059,8 @@ var Main =
 	module.exports.ChangeUserInfo=ChangeUserInfo;
 	module.exports.DeleteUserFromList=DeleteUserFromList;
 	module.exports.AddNewUserFormShow=AddNewUserFormShow;
+	module.exports.ShowUserInfo=ShowUserInfo;
+
 
 /***/ },
 /* 8 */
@@ -11031,11 +11112,13 @@ var Main =
 	 } ;
 	__p += ' \r\n			padding-left: 40px;">\r\n			Администраторы <input id="ufilter1" type="checkbox">\r\n			<br>Исполнители<input id="ufilter2" type="checkbox">\r\n			<br>Клиенты<input id="ufilter3" type="checkbox" >\r\n		</div>\r\n	</li>\r\n	\r\n	';
 	 for (var x in data.items) { ;
-	__p += '\r\n   		<li><a href="#" id="UL' +
+	__p += '\r\n\r\n   		<li>\r\n            <a href="#UsersDetail?log=' +
+	__e(data.items[x].login) +
+	'" id="UL' +
 	((__t = (x)) == null ? '' : __t) +
-	'">' +
+	'">\r\n                ' +
 	__e(data.items[x].name) +
-	'</a></li>\r\n    ';
+	'\r\n            </a>\r\n        </li>\r\n    ';
 	 } ;
 	__p += '\r\n</ul>';
 	return __p
@@ -27856,7 +27939,7 @@ var Main =
 	    
 	    SaveApp(data).then(function () {
 	      AlertMsg(naf,"<span style='color: green'>Заявка создана!</span>");
-	      SetFrame("AppsFrame");
+	      getContent("#Apps",true);
 	    });
 	  });
 	  
@@ -27870,7 +27953,7 @@ var Main =
 	  $("#MB1").css("backgroundColor","#d9dee2");
 	  $("#MB2").css("backgroundColor","");
 	  
-	  var naf =$("#NewAppForm");
+	  var naf = $("#NewAppForm");
 	  
 	  naf.trigger("reset");
 	  
@@ -27974,7 +28057,6 @@ var Main =
 	//Детальная информация о заявке
 	function GetDetailInfo(id){
 	  ShowDetailAppsFrame();
-	  SetFrame("DetailAppsFrame");
 	  
 	  AppExist(id).then(function (response) {
 	    var flag = (response.length>0);
@@ -28043,7 +28125,7 @@ var Main =
 	      if(!confirm("Действительно удалить запись о заявке "+
 	          (flag?response[0].Name:"")+"?"))return;
 	      DeleteApp(config.TempAppID).then(function () {
-	        SetFrame("AppsFrame");
+	        getContent("#Apps",true);
 	      });
 	    });
 	  });
@@ -28304,7 +28386,7 @@ var Main =
 
 	module.exports = function (data) {
 	var __t, __p = '';
-	__p += '<div id="LogonWindow" class="WindowClass">\r\n	<form id="LoginForm" class="FormsStyle">\r\n	    <h1>Войти</h1>\r\n	    <fieldset id="inputs">\r\n	        <input id="username" placeholder="Логин" autofocus required type="text">   \r\n	        <input id="password" placeholder="Пароль" required type="password">\r\n	    </fieldset>\r\n	    <fieldset id="actions">\r\n	        <input class=\'btn\' value="Войти" type="submit">\r\n	        <a href="" id="RegHref">Зарегистрироваться</a>\r\n	    </fieldset>\r\n	</form>\r\n</div>';
+	__p += '<div id="LogonWindow" class="WindowClass">\r\n	<form id="LoginForm" class="FormsStyle">\r\n	    <h1>Войти</h1>\r\n	    <fieldset id="inputs">\r\n	        <input id="username" placeholder="Логин" autofocus required type="text">   \r\n	        <input id="password" placeholder="Пароль" required type="password">\r\n	    </fieldset>\r\n	    <fieldset id="actions">\r\n	        <input class=\'btn\' value="Войти" type="submit">\r\n	        <a href="#Registration" id="RegHref">Зарегистрироваться</a>\r\n	    </fieldset>\r\n	</form>\r\n</div>';
 	return __p
 	}
 
@@ -28314,7 +28396,7 @@ var Main =
 
 	module.exports = function (data) {
 	var __t, __p = '';
-	__p += '<div id="RegWindow" class="WindowClass">\r\n	<form id="RegistrationForm" class="FormsStyle">\r\n	    <h1>Регистрация</h1>\r\n	    <fieldset id="inputs">\r\n	        <input id="username" placeholder="Логин" autofocus required type="text">   \r\n	        <input id="password" placeholder="Пароль" required type="password">\r\n	        <input id="name" placeholder="Имя" required type="text"> \r\n	    </fieldset>\r\n	    <button class=\'btn\' type="submit">Регистрация</button>\r\n	    <div class="RightsAllight">\r\n	    	<button type="button" class=\'btn\' \r\n	    		onClick=\'SetWindow("LogonWindow");\'>&laquo;Назад</button>\r\n	    </div>\r\n	</form>\r\n</div>';
+	__p += '<div id="RegWindow" class="WindowClass">\r\n	<form id="RegistrationForm" class="FormsStyle">\r\n	    <h1>Регистрация</h1>\r\n	    <fieldset id="inputs">\r\n	        <input id="username" placeholder="Логин" autofocus required type="text">   \r\n	        <input id="password" placeholder="Пароль" required type="password">\r\n	        <input id="name" placeholder="Имя" required type="text"> \r\n	    </fieldset>\r\n	    <button class=\'btn\' type="submit">Регистрация</button>\r\n	    <div class="RightsAllight">\r\n			<a href="#Login">\r\n				<button type="button" class="btn">&laquo;Назад</button>\r\n			</a>\r\n	    </div>\r\n	</form>\r\n</div>';
 	return __p
 	}
 
@@ -28324,7 +28406,7 @@ var Main =
 
 	module.exports = function (data) {
 	var __t, __p = '';
-	__p += '<div id="MainWindow" class="WindowClass">\r\n	<h1>Система учёта заявок</h1>\r\n	<div id="MenuBar">\r\n	 	<a href="#" id="MB1">Заявки</a><a href="#" id="MB2">Пользователи</a>\r\n	 	<div class="RightsAllight">\r\n		 	<div id="StatusBar">Статус</div>\r\n		 	<a href="">Выйти</a>\r\n	 	</div>\r\n	</div>\r\n</div>';
+	__p += '<div id="MainWindow" class="WindowClass">\r\n	<h1>Система учёта заявок</h1>\r\n	<div id="MenuBar">\r\n	 	<a href="#Apps" id="MB1">Заявки</a><a href="#Users" id="MB2">Пользователи</a>\r\n	 	<div class="RightsAllight">\r\n		 	<div id="StatusBar">Статус</div>\r\n		 	<a href="" onclick="sessionStorage.clear();">Выйти</a>\r\n	 	</div>\r\n	</div>\r\n</div>';
 	return __p
 	}
 
@@ -28334,7 +28416,7 @@ var Main =
 
 	module.exports = function (data) {
 	var __t, __p = '';
-	__p += '<div id="UsersFrame" class="FrameClass">\r\n	<div id="UsersMenu"  class="SideMenu">\r\n	</div>\r\n	<div id="UsersContent" class="main-content">\r\n        <p> Просмотр и изменение информации о пользователях.\r\n        <a href="#" id="AddNewUserFormHref">\r\n        	Добавить пользователя</a>\r\n        </p>\r\n        <div id="UsersContentEdit">\r\n        </div>\r\n        <form id="AddEditUserForm" class="FormsStyle">\r\n		    <fieldset id="inputs">\r\n		        <input id="username" placeholder="Логин" autofocus \r\n		        	required type="text">   \r\n		        <input id="password" placeholder="Пароль" \r\n		        	required type="text">\r\n		        <input id="name" placeholder="Имя" required type="text"> \r\n		        <select class="myselect" id="roleselect">\r\n					<option value="2">Клиент</option>\r\n					<option value="1">Исполнитель</option>\r\n					<option value="0">Администратор</option>\r\n				</select>\r\n		    </fieldset>\r\n		    <input class="btn" value="Добавить" type="submit">\r\n		</form>\r\n	</div>\r\n</div>';
+	__p += '<div id="UsersFrame" class="FrameClass">\r\n	<div id="UsersMenu"  class="SideMenu">\r\n	</div>\r\n	<div id="UsersContent" class="main-content">\r\n        <p> Просмотр и изменение информации о пользователях.\r\n        <a href="#CreateUser" id="AddNewUserFormHref">\r\n        	Добавить пользователя</a>\r\n        </p>\r\n        <div id="UsersContentEdit">\r\n        </div>\r\n        <form id="AddEditUserForm" class="FormsStyle">\r\n		    <fieldset id="inputs">\r\n		        <input id="username" placeholder="Логин" autofocus \r\n		        	required type="text">   \r\n		        <input id="password" placeholder="Пароль" \r\n		        	required type="text">\r\n		        <input id="name" placeholder="Имя" required type="text"> \r\n		        <select class="myselect" id="roleselect">\r\n					<option value="2">Клиент</option>\r\n					<option value="1">Исполнитель</option>\r\n					<option value="0">Администратор</option>\r\n				</select>\r\n		    </fieldset>\r\n		    <input class="btn" value="Добавить" type="submit">\r\n		</form>\r\n	</div>\r\n</div>';
 	return __p
 	}
 
@@ -28344,7 +28426,17 @@ var Main =
 
 	module.exports = function (data) {
 	var __t, __p = '';
-	__p += '	<div id="AppsFrame" class="FrameClass" style="margin-left:2%; margin-right:2%;">\r\n		<div id="AppsFrameMsg"></div>\r\n			<p>\r\n				Список заявок:\r\n				<button class="btn" id="AddAppsBtn" \r\n					onclick="SetFrame(\'CreateAppsFrame\');"\r\n					style="float:right;">\r\n					Добавить заявку\r\n				</button>\r\n				<input type=\'text\' id="FindString" \r\n					style="float:right;margin:2px;" placeholder=\'Поиск..\'>\r\n				<select id="FilterClientSelect" id="appclient" \r\n						  	style="width:222px;float:right;margin:4px;" required>\r\n				</select>\r\n			</p>\r\n	</div>\r\n	\r\n	<div id="DetailAppsFrame" class="FrameClass" style="margin-left:25%; margin-right:25%;">\r\n			<div id="DetailAppsFrameMsg"></div>\r\n			<p id="DetailFrameLabel">\r\n				Детальная информация:\r\n				<button class="btn" id="BackAppsBtn" \r\n					onclick="SetFrame(\'AppsFrame\');"\r\n					style="float:right;"> &laquo;Назад\r\n				</button>\r\n			</p>\r\n			<div id=DetailFrameTable></div>\r\n			<textarea id="CommArea" placeholder=\'Написать комментарий..\' \r\n			rows="2" onkeyup="TextAreaResize(event, 15, 2);"></textarea>\r\n			<div id="CommAreaDiv"></div>\r\n			<br><button class=\'btn\' onclick="Main.AppsModule.AddComment();">\r\n			Отправить</button>\r\n			<div id=DetailFrameComments></div>\r\n	</div>\r\n	\r\n	<div id="CreateAppsFrame" class="FrameClass">\r\n		<form id="NewAppForm" style=" margin-left: 22%;">\r\n			<fieldset>\r\n				<table>\r\n					<tr>\r\n						<td colspan="4"><h1>Создание заявки</h1></td>\r\n					</tr>\r\n				    <tr> \r\n					     <td  width="140">Название:</td>\r\n					     <td width="250">\r\n					     	<input type="text" id="appname" \r\n					     	style="width:220px;" required>\r\n					    </td>\r\n					     <td align="right" width="100" id="NewAppFormDTRow">Дата:</td>\r\n					     <td width="160">\r\n					     	<input type="datetime-local" id="appdate"\r\n						  	style="width:220px;" required>\r\n						 </td>\r\n				    </tr>\r\n				    <tr id="NewAppFormCERow">\r\n				    	<td >Клиент:</td>\r\n				    	<td>	        \r\n						  <select id="ClientSelect" id="appclient" \r\n						  	style="width:222px;" required>\r\n						  </select>\r\n						</td> \r\n				    	<td align="right">Исполнитель:</td> \r\n				    	<td>\r\n					      <select id="ExecutorSelect" id="appexecut" \r\n					      	style="width:222px;" required>\r\n						    <option value="null">-пусто-</option>\r\n						  </select>\r\n				    	</td> \r\n				    </tr>\r\n				    <tr>\r\n				    	<td>Описание:</td>\r\n				    	<td colspan="3"></td>\r\n				    </tr>\r\n				    <tr>\r\n				    	<td colspan="4">\r\n					    	<textarea rows="10" style="width:99%" id="appdisc" \r\n					    	required></textarea>\r\n				    	</td>\r\n				    </tr> \r\n				    <tr>\r\n					    <td >Предельный срок:</td>\r\n					    <td>\r\n					      <input type="datetime-local" id="appdeaddate"\r\n						  	style="width:220px;" required>\r\n					    </td>\r\n					    <td align="right">Приоритет:</td>\r\n				    	<td>\r\n				    	  <select id="appprior" style="width:222px;" required>\r\n							<option value="0">Низкий</option>\r\n							<option value="1">Средний</option>\r\n							<option value="2">Высокий</option>\r\n						  </select>\r\n				    	</td>\r\n				    </tr>\r\n				    <tr id="NewAppFormDSRow">\r\n					    <td>Предпологаемый срок:</td>\r\n					    <td>\r\n						  <input type="datetime-local" id="appestdate" \r\n						  	style="width:220px;" required>\r\n					    </td>\r\n					    <td align="right">Готовность(%):</td>\r\n				    	<td>\r\n							 <input type="number" id="status" min="0" max="100" \r\n							 style="width:220px;" required>\r\n				    	</td>\r\n				    </tr>\r\n				    <tr>\r\n				    	<td colspan="3"></td>\r\n				    	<td align="right" >\r\n				    		<input type="button"  class=\'btn\' value="&laquo;Назад" \r\n				    			onclick="SetFrame(\'AppsFrame\');">\r\n				    		<input type="submit"  class=\'btn\' value="Создать">\r\n				    	</td>\r\n				    </tr>\r\n			   </table>\r\n			</fieldset>\r\n		</form>\r\n	</div>';
+	__p += '	<div id="AppsFrame" class="FrameClass" style="margin-left:2%; margin-right:2%;">\r\n		<div id="AppsFrameMsg"></div>\r\n			<p>\r\n				Список заявок:\r\n				<button class="btn" id="AddAppsBtn" \r\n					onclick="getContent(\'#CreateApp\', true);"\r\n					style="float:right;">\r\n					Добавить заявку\r\n				</button>\r\n				<input type=\'text\' id="FindString" \r\n					style="float:right;margin:2px;" placeholder=\'Поиск..\'>\r\n				<select id="FilterClientSelect" id="appclient" \r\n						  	style="width:222px;float:right;margin:4px;" required>\r\n				</select>\r\n			</p>\r\n	</div>\r\n	\r\n	<div id="DetailAppsFrame" class="FrameClass" style="margin-left:25%; margin-right:25%;">\r\n			<div id="DetailAppsFrameMsg"></div>\r\n			<p id="DetailFrameLabel">\r\n				Детальная информация:\r\n				<button class="btn" id="BackAppsBtn" \r\n					onclick="getContent(\'#Apps\',true);"\r\n					style="float:right;"> &laquo;Назад\r\n				</button>\r\n			</p>\r\n			<div id=DetailFrameTable></div>\r\n			<textarea id="CommArea" placeholder=\'Написать комментарий..\' \r\n			rows="2" onkeyup="TextAreaResize(event, 15, 2);"></textarea>\r\n			<div id="CommAreaDiv"></div>\r\n			<br><button class=\'btn\' onclick="Main.AppsModule.AddComment();">\r\n			Отправить</button>\r\n			<div id=DetailFrameComments></div>\r\n	</div>\r\n	\r\n	<div id="CreateAppsFrame" class="FrameClass">\r\n		<form id="NewAppForm" style=" margin-left: 22%;">\r\n			<fieldset>\r\n				<table>\r\n					<tr>\r\n						<td colspan="4"><h1>Создание заявки</h1></td>\r\n					</tr>\r\n				    <tr> \r\n					     <td  width="140">Название:</td>\r\n					     <td width="250">\r\n					     	<input type="text" id="appname" \r\n					     	style="width:220px;" required>\r\n					    </td>\r\n					     <td align="right" width="100" id="NewAppFormDTRow">Дата:</td>\r\n					     <td width="160">\r\n					     	<input type="datetime-local" id="appdate"\r\n						  	style="width:220px;" required>\r\n						 </td>\r\n				    </tr>\r\n				    <tr id="NewAppFormCERow">\r\n				    	<td >Клиент:</td>\r\n				    	<td>	        \r\n						  <select id="ClientSelect" id="appclient" \r\n						  	style="width:222px;" required>\r\n						  </select>\r\n						</td> \r\n				    	<td align="right">Исполнитель:</td> \r\n				    	<td>\r\n					      <select id="ExecutorSelect" id="appexecut" \r\n					      	style="width:222px;" required>\r\n						    <option value="null">-пусто-</option>\r\n						  </select>\r\n				    	</td> \r\n				    </tr>\r\n				    <tr>\r\n				    	<td>Описание:</td>\r\n				    	<td colspan="3"></td>\r\n				    </tr>\r\n				    <tr>\r\n				    	<td colspan="4">\r\n					    	<textarea rows="10" style="width:99%" id="appdisc" \r\n					    	required></textarea>\r\n				    	</td>\r\n				    </tr> \r\n				    <tr>\r\n					    <td >Предельный срок:</td>\r\n					    <td>\r\n					      <input type="datetime-local" id="appdeaddate"\r\n						  	style="width:220px;" required>\r\n					    </td>\r\n					    <td align="right">Приоритет:</td>\r\n				    	<td>\r\n				    	  <select id="appprior" style="width:222px;" required>\r\n							<option value="0">Низкий</option>\r\n							<option value="1">Средний</option>\r\n							<option value="2">Высокий</option>\r\n						  </select>\r\n				    	</td>\r\n				    </tr>\r\n				    <tr id="NewAppFormDSRow">\r\n					    <td>Предпологаемый срок:</td>\r\n					    <td>\r\n						  <input type="datetime-local" id="appestdate" \r\n						  	style="width:220px;" required>\r\n					    </td>\r\n					    <td align="right">Готовность(%):</td>\r\n				    	<td>\r\n							 <input type="number" id="status" min="0" max="100" \r\n							 style="width:220px;" required>\r\n				    	</td>\r\n				    </tr>\r\n				    <tr>\r\n				    	<td colspan="3"></td>\r\n				    	<td align="right" >\r\n				    		<input type="button"  class=\'btn\' value="&laquo;Назад" \r\n				    			onclick="getContent(\'#Apps\', true);">\r\n				    		<input type="submit"  class=\'btn\' value="Создать">\r\n				    	</td>\r\n				    </tr>\r\n			   </table>\r\n			</fieldset>\r\n		</form>\r\n	</div>';
+	return __p
+	}
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	module.exports = function (data) {
+	var __t, __p = '';
+	__p += '<div id = "404" style="text-align: center; padding-top: 100px;">\r\n    <span style="font-size: 50px;color: #666; font-family: Verdana, Helvetica;">\r\n        404 Страница не найдена.\r\n    </span>\r\n    <br><a href="" style="padding-top: 50px; position: absolute;">На главную</a>\r\n</div>';
 	return __p
 	}
 

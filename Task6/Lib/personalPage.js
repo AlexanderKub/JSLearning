@@ -27,20 +27,22 @@
         let CreationID = _this.Div.find("#ID").val();
         if(_.find( Persons, _.matchesProperty("id", CreationID))){
           let alertMsg = _this.Div.find("#Alert");
-          alertMsg.removeClass("hidden");
           alertMsg.html("Работник с таким ID уже существует.");
-          alertMsg.addClass("hidden");
-          return;
-        }
-        let CreationName = _this.Div.find("#Name").val();
-        let CreationSum = _this.Div.find("#Sum").val();
-        if(CreationType=="Fix"){
-          Persons.push(Personals.createFixedPersonal(CreationID,CreationName,CreationSum));
+          alertMsg.removeClass("hidden");
+          setTimeout(function () {
+            alertMsg.addClass("hidden");
+          }, 100);
         }else{
-          Persons.push(Personals.createRatePersonal(CreationID,CreationName,CreationSum));
+          let CreationName = _this.Div.find("#Name").val();
+          let CreationSum = _this.Div.find("#Sum").val();
+          if(CreationType=="Fix"){
+            Persons.push(Personals.createFixedPersonal(CreationID,CreationName,CreationSum));
+          }else{
+            Persons.push(Personals.createRatePersonal(CreationID,CreationName,CreationSum));
+          }
+          ShowSortList();
+          ClearContainer();
         }
-        ShowSortList();
-        ClearContainer();
       });
       
       _this.Div.find("#CancelBtn").on("click", function() {
@@ -68,9 +70,9 @@
     _this.Div.find("#ExportList").prop("disabled",Persons.length==0);
     let FirstFiveStr = [];
     let LastThreeIDs = [];
-    Persons=_.sortBy(Persons, "sum",function(o) {return (8000-o.name.toLowerCase().charCodeAt(0));}).reverse();
+    Persons = _.sortBy(Persons, "sum",function(o) {return (8000-o.name.toLowerCase().charCodeAt(0));}).reverse();
     _this.Div.find("#PersonsList").html(listTmpl({List:Persons}));
-    Persons.forEach(function(item, i,arr){
+    Persons.forEach(function(item, i, arr){
       if(i<5)FirstFiveStr.push(item.name);
       LastThreeIDs.push(arr[i].id);
       if(LastThreeIDs.length>3)LastThreeIDs.shift();
@@ -105,22 +107,6 @@
           }
         });
       });
-  
-      function ChangeId(val,item) {
-        val = val.trim();
-        val = parseInt(val);
-        if(_.find( Persons, _.matchesProperty("id", val))){
-          if(val!=item.id){
-            let alertMsg = _this.Div.find("#Alert");
-            alertMsg.removeClass("hidden");
-            alertMsg.html("Работник с таким ID уже существует.");
-            alertMsg.addClass("hidden");
-            return;
-          }
-        }
-        item.id = val;
-        ShowSortList();
-      }
       
       _this.Div.find("#ListItem"+item.id+" #tname").on("click",function () {
         let td = _this.Div.find("#ListItem"+item.id+" #tname").parent();
@@ -138,11 +124,6 @@
           }
         });
       });
-      
-      function ChangeName(val,item) {
-        item.name = val;
-        ShowSortList();
-      }
   
       _this.Div.find("#ListItem"+item.id+" #tsum").on("click",function () {
         let td = _this.Div.find("#ListItem"+item.id+" #tsum").parent();
@@ -161,12 +142,6 @@
         });
       });
     });
-    
-    function ChangeSum(val,item) {
-      item.sum = parseFloat(val);
-      item.rate = item.sum/(20.8*8);
-      ShowSortList();
-    }
     
     if(FirstFiveStr.length>0) {
       _this.Div.find("#Result").html("Имена первых " + FirstFiveStr.length + "-" +
@@ -208,9 +183,10 @@
     reader.onload = function(event) {
       let contents = event.target.result;
       Persons = JSON.parse(contents);
-      ShowSortList();
-      ClearContainer();
       _this.Div.find("#FileInput").prop("value", null);
+      ClearContainer();
+      ShowSortList();
+      ChangeId(Persons[0].id,Persons[0]);
     };
   
     reader.onerror = function(event) {
@@ -246,4 +222,32 @@
     return this;
   };
   
+  function ChangeId(val,item) {
+    val = val.trim();
+    val = parseInt(val);
+    if(_.find( Persons, _.matchesProperty("id", val))){
+      if(val!=item.id){
+        let alertMsg = _this.Div.find("#Alert");
+        alertMsg.html("Работник с таким ID уже существует.");
+        alertMsg.removeClass("hidden");
+        setTimeout(function () {
+          alertMsg.addClass("hidden");
+        }, 100);
+      }
+    }else{
+      item.id = val;
+    }
+    ShowSortList();
+  }
+  
+  function ChangeSum(val,item) {
+    item.sum = parseFloat(val);
+    item.rate = item.sum/(20.8*8);
+    ShowSortList();
+  }
+  
+  function ChangeName(val,item) {
+    item.name = val;
+    ShowSortList();
+  }
 })(typeof exports === "undefined" ? this["personalPage"] = {} : exports);

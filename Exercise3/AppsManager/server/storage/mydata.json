@@ -1,32 +1,32 @@
 {
   "ids": {
-    "AppUser": 10,
-    "App": 24,
-    "Comment": 19
+    "User": 1,
+    "AccessToken": 1,
+    "ACL": 1,
+    "RoleMapping": 1,
+    "Role": 1,
+    "AppUser": 6,
+    "App": 5,
+    "Comment": 2
   },
   "models": {
+    "User": {},
+    "AccessToken": {},
+    "ACL": {},
+    "RoleMapping": {},
+    "Role": {},
     "AppUser": {
-      "1": "{\"login\":\"admin\",\"pass\":\"1488\",\"role\":0,\"name\":\"Администратор\",\"lastsession\":\"2016-09-07T14:48:28.925Z\",\"id\":1}",
-      "2": "{\"login\":\"client\",\"pass\":\"3222\",\"role\":2,\"name\":\"Клиент №1\",\"lastsession\":\"2016-09-07T14:38:21.667Z\",\"id\":2}",
-      "3": "{\"login\":\"client2\",\"pass\":\"3222\",\"role\":2,\"name\":\"Клиент №2\",\"lastsession\":\"2016-08-29T12:48:14.951Z\",\"id\":3}",
-      "4": "{\"login\":\"executor\",\"pass\":\"3222\",\"role\":1,\"name\":\"Исполнитель №1\",\"lastsession\":\"2016-08-29T12:45:53.243Z\",\"id\":4}",
-      "8": "{\"login\":\"lohh\",\"pass\":\"3223\",\"role\":2,\"name\":\"LOHHH\",\"lastsession\":\"2016-09-07T14:48:43.744Z\",\"id\":8}"
+      "1": "{\"login\":\"admin\",\"pass\":\"1488\",\"role\":0,\"name\":\"Администратор\",\"lastsession\":\"2016-09-10T20:33:48.362Z\",\"id\":1}",
+      "2": "{\"login\":\"executor\",\"pass\":\"3222\",\"role\":1,\"name\":\"Исполнитель №1\",\"lastsession\":\"2016-09-10T18:19:10.197Z\",\"id\":2}",
+      "3": "{\"login\":\"client\",\"pass\":\"3222\",\"role\":2,\"name\":\"Клиент №1\",\"lastsession\":\"2016-09-10T18:31:54.198Z\",\"id\":3}",
+      "5": "{\"login\":\"client2\",\"pass\":\"3222\",\"role\":2,\"name\":\"Клиент №2\",\"lastsession\":\"2016-09-10T20:18:19.045Z\",\"id\":5}"
     },
     "App": {
-      "4": "{\"Name\":\"Test\",\"Date\":\"2016-08-29T13:55:00.000Z\",\"Client\":\"client\",\"ClientName\":\"Клиент №1\",\"Executor\":\"executor\",\"ExecutorName\":\"Исполнитель №1\",\"Discription\":\"etete\",\"Priority\":0,\"Estimated\":\"2016-09-28T16:55:00.000Z\",\"Deadline\":\"2016-09-28T16:55:00.000Z\",\"Progress\":8,\"id\":4}",
-      "5": "{\"Name\":\"TEST\",\"Date\":\"2016-09-07T16:11:00.000Z\",\"Client\":\"lohh\",\"ClientName\":\"LOHH\",\"Executor\":\"executor\",\"ExecutorName\":\"Исполнитель №1\",\"Discription\":\"teterwyrwyweryrweyewy\",\"Priority\":1,\"Estimated\":\"2016-10-07T22:11:00.000Z\",\"Deadline\":\"2016-10-07T22:11:00.000Z\",\"Progress\":99,\"id\":5}",
-      "13": "{\"Name\":\"asfsf\",\"Date\":\"2016-09-07T16:36:00.000Z\",\"Client\":\"client\",\"ClientName\":\"Клиент №1\",\"Executor\":\"null\",\"ExecutorName\":\"Нет\",\"Discription\":\"sfsfdfsg\",\"Priority\":0,\"Estimated\":\"2016-10-07T16:36:00.000Z\",\"Deadline\":\"2016-10-07T16:36:00.000Z\",\"Progress\":0,\"id\":13}",
-      "16": "{\"Name\":\"ygxygyy\",\"Date\":\"2016-09-07T16:42:00.000Z\",\"Client\":\"client\",\"ClientName\":\"Клиент №1\",\"Executor\":\"null\",\"ExecutorName\":\"Нет\",\"Discription\":\"gygygyg\",\"Priority\":0,\"Estimated\":\"2016-10-07T16:42:00.000Z\",\"Deadline\":\"2016-10-07T16:42:00.000Z\",\"Progress\":0,\"id\":16}"
+      "3": "{\"Name\":\"Test\",\"Date\":\"2016-09-10T23:17:00.000Z\",\"Client\":\"client\",\"ClientName\":\"Клиент №1\",\"Executor\":\"executor\",\"ExecutorName\":\"Исполнитель №1\",\"Discription\":\"Test Test Test\",\"Priority\":0,\"Estimated\":\"2016-10-10T23:17:00.000Z\",\"Deadline\":\"2016-10-10T23:17:00.000Z\",\"Progress\":44,\"id\":3}",
+      "4": "{\"Name\":\"Тест\",\"Date\":\"2016-09-10T23:18:00.000Z\",\"Client\":\"client2\",\"ClientName\":\"Клиент №2\",\"Executor\":\"null\",\"ExecutorName\":\"Нет\",\"Discription\":\"Тест Тест Тест\",\"Priority\":2,\"Estimated\":\"2016-10-10T23:18:00.000Z\",\"Deadline\":\"2016-10-10T23:18:00.000Z\",\"Progress\":14,\"id\":4}"
     },
     "Comment": {
-      "1": "{\"App\":1,\"User\":\"admin\",\"Date\":\"2016-08-29T15:45:00.000Z\",\"Text\":\"Комментарий для тестирования\",\"id\":1}",
-      "2": "{\"App\":1,\"User\":\"executor\",\"Date\":\"2016-08-29T15:46:00.000Z\",\"Text\":\"Ещё один комментарий\",\"id\":2}",
-      "3": "{\"App\":1,\"User\":\"client\",\"Date\":\"2016-08-29T15:46:00.000Z\",\"Text\":\"Привет\",\"id\":3}",
-      "4": "{\"App\":3,\"User\":\"admin\",\"Date\":\"2016-09-03T10:36:00.000Z\",\"Text\":\"ewewewe\",\"id\":4}",
-      "14": "{\"App\":4,\"User\":\"admin\",\"UserName\":\"Администратор\",\"Date\":\"2016-09-07T17:29:00.000Z\",\"Text\":\"554\",\"id\":14}",
-      "15": "{\"App\":4,\"User\":\"admin\",\"UserName\":\"Администратор\",\"Date\":\"2016-09-07T17:29:00.000Z\",\"Text\":\"rere\",\"id\":15}",
-      "16": "{\"App\":5,\"User\":\"admin\",\"UserName\":\"Администратор\",\"Date\":\"2016-09-07T17:31:00.000Z\",\"Text\":\"555\",\"id\":16}",
-      "18": "{\"App\":4,\"User\":\"client\",\"UserName\":\"Клиент №1\",\"Date\":\"2016-09-07T17:31:00.000Z\",\"Text\":\"tyt\",\"id\":18}"
+      "1": "{\"App\":1,\"User\":\"admin\",\"UserName\":\"Администратор\",\"Date\":\"2016-09-10T21:46:00.000Z\",\"Text\":\"lolololo\",\"id\":1}"
     }
   }
 }

@@ -32,7 +32,7 @@ module.exports=function(){
         AlertMsg(rf, "Логин занят!");
       } else {
         SaveUser(data);
-        SetWindow("LogonWindow");
+        getContent("#Login", true);
         LogonModule.Show();
         AlertMsg($("#LoginForm"), "<span style='color:green'>Успешная регистрация!</span>");
       }

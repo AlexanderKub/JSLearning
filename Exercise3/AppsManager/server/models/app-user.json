@@ -29,7 +29,19 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "comments": {
+      "type": "hasMany",
+      "model": "comment",
+      "foreignKey": "User"
+    },
+
+    "apps": {
+      "type": "hasMany",
+      "model": "comment",
+      "foreignKey": "Client"
+    }
+  },
   "acls": [],
   "methods": {}
 }

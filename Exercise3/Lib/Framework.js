@@ -38,19 +38,6 @@ String.prototype.lpad = function(padString, length) {
   
 //Функции базы данных
 function Query(url,metod,Sdata){
-  /*var result;
-    $.ajax({
-    url: "http://localhost:3000/api/"+url,
-    dataType: "json",
-    type: metod,
-    async:false,
-    contentType: "application/json",
-    data: JSON.stringify(Sdata),
-    success: function(data){
-      result = data;
-    }
-  });*/
-  
   var Promise = fetch("http://localhost:3000/api/"+url, {
     method: metod,
     headers: {
@@ -65,7 +52,6 @@ function Query(url,metod,Sdata){
   });
   
   return Promise;
-  //return result;
 }
   
 //ПОЛЬЗОВАТЕЛИ
@@ -78,8 +64,8 @@ function SaveUser(object){
     lastsession: new Date()
   };
   var Promise = UserExist(Sdata.login).then(function (response) {
-    if(response.length==0) Query("AppUsers","POST",Sdata);
-    else Query("AppUsers/update?where=%7B%22login%22%3A%20%22"+Sdata.login +
+    if(response.length==0) return Query("AppUsers","POST",Sdata);
+    else return Query("AppUsers/update?where=%7B%22login%22%3A%20%22"+Sdata.login +
       "%22%7D","POST",Sdata);
   });
   return Promise;
@@ -148,7 +134,7 @@ function SaveApp(object){
   var en;
   var Promise = GetUser(object["client"]).then(function (response) {
     cn = (response.length>0)?response[0].name:"Client";
-    GetUser(object["executor"]).then(function (response) {
+    return GetUser(object["executor"]).then(function (response) {
       en = (response.length>0)?response[0].name:"Нет";
       var Sdata={
         Name: object["name"],
@@ -256,7 +242,7 @@ function GetComm(id){
       "id":id
     }
   };
-  var Promise = Query("Comments?filter="+JSON.stringify(Sdata),"GET",null);;
+  var Promise = Query("Comments?filter="+JSON.stringify(Sdata),"GET",null);
   return Promise;
 }
 

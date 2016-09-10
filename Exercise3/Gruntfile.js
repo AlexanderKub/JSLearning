@@ -15,8 +15,8 @@ module.exports = function(grunt) {
     },
     uglify: {
       build: {
-        src: "./build.js",
-        dest: "./production.min.js"
+        src: "./AppsManager/client/build.js",
+        dest: "./AppsManager/client/production.min.js"
       }
     }
   });

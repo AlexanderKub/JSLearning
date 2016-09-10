@@ -3,7 +3,7 @@
 			<p>
 				Список заявок:
 				<button class="btn" id="AddAppsBtn" 
-					onclick="SetFrame('CreateAppsFrame');"
+					onclick="getContent('#CreateApp', true);"
 					style="float:right;">
 					Добавить заявку
 				</button>
@@ -20,7 +20,7 @@
 			<p id="DetailFrameLabel">
 				Детальная информация:
 				<button class="btn" id="BackAppsBtn" 
-					onclick="SetFrame('AppsFrame');"
+					onclick="getContent('#Apps',true);"
 					style="float:right;"> &laquo;Назад
 				</button>
 			</p>
@@ -108,7 +108,7 @@
 				    	<td colspan="3"></td>
 				    	<td align="right" >
 				    		<input type="button"  class='btn' value="&laquo;Назад" 
-				    			onclick="SetFrame('AppsFrame');">
+				    			onclick="getContent('#Apps', true);">
 				    		<input type="submit"  class='btn' value="Создать">
 				    	</td>
 				    </tr>

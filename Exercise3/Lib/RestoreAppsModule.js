@@ -52,7 +52,7 @@ module.exports=function(){
     
     SaveApp(data).then(function () {
       AlertMsg(naf,"<span style='color: green'>Заявка создана!</span>");
-      SetFrame("AppsFrame");
+      getContent("#Apps",true);
     });
   });
   
@@ -66,7 +66,7 @@ function ShowCreateFrame(){
   $("#MB1").css("backgroundColor","#d9dee2");
   $("#MB2").css("backgroundColor","");
   
-  var naf =$("#NewAppForm");
+  var naf = $("#NewAppForm");
   
   naf.trigger("reset");
   
@@ -170,7 +170,6 @@ function ShowAppsFrame(){
 //Детальная информация о заявке
 function GetDetailInfo(id){
   ShowDetailAppsFrame();
-  SetFrame("DetailAppsFrame");
   
   AppExist(id).then(function (response) {
     var flag = (response.length>0);
@@ -239,7 +238,7 @@ function DeleteAppsFromDetail(){
       if(!confirm("Действительно удалить запись о заявке "+
           (flag?response[0].Name:"")+"?"))return;
       DeleteApp(config.TempAppID).then(function () {
-        SetFrame("AppsFrame");
+        getContent("#Apps",true);
       });
     });
   });

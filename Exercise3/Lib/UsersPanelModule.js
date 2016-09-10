@@ -1,8 +1,6 @@
 require("./Framework");
 //Добавление нового пользователя администратором
 module.exports=function(){
-  $("#AddNewUserFormHref").on("click",
-      function(){AddNewUserFormShow(true);});
   $("#AddEditUserForm").css("display","none");
   $("#AddEditUserForm").on("submit", function(event) {
     event.preventDefault();
@@ -122,7 +120,7 @@ function AddNewUserFormShow(flag){
 function ShowIt(){
   $("#MB1").css("backgroundColor","");
   $("#MB2").css("backgroundColor","#d9dee2");
-  GetUsersList(config.UsersFilter).then(function (response) {
+  return GetUsersList(config.UsersFilter).then(function (response) {
     config.UsersList=response;
   
     var Tpl1 = require("../Templates/UsersList.ejs");
@@ -147,6 +145,14 @@ function ShowIt(){
   });
 }
 
+function ShowUserInfo(log){
+  ShowIt().then(function () {
+    for(var i=0; i<config.UsersList.length; i++){
+      if(config.UsersList[i].login==log) SideUserMenuClick(i);
+    }
+  });
+}
+
 module.exports.Show=ShowIt;
 module.exports.DropFilter=DropFilter;
 module.exports.UFilterChange=UFilterChange;
@@ -154,3 +160,4 @@ module.exports.SideUserMenuClick=SideUserMenuClick;
 module.exports.ChangeUserInfo=ChangeUserInfo;
 module.exports.DeleteUserFromList=DeleteUserFromList;
 module.exports.AddNewUserFormShow=AddNewUserFormShow;
+module.exports.ShowUserInfo=ShowUserInfo;
