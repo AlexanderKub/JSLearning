@@ -1,0 +1,38 @@
+{
+  "name": "forum",
+  "version": "1.0.0",
+  "description": "Anonimus forum",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alexander Gutriz",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "css-loader": "^0.25.0",
+    "ejs-loader": "^0.3.0",
+    "eslint": "^3.5.0",
+    "eslint-loader": "^1.5.0",
+    "loader": "^2.1.1",
+    "loopback": "^2.33.0",
+    "loopback-datasource-juggler": "^2.50.0",
+    "style-loader": "^0.13.1",
+    "underscore-template-loader": "^0.7.3",
+    "webpack": "^1.13.2"
+  },
+  "dependencies": {
+    "babel-preset-es2016": "^6.11.3",
+    "backbone": "^1.3.3",
+    "es6-promise": "^3.2.1",
+    "express-history-api-fallback": "^2.0.0",
+    "jquery": "^3.1.0",
+    "lodash": "^4.15.0",
+    "moment": "^2.15.0",
+    "striptags": "^2.1.1",
+    "underscore": "^1.8.3",
+    "quill": "^1.0.3"
+  }
+}

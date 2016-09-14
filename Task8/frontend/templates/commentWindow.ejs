@@ -1,0 +1,26 @@
+<div id="commentsHead">
+    <h1>Тема:<%-topic%></h1>
+</div>
+
+<div class="newComment">
+    Имя: <input type="text" id="userName" style="display: inline-block; margin-bottom: 8px;" value="Анонимус">
+    <div>
+        <div id="editorText">
+		</div>
+    </div>
+    <div class="blockText">
+        Введите код:<span id="topicCaptcha"></span><br>
+        <input style="display:inline-block;margin-top: 5px;" class="captchaField">
+    </div>
+    <div style="margin-top:10px;">
+        <button type="button" id="addButton">Добавить комментарий</button>
+    </div>
+    <span class="blockError" style="padding-top: 8px;"></span>
+</div>
+
+<div id="commentsList"></div>
+
+<button type="button" class="back">На главную</button>
+<button type="button" class="exit">Выйти</button>
+
+<button id="arrow">Вверх</button>

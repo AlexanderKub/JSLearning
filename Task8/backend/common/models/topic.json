@@ -1,0 +1,38 @@
+{
+  "name": "topic",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "id": true,
+      "required": true
+    },
+    "date": {
+      "type": "string",
+      "required": true
+    },
+    "discription": {
+      "type": "string",
+      "default": "Без описания"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "comments": {
+      "type": "hasMany",
+      "model": "comment",
+      "foreignKey": ""
+    },
+    "section": {
+      "type": "belongsTo",
+      "model": "section",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

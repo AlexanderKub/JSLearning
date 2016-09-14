@@ -1,0 +1,32 @@
+{
+  "name": "comment",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "user": {
+      "type": "string",
+      "default": "Аноним"
+    },
+    "date": {
+      "type": "string",
+      "required": true
+    },
+    "text": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "topic": {
+      "type": "belongsTo",
+      "model": "topic",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

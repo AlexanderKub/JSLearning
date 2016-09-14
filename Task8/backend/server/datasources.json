@@ -1,0 +1,12 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "StorageDB": {
+    "name": "StorageDB",
+    "localStorage": "db",
+    "file": "./server/storage/db.json",
+    "connector": "memory"
+  }
+}

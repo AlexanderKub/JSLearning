@@ -1,0 +1,12 @@
+<div class="commentHeader">
+    <span class="commentName"><%=user%></span>
+    <span class="commentDate">
+        <%=date%>
+        <%if(sessionStorage.getItem("moder")){%>
+            <span class="delSpan" style="bottom: 2px; right: 0;">
+               <button class="delBtn">x</button>
+            </span>
+        <%}%>
+    </span>
+</div>
+<div class="commentText"><%=text%></div>
