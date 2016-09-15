@@ -4,6 +4,6 @@ import Section from "../models/section";
 export default Collection.extend({
   model : Section,
   url: function() {
-    return "/api/sections";
+    return "!host/api/sections";
   }
 });

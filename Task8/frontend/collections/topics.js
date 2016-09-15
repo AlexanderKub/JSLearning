@@ -8,6 +8,6 @@ export default Collection.extend({
     this.section = section;
   },
   url: function () {
-    return "/api/sections/" + this.section + "/topics";
+    return "!host/api/sections/" + this.section + "/topics";
   }
 });

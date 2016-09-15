@@ -4,10 +4,9 @@ var webpack = require("webpack");
 module.exports = {
   entry: "./frontend/lib/index",
   output: {
-    path: "./backend/client",
+    path: "./dist",
     filename: "build.js"
   },
-  devtool: "inline-source-map",
   module: {
     loaders: [
       {
