@@ -4,7 +4,7 @@ var webpack = require("webpack");
 module.exports = {
   entry: "./frontend/lib/index",
   output: {
-    path: "./dist",
+    path: "./build",
     filename: "build.js"
   },
   module: {

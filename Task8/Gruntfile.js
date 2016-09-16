@@ -9,7 +9,7 @@ module.exports = function(grunt) {
       options: webpackConfig,
       build: {
         output: {
-          path: "./dist",
+          path: "./build",
           filename: "build.min.js"
         },
         plugins: webpackConfig.plugins.concat(
@@ -23,41 +23,34 @@ module.exports = function(grunt) {
         )
       },
       "build-dev": {
+        output: {
+          path: "./build",
+          filename: "build.js"
+        },
         devtool: "#inline-source-map",
         debug: true
       }
     }
   });
 
-  grunt.registerTask("minifyCSSFiles", function(){
-    grunt.config("cssmin", {
-      options: {
-        shorthandCompacting: false,
-        roundingPrecision: -1
-      },
-      target: {
-        files:{
-          "dist/style.min.css": ["frontend/css/style.css", "frontend/css/quill.snow.css"]
-        }
-      }
-    });
-    grunt.task.run("cssmin");
-  });
-
-  grunt.registerTask("minifyHTMLFiles", function(){
+  grunt.registerTask("minifyHTMLFiles", function(n){
     var strData = grunt.file.read("frontend/index.html", {encoding: "utf8"});
-    var objReg = /style.css/gi;
-    var stl = grunt.file.read("dist/style.min.css")
-    strData = strData.replace(objReg, "<style>"+stl+"</style>");
-    objReg = /build.js/gi;
-    var scr = grunt.file.read("dist/build.min.js");
+    var objReg = /build.js/gi;
+    var scr = grunt.file.read("build/build.min.js");
     strData = strData.replace(objReg, "<script>"+scr+"</script>");
-    grunt.file.write("dist/index.html" , strData );
+    if (arguments.length === 0) {
+      grunt.file.write("build/info.txt" , "build-сборка с локальными url.");
+      strData = strData.replace(/!host/g, "127.0.0.1:3000");
+    }else{
+      grunt.file.write("build/info.txt" , "production-сборка с публичными url.");
+      strData = strData.replace(/!host/g, "https://forum-js.herokuapp.com");
+    }
+    grunt.file.write("build/index.html" , strData );
     grunt.initConfig({
       htmlcompressor: {
         compile: {
           files: {
-            "dist/index.html": "dist/index.html"
+            "build/index.html": "build/index.html"
           },
           options: {
             type: "html",
@@ -69,46 +62,26 @@ module.exports = function(grunt) {
     grunt.task.run("htmlcompressor");
   });
 
-  grunt.registerTask("copyToPublicServer", function(){
+  grunt.registerTask("copyToServer", function(){
     grunt.config("copy", {
       main: {
-        src: "dist/index.html",
-        dest: "backend/client/index.html",
-        options: {
-          process: function (content) {
-            return content.replace(/!host/g, "https://forum-js.herokuapp.com");
-          }
-        }
+        src: "build/index.html",
+        dest: "backend/client/index.html"
       }
     });
     grunt.task.run("copy");
   });
 
-  grunt.registerTask("copyToLocalServer", function(){
-    grunt.config("copy", {
-      main: {
-        src: "dist/index.html",
-        dest: "backend/client/index.html",
-        options: {
-          process: function (content) {
-            return content.replace(/!host/g, "http://127.0.0.1:3000");
-          }
-        }
-      }
-    });
-    grunt.task.run("copy");
-  });
-
-  grunt.registerTask("copyDev", function() {
+  grunt.registerTask("copyToDevServer", function() {
     var strData = grunt.file.read("frontend/index.html", {encoding: "utf8"});
-    var objReg = /style.css/gi;
-    strData = strData.replace(objReg,"<link href='http://127.0.0.1:3000/quill.snow.css' rel='stylesheet'>");
-    objReg = /build.js/gi;
+    var objReg = /build.js/gi;
     strData = strData.replace(objReg, "<script src='http://127.0.0.1:3000/build.js'></script>");
     grunt.file.write("backend/client/index.html" , strData );
+    grunt.file.write("build/index.html" , strData );
+    grunt.file.write("build/info.txt" , "dev-сборка");
     grunt.config("copy", {
       main: {
-        src: "dist/build.js",
+        src: "build/build.js",
         dest: "backend/client/build.js",
         options: {
           process: function (content) {
@@ -120,39 +93,20 @@ module.exports = function(grunt) {
     grunt.task.run("copy");
   });
 
-  grunt.registerTask("copyDevCss", function() {
-    grunt.config("copy", {
-      main: {
-        src: "frontend/css/quill.snow.css",
-        dest: "backend/client/quill.snow.css"
-      }
-    });
-    grunt.task.run("copy");
-  });
-
-  grunt.registerTask("removeExtendContents", function(){
-    grunt.config("clean", {
-      contents: ["dist/style.min.css","dist/build.min.js","dist/build.js"]
-    });
-    grunt.task.run("clean");
-  });
-  
   grunt.registerTask("removeAllContents", function(){
     grunt.config("clean", {
-      contents: ["backend/client/*"]
+      contents: ["backend/client/*", "build/*"]
     });
     grunt.task.run("clean");
   });
 
-  grunt.registerTask("default", ["removeAllContents", "webpack:build-dev", "copyDev",
-    "copyDevCss", "removeExtendContents"]);
-  grunt.registerTask("build-local", ["webpack:build", "minifyCSSFiles", "minifyHTMLFiles",
-    "removeAllContents", "copyToLocalServer", "removeExtendContents"]);
-  grunt.registerTask("build-public", ["webpack:build", "minifyCSSFiles", "minifyHTMLFiles",
-    "removeAllContents", "copyToPublicServer", "removeExtendContents"]);
+  grunt.registerTask("default", ["removeAllContents", "webpack:build-dev", "copyToDevServer"]);
+
+  grunt.registerTask("build", ["webpack:build", "minifyHTMLFiles", "removeAllContents", "copyToServer"]);
+
+  grunt.registerTask("build-public", ["webpack:build", "minifyHTMLFiles:public", "removeAllContents", "copyToServer"]);
   
   grunt.loadNpmTasks("grunt-htmlcompressor");
-  grunt.loadNpmTasks("grunt-contrib-cssmin");
   grunt.loadNpmTasks("grunt-contrib-clean");
   grunt.loadNpmTasks("grunt-contrib-copy");
 };
