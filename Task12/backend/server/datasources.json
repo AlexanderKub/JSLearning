@@ -1,0 +1,8 @@
+{
+  "StorageDB": {
+    "name": "StorageDB",
+    "localStorage": "db",
+    "file": "./storage/storage.json",
+    "connector": "memory"
+  }
+}
