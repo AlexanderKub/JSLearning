@@ -4,7 +4,7 @@ import _ from "underscore";
 
 import tmpl from "../templates/sectionWindow.ejs";
 import SectionsCollection from "../collections/sections";
-import SectionsView from "./SectionItem";
+import SectionsView from "./sectionItem";
 
 let sectionList = Backbone.View.extend({
   events: {
@@ -87,5 +87,9 @@ let sectionList = Backbone.View.extend({
   }
 
 });
+
+exports.test = function (a) {
+  return a;
+};
 
 export default sectionList;
