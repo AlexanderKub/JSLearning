@@ -14,9 +14,8 @@ module.exports = function(grunt) {
         },
         plugins: webpackConfig.plugins.concat(
             new webpack.DefinePlugin({
-              "process.env": {
-                "NODE_ENV": JSON.stringify("production")
-              }
+              "NODE_ENV": JSON.stringify("production"),
+              "NODE_URL": JSON.stringify("https://forum-js.herokuapp.com")
             }),
             new webpack.optimize.DedupePlugin(),
             new webpack.optimize.UglifyJsPlugin({sourceMap: false})
@@ -28,22 +27,24 @@ module.exports = function(grunt) {
           filename: "build.js"
         },
         devtool: "#inline-source-map",
-        debug: true
+        debug: true,
+        plugins: [new webpack.DefinePlugin({
+          "NODE_ENV": JSON.stringify("development"),
+          "NODE_URL": JSON.stringify("http://127.0.0.1:3000")
+        })]
       }
     }
   });
 
-  grunt.registerTask("minifyHTMLFiles", function(n){
+  grunt.registerTask("minifyHTMLFiles", function(){
     var strData = grunt.file.read("frontend/index.html", {encoding: "utf8"});
-    var objReg = /build.js/gi;
+    var objReg = /!buildJS/g;
     var scr = grunt.file.read("build/build.min.js");
     strData = strData.replace(objReg, "<script>"+scr+"</script>");
     if (arguments.length === 0) {
       grunt.file.write("build/info.txt" , "build-сборка с локальными url.");
-      strData = strData.replace(/!host/g, "127.0.0.1:3000");
     }else{
       grunt.file.write("build/info.txt" , "production-сборка с публичными url.");
-      strData = strData.replace(/!host/g, "https://forum-js.herokuapp.com");
     }
     grunt.file.write("build/index.html" , strData );
     grunt.initConfig({
@@ -72,22 +73,32 @@ module.exports = function(grunt) {
     grunt.task.run("copy");
   });
 
-  grunt.registerTask("copyToDevServer", function() {
-    var strData = grunt.file.read("frontend/index.html", {encoding: "utf8"});
-    var objReg = /build.js/gi;
-    strData = strData.replace(objReg, "<script src='http://127.0.0.1:3000/build.js'></script>");
-    grunt.file.write("backend/client/index.html" , strData );
-    grunt.file.write("build/index.html" , strData );
+  grunt.registerTask("copyIndexToBuild", function() {
     grunt.file.write("build/info.txt" , "dev-сборка");
     grunt.config("copy", {
       main: {
-        src: "build/build.js",
-        dest: "backend/client/build.js",
+        src: "frontend/index.html",
+        dest: "build/index.html",
         options: {
           process: function (content) {
-            return content.replace(/!host/g, "http://127.0.0.1:3000");
+            var str = "<script src='http://127.0.0.1:3000/build.js'></script>";
+            return content.replace(/!buildJS/g, str);
           }
         }
+      }
+    });
+    grunt.task.run("copy");
+  });
+
+
+  grunt.registerTask("copyToDevServer", function() {
+    grunt.file.write("build/info.txt" , "dev-сборка");
+    grunt.config("copy", {
+      main: {
+        files:[
+          {expand: true, cwd:"build/" ,src:"**", dest: "backend/client/"}
+        ],
+
       }
     });
     grunt.task.run("copy");
@@ -100,11 +111,9 @@ module.exports = function(grunt) {
     grunt.task.run("clean");
   });
 
-  grunt.registerTask("default", ["removeAllContents", "webpack:build-dev", "copyToDevServer"]);
-
-  grunt.registerTask("build", ["webpack:build", "minifyHTMLFiles", "removeAllContents", "copyToServer"]);
-
-  grunt.registerTask("build-public", ["webpack:build", "minifyHTMLFiles:public", "removeAllContents", "copyToServer"]);
+  grunt.registerTask("default", ["removeAllContents", "webpack:build-dev","copyIndexToBuild","copyToDevServer"]);
+  grunt.registerTask("build", ["removeAllContents", "webpack:build", "minifyHTMLFiles", "copyToServer"]);
+  grunt.registerTask("build-public", ["removeAllContents", "webpack:build", "minifyHTMLFiles:public", "copyToServer"]);
   
   grunt.loadNpmTasks("grunt-htmlcompressor");
   grunt.loadNpmTasks("grunt-contrib-clean");

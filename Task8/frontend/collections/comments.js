@@ -8,6 +8,6 @@ export default Collection.extend({
     this.topic = topic;
   },
   url: function () {
-    return "!host/api/topics/" + this.topic +"/comments";
+    return NODE_URL+"/api/topics/" + this.topic +"/comments";
   }
 });
