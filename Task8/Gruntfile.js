@@ -97,8 +97,7 @@ module.exports = function(grunt) {
       main: {
         files:[
           {expand: true, cwd:"build/" ,src:"**", dest: "backend/client/"}
-        ],
-
+        ]
       }
     });
     grunt.task.run("copy");
