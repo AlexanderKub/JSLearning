@@ -4,16 +4,15 @@ module.exports={
   output:{
     filename: "build.js"
   },
-	
   module: {
     loaders: [
       {
         test: /\.css$/,
-        loader: "style-loader!css-loader"
+        loader: "style-loader!css!"
       },
       {
         test: /\.ejs$/,
-        loader: "ejs-loader?variable=data"
+        loader: "underscore-template-loader"
       },
       {
         test: /\.js$/,
@@ -29,7 +28,7 @@ module.exports={
     
   plugins: [
     new webpack.ProvidePlugin({
-      _: "lodash"
+      _: "underscore"
     })
   ]
 

@@ -12,7 +12,7 @@
         <th style="width: 350px;">Имя</th>
         <th style="width: 210px;">среднемесячная заработная плата</th>
     </thead>
-    <%data.List.forEach(function(item, i, arr){%>
+    <%List.forEach(function(item, i, arr){%>
         <tr id="ListItem<%=item.id%>">
             <td><span><a href="#" id="tid"><%=item.id%></a></span></td>
             <td><span><a href="#" id="tname"><%=item.name%></a></span></td>
@@ -22,7 +22,7 @@
             </td>
         </tr>
     <%});%>
-    <%if(data.List.length==0){%>
+    <%if(List.length==0){%>
         <tr>
             <td colspan="3" style="text-align:center;">Список пуст</td>
         </tr>
