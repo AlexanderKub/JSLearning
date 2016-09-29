@@ -14,6 +14,7 @@
     "eslint-plugin-standard": "^2.0.0",
     "grunt": "~0.4.1",
     "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-newer": "^1.2.0",
@@ -23,9 +24,11 @@
   },
   "dependencies": {
     "grunt": "~0.4.1",
+    "grunt-contrib-clean": "^1.0.0",
     "grunt-webpack": "^1.0.14",
     "load-grunt-config": "^0.19.2",
     "lodash": "^4.15.0",
-    "password-hash": "^1.2.2"
+    "password-hash": "^1.2.2",
+    "style-loader": "^0.13.1"
   }
 }

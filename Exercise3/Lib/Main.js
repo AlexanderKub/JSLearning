@@ -1,3 +1,4 @@
+require("../CSS/style.css");
 var $ = require("jquery");
 var UserConfig = require("./modules/UserConfig");
 var UsersData = require("./modules/UsersData");
