@@ -5,9 +5,9 @@
     "ACL": 1,
     "RoleMapping": 1,
     "Role": 1,
-    "AppUser": 6,
-    "App": 5,
-    "Comment": 2
+    "AppUser": 25,
+    "App": 12,
+    "Comment": 15
   },
   "models": {
     "User": {},
@@ -16,17 +16,20 @@
     "RoleMapping": {},
     "Role": {},
     "AppUser": {
-      "1": "{\"login\":\"admin\",\"pass\":\"1488\",\"role\":0,\"name\":\"Администратор\",\"lastsession\":\"2016-09-10T20:33:48.362Z\",\"id\":1}",
-      "2": "{\"login\":\"executor\",\"pass\":\"3222\",\"role\":1,\"name\":\"Исполнитель №1\",\"lastsession\":\"2016-09-10T18:19:10.197Z\",\"id\":2}",
-      "3": "{\"login\":\"client\",\"pass\":\"3222\",\"role\":2,\"name\":\"Клиент №1\",\"lastsession\":\"2016-09-10T18:31:54.198Z\",\"id\":3}",
-      "5": "{\"login\":\"client2\",\"pass\":\"3222\",\"role\":2,\"name\":\"Клиент №2\",\"lastsession\":\"2016-09-10T20:18:19.045Z\",\"id\":5}"
+      "1": "{\"login\":\"admin\",\"pass\":\"sha1$14773ea0$1$90f88d3975593873cd62614268a7611e7d7a6309\",\"role\":0,\"name\":\"Администратор\",\"lastsession\":\"2016-09-29T09:10:31.948Z\",\"id\":1,\"lastSession\":\"2016-09-28T18:27:43.985Z\"}",
+      "2": "{\"login\":\"executor\",\"pass\":\"sha1$14773ea0$1$90f88d3975593873cd62614268a7611e7d7a6309\",\"role\":1,\"name\":\"Исполнитель №1\",\"lastsession\":\"2016-09-21T11:10:55.288Z\",\"id\":2}",
+      "3": "{\"login\":\"client\",\"pass\":\"sha1$14773ea0$1$90f88d3975593873cd62614268a7611e7d7a6309\",\"role\":2,\"name\":\"Клиент №1\",\"lastsession\":\"2016-09-29T08:28:04.069Z\",\"id\":3}",
+      "5": "{\"login\":\"client2\",\"pass\":\"sha1$4ffe7df0$1$462977db17b36b05ba932d56624c36498f599561\",\"role\":2,\"name\":\"Клиент №2\",\"lastsession\":\"2016-09-29T01:01:57.485Z\",\"id\":5}"
     },
     "App": {
-      "3": "{\"Name\":\"Test\",\"Date\":\"2016-09-10T23:17:00.000Z\",\"Client\":\"client\",\"ClientName\":\"Клиент №1\",\"Executor\":\"executor\",\"ExecutorName\":\"Исполнитель №1\",\"Discription\":\"Test Test Test\",\"Priority\":0,\"Estimated\":\"2016-10-10T23:17:00.000Z\",\"Deadline\":\"2016-10-10T23:17:00.000Z\",\"Progress\":44,\"id\":3}",
-      "4": "{\"Name\":\"Тест\",\"Date\":\"2016-09-10T23:18:00.000Z\",\"Client\":\"client2\",\"ClientName\":\"Клиент №2\",\"Executor\":\"null\",\"ExecutorName\":\"Нет\",\"Discription\":\"Тест Тест Тест\",\"Priority\":2,\"Estimated\":\"2016-10-10T23:18:00.000Z\",\"Deadline\":\"2016-10-10T23:18:00.000Z\",\"Progress\":14,\"id\":4}"
+      "3": "{\"Name\":\"Test\",\"Date\":\"2016-09-10T23:17:00.000Z\",\"Client\":\"client\",\"ClientName\":\"Клиент №1\",\"Executor\":\"null\",\"ExecutorName\":\"Нет\",\"Discription\":\"Test Test Test\",\"Priority\":0,\"Estimated\":\"2016-10-13T02:17:00.000Z\",\"Deadline\":\"2016-10-12T02:17:00.000Z\",\"Progress\":43,\"id\":3}",
+      "4": "{\"Name\":\"Тест\",\"Date\":\"2016-09-10T23:18:00.000Z\",\"Client\":\"client2\",\"ClientName\":\"Клиент №2\",\"Executor\":\"executor\",\"ExecutorName\":\"Исполнитель №1\",\"Discription\":\"Тест Тест Тест\",\"Priority\":2,\"Estimated\":\"2016-10-11T17:18:00.000Z\",\"Deadline\":\"2016-10-11T17:18:00.000Z\",\"Progress\":14,\"id\":4}",
+      "10": "{\"Name\":\"11\",\"Date\":\"2016-09-29T10:21:00.000Z\",\"Client\":\"client\",\"ClientName\":\"Клиент №1\",\"Executor\":\"eeee\",\"ExecutorName\":\"eeeet\",\"Discription\":\"11\",\"Priority\":0,\"Estimated\":\"2016-10-29T13:21:00.000Z\",\"Deadline\":\"2016-10-29T13:21:00.000Z\",\"Progress\":3,\"id\":10}"
     },
     "Comment": {
-      "1": "{\"App\":1,\"User\":\"admin\",\"UserName\":\"Администратор\",\"Date\":\"2016-09-10T21:46:00.000Z\",\"Text\":\"lolololo\",\"id\":1}"
+      "1": "{\"App\":1,\"User\":\"admin\",\"UserName\":\"Администратор\",\"Date\":\"2016-09-10T21:46:00.000Z\",\"Text\":\"lolololo\",\"id\":1}",
+      "11": "{\"App\":3,\"User\":\"admin\",\"UserName\":\"Администратор\",\"Date\":\"2016-09-29T10:59:00.000Z\",\"Text\":\"43243\",\"id\":11}",
+      "14": "{\"App\":3,\"User\":\"client\",\"UserName\":\"Клиент №1\",\"Date\":\"2016-09-29T11:29:00.000Z\",\"Text\":\"rerer\",\"id\":14}"
     }
   }
 }

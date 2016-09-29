@@ -1,47 +1,47 @@
 <div id='AppsList'>
 	  <table class='simple-little-table'  cellspacing='0'>
 		  <tr>
-		  		<th style='cursor:pointer;' onclick='Main.AppsModule.Sort(1);'>
+		  		<th class='pointerCl'>
 				 	Название
 				</th>
-		  		<th style='cursor:pointer;' onclick='Main.AppsModule.Sort(2);'>
+		  		<th class='pointerCl'>
 		  			Дата
 		  		</th>
 		  		<% if(data.inInfo.role!=2){ %>
-		  			<th style='cursor:pointer;' onclick='Main.AppsModule.Sort(3);'>
+		  			<th class='pointerCl'>
 		  				Клиент
 		  			</th>
 		  		<% } %>
 		  		<% if(data.inInfo.role==0){%>
-		  			<th style='cursor:pointer;' onclick='Main.AppsModule.Sort(4);'>
+		  			<th class='pointerCl'>
 		  				Исполнитель
 		  			</th>
 		  		<% } %>
-		  		<th style='cursor:pointer;' onclick='Main.AppsModule.Sort(5);'>
+		  		<th class='pointerCl'>
 		  			Приоритет
 		  		</th>
-		  		<th style='cursor:pointer;' onclick='Main.AppsModule.Sort(6);'>
+		  		<th class='pointerCl'>
 		  			Предельный срок
 		  		</th>
 		  		<% if(data.inInfo.role!=2){ %>
-		  			<th style='cursor:pointer;' onclick='Main.AppsModule.Sort(7);'>
+		  			<th class='pointerCl'>
 		  				Предпологаемый срок
 		  			</th>
 		  		<% } %>
-		  		<th style='cursor:pointer;' onclick='Main.AppsModule.Sort(8);'>
+		  		<th class='pointerCl'>
 		  			Завершено
 		  		</th>
 		  </tr>
 		  
 		  <% if(data.inList.length==0){ %>
 			  <tr>
-			  	<td colspan='8' style='text-align:center;'>Нет заявок</td>
+			  	<td colspan='8' class="centerText">Нет заявок</td>
 			  </tr>
 		  </table>
 			  
 		  <% }else{ %>
 			  <% for (var x in data.inList) { %>
-			    <tr style='cursor:pointer;' 
+			    <tr class='pointerCl' 
 				 	onclick='getContent("#AppsDetail?id=<%=data.inList[x].id%>",true);'>
 				 <td>
 				 	<%=data.inList[x].Name%>

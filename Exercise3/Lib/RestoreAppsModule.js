@@ -1,7 +1,26 @@
-require("./Framework");
+var $ = require("jquery");
+var Dates = require("./modules/Dates");
+var UserConfig = require("./modules/UserConfig");
+var UsersData = require("./modules/UsersData");
+var AppsData = require("./modules/AppsData");
+var CommentsData = require("./modules/CommentsData");
+var Alerts = require("./modules/Alerts");
 
-//Добавление новой заявки
-module.exports=function(){
+var Tpl = require("../Templates/MainWindow.ejs");
+var TplAW = require("../Templates/AppsWindow.ejs");
+
+module.exports = function(){
+  var page = $("#page");
+  page.append(Tpl);
+  var mainWind = $("#MainWindow");
+  mainWind.append(TplAW);
+
+  $("#AppsFrame").css("display","block");
+  $("#CreateAppsFrame").css("display","none");
+  $("#DetailAppsFrame").css("display","none");
+
+  var info = UserConfig.UserInfo();
+  $("#StatusBar").html(info.name+"("+info.login+")");
   var naf = $("#NewAppForm");
   naf.on("submit", function(event) {
     event.preventDefault();
@@ -17,67 +36,79 @@ module.exports=function(){
       progress:naf.find("#status").val().trim()
     };
   
-    var textvar=data.name.trim();
-    textvar=textvar.replace(/<.*?/g,"");
+    var textvar = data.name.trim();
+    textvar = textvar.replace(/<.*?/g,"");
     if(textvar!=data.name.trim()){
-      AlertMsg(naf,"Скобки <> запрещенны!");
+      Alerts($("#NewAppForm"),"Скобки <> запрещенны!");
       return;
     }
     if(!textvar.length){
-      AlertMsg(naf,"Пустое значение названия.");
+      Alerts($("#NewAppForm"),"Пустое значение названия.");
       return;
     }
   
     textvar=data.discription.trim();
     textvar=textvar.replace(/<.*?/g,"");
     if(textvar!=data.discription.trim()){
-      AlertMsg(naf,"Скобки <> запрещенны!");
+      Alerts($("#NewAppForm"),"Скобки <> запрещенны!");
       return;
     }
   
     if(!textvar.length){
-      AlertMsg(naf,"Пустое значение описания.");
+      Alerts($("#NewAppForm"),"Пустое значение описания.");
       return;
     }
-    
-    if(!UserExist(data.client)){
-      AlertMsg(naf,"Недопустимые данные: "+data.client);
-      return;
-    }
-    
-    if(data.priority<0 || data.priority>2){
-      AlertMsg(naf,"Недопустимые данные: "+data.priority);
-      return;
-    }
-    
-    SaveApp(data).then(function () {
-      AlertMsg(naf,"<span style='color: green'>Заявка создана!</span>");
-      getContent("#Apps",true);
+    UsersData.GetUser(data.client).then(function (response) {
+      if(response==0){
+        Alerts($("#NewAppForm"),"Недопустимые данные: "+data.client);
+        return;
+      }
+
+      if(data.priority<0 || data.priority>2){
+        Alerts($("#NewAppForm"),"Недопустимые данные: "+data.priority);
+        return;
+      }
+
+      AppsData.SaveApp(data).then(function () {
+        Alerts($("#NewAppForm"),"<span class='greenCL'>Заявка создана!</span>");
+        getContent("#Apps",true);
+      });
     });
   });
-  
+
+  $("#CommArea").on("keyup",function(event){TextAreaResize(event, 15, 2)});
+  $("#SendComm").on("click",function(){AddComment()});
+  $("#BackAppsBtn").on("click",function(){getContent("#Apps", true)});
+  $("#BackBtn").on("click",function(){getContent("#Apps", true)});
+  $("#AddAppsBtn").on("click",function(){getContent("#CreateApp", true)});
+
   var fs = $("#FindString");
   fs.change(function() {
-    Find(fs.val().trim());
+    Find($("#FindString").val().trim());
   });
 };
 
 function ShowCreateFrame(){
   $("#MB1").css("backgroundColor","#d9dee2");
   $("#MB2").css("backgroundColor","");
-  
+
+  $("#CreateAppsFrame").css("display","block");
+  $("#DetailAppsFrame").css("display","none");
+  $("#AppsFrame").css("display","none");
+
   var naf = $("#NewAppForm");
   
   naf.trigger("reset");
   
-  naf.find("#appdate").val(LocalDateTime());
-  naf.find("#appestdate").val(LocalDateTime(30));
-  naf.find("#appdeaddate").val(LocalDateTime(30));
+  naf.find("#appdate").val(Dates.LocalDateTime());
+  naf.find("#appestdate").val(Dates.LocalDateTime(30));
+  naf.find("#appdeaddate").val(Dates.LocalDateTime(30));
   naf.find("#status").val(0);
-  if(config.UserInfo.role==2){
+  var info = UserConfig.UserInfo();
+  if(info.role==2){
     naf.find("#ClientSelect").html("<option value='" +
-      config.UserInfo.login.toLowerCase()+"' selected>"+
-      config.UserInfo.name+"</option>");
+      info.login.toLowerCase()+"' selected>"+
+      info.name+"</option>");
     
     var cs = $("#ClientSelect");
     cs.prop("disabled",true);
@@ -92,74 +123,91 @@ function ShowCreateFrame(){
     $("#NewAppFormDSRow").prop("hidden",true);
   }
   
-  if(config.UserInfo.role>0)return;
+  if(info.role>0)return;
   
   var result;
   var Tpl1 = require("../Templates/Selector.ejs");
-  GetUsersList([,,2]).then(function(response) {
+  UsersData.GetUsersList([0,0,1]).then(function(response) {
     result = Tpl1({empty:null,list:response});
     $("#ClientSelect").html(result);
   
     Tpl1 = require("../Templates/Selector.ejs");
-    GetUsersList([,1]).then(function(response) {
+    UsersData.GetUsersList([0,1,0]).then(function(response) {
       result = Tpl1({empty:"-пусто-",list:response});
       $("#ExecutorSelect").html(result);
     });
   });
-
 }
 
+var dab = $("#DeleteAppsBtn");
+var eab = $("#EditAppsBtn");
 function ShowDetailAppsFrame(){
   $("#MB1").css("backgroundColor","#d9dee2");
   $("#MB2").css("backgroundColor","");
+
+  $("#DetailAppsFrame").css("display","block");
+  $("#CreateAppsFrame").css("display","none");
+  $("#AppsFrame").css("display","none");
+
   $("#CommArea").val("");
-  if($("#DeleteAppsBtn")!=null)$("#DeleteAppsBtn").remove();
-  if($("#EditAppsBtn")!=null)$("#EditAppsBtn").remove();
-  if(config.UserInfo.role==2)return;
+  var dfl = $("#DetailFrameLabel");
+
+  if(dab!=null)$("#DeleteAppsBtn").remove();
+  if(eab!=null)$("#EditAppsBtn").remove();
+
+  var info = UserConfig.UserInfo();
+  if(info.role==2)return;
   
   var elementbtn=document.createElement("button");
   elementbtn.id="EditAppsBtn";
   elementbtn.className ="btn";
   elementbtn.style="float:right;";
   elementbtn.innerHTML="Изменить";
-  $("#DetailFrameLabel").append(elementbtn);
-  $("#EditAppsBtn").on( "click",function(){
+  $(elementbtn).on( "click",function(){
     EditAppsFromDetail();
   });
-  if(config.UserInfo.role==1)return;
+  dfl.append(elementbtn);
+  if(info.role==1)return;
   
   elementbtn=document.createElement("button");
   elementbtn.id="DeleteAppsBtn";
   elementbtn.className ="btn";
   elementbtn.style="float:right;";
   elementbtn.innerHTML="Удалить";
-  $("#DetailFrameLabel").append(elementbtn);
-  $("#DeleteAppsBtn").on( "click",function(){
+  $(elementbtn).on( "click",function(){
     DeleteAppsFromDetail();
   });
+  dfl.append(elementbtn);
 }
 
 function ShowAppsFrame(){
   $("#MB1").css("backgroundColor","#d9dee2");
   $("#MB2").css("backgroundColor","");
 
+  $("#AppsFrame").css("display","block");
+  $("#CreateAppsFrame").css("display","none");
+  $("#DetailAppsFrame").css("display","none");
+
   var filter=[];
-  if(config.UserInfo.role==1) filter["executor"]=config.UserInfo.login;
-  if(config.UserInfo.role==2) filter["client"]=config.UserInfo.login;
-  GetAppList(filter).then(function (response) {
+  var info = UserConfig.UserInfo();
+  if(info.role==1) filter["executor"]=info.login;
+  if(info.role==2) filter["client"]=info.login;
+  AppsData.GetAppList(filter).then(function (response) {
     var AppsList=response;
+    var al = $("#AppsList");
     AppListForSort=AppsList;
-    if($("#AppsList")!=null)$("#AppsList").parent().remove();
-    $("#AppsFrame").append(GetAppsListItem(AppsList,config.UserInfo));
-    $("#AddAppsBtn").css("display",(config.UserInfo.role==1?"none":"inline-block"));
-    if(config.UserInfo.role==2)
+    if(al!=null)al.parent().remove();
+    $("#AppsFrame").append(GetAppsListItem(AppsList,info));
+    $("#AddAppsBtn").css("display",(info.role==1?"none":"inline-block"));
+    if(info.role==2)
       $("#FilterClientSelect").remove();
     else{
       var Tpl1 = require("../Templates/Selector.ejs");
-      GetUsersList([,,2]).then(function(response) {
+      UsersData.GetUsersList([0,0,1]).then(function(response) {
         var result = Tpl1({empty:"Все",list:response});
-        $("#FilterClientSelect").html(result);
-        $("#FilterClientSelect").on("change",function(){
+        var fcs = $("#FilterClientSelect");
+        fcs.html(result);
+        fcs.on("change",function(){
           Filter($("#FilterClientSelect").val());
         });
       });
@@ -167,116 +215,117 @@ function ShowAppsFrame(){
   });
 }
 
-//Детальная информация о заявке
 function GetDetailInfo(id){
   ShowDetailAppsFrame();
-  
-  AppExist(id).then(function (response) {
-    var flag = (response.length>0);
-    GetApp(id).then(function (response) {
-      var Record=flag?response[0]:false;
-      if(Record)config.TempAppID=id; else return;
-      if($("#AppsDetail")!=null)$("#AppsDetail").remove();
-      var Tpl1 = require("../Templates/AppDetail.ejs");
-      GetUsersList([,1]).then(function(response) {
-        var result = Tpl1({inRec:Record,inList:response,inInfo:config.UserInfo});
-        $("#DetailFrameTable").append(result);
-      });
-    
-      var str="";
-      GetCommList(id).then(function(response){
-        config.CommsList=response;
-        Tpl1 = require("../Templates/Comment.ejs");
-        for (var x in config.CommsList) {
-          var result = Tpl1({UF:config.UserInfo,com:config.CommsList[x]});
-          str+=result;
-        }
-        $("#DetailFrameComments").html(str);
-      });
+  AppsData.GetApp(id).then(function (response) {
+    var flag = (response!=0);
+    var Record = flag?response:false;
+    if(Record)UserConfig.TempAppID(id); else{location.hash="Apps"; return;}
+    var ad = $("#AppsDetail");
+    if(ad!=null)ad.remove();
+    var Tpl1 = require("../Templates/AppDetail.ejs");
+    UsersData.GetUsersList([0,1,0]).then(function(response) {
+      var result = Tpl1({inRec:Record,inList:response,inInfo:UserConfig.UserInfo()});
+      $("#DetailFrameTable").append(result);
+    });
+
+    $("#DetailFrameComments").html("");
+    CommentsData.GetCommList(id).then(function(response){
+      UserConfig.CommsList(response);
+      Tpl1 = require("../Templates/Comment.ejs");
+      var list = UserConfig.CommsList();
+      for (var x in list) {
+        var result = Tpl1({UF:UserConfig.UserInfo(),com:list[x]});
+        $("#DetailFrameComments").append(result);
+        $("#CMDelBtn"+list[x].id).on("click",list[x].id,function(event){
+          DeleteComment(event.data);
+        });
+      }
     });
   });
 }
 
-//Изменить заявку
 function EditAppsFromDetail(){
-  GetApp(config.TempAppID).then(function (response) {
-    var Record=response[0];
+  AppsData.GetApp(UserConfig.TempAppID()).then(function (response) {
+    var Record=response;
     var data={
       id:Record.id,
       name:Record.Name,
       date:Record.Date,
       client:Record.Client,
-      executor:(config.UserInfo.role==0?$("#editappexecut").val().trim():Record.Executor),
+      executor:(UserConfig.UserInfo().role==0?$("#editappexecut").val().trim():Record.Executor),
       discription:Record.Discription,
       priority:Record.Priority,
       estimated:$("#editappestimated").val().trim(),
-      deadline:(config.UserInfo.role==0?$("#editappdeadline").val().trim():Record.Deadline),
+      deadline:(UserConfig.UserInfo().role==0?$("#editappdeadline").val().trim():Record.Deadline),
       progress:$("#editappstatus").val().trim()
     };
   
     if(data.priority<0 || data.priority>2){
-      AlertMsg($("#DetailAppsFrameMsg"),"Недопустимые данные: "+data.priority);
+      Alerts($("#DetailAppsFrameMsg"),"Недопустимые данные: "+data.priority);
       return;
     }
   
     if(data.progress<0 || data.progress>100){
-      AlertMsg($("#DetailAppsFrameMsg"),"Недопустимые данные: "+data.progress);
+      Alerts($("#DetailAppsFrameMsg"),"Недопустимые данные: "+data.progress);
       return;
     }
-  
-    SaveApp(data).then(function () {
-      AlertMsg($("#DetailAppsFrameMsg"),"<span style='color: green'>Заявка изменена!</span>");
+
+    AppsData.SaveApp(data).then(function () {
+      Alerts($("#DetailAppsFrameMsg"),"<span class='greenCL'>Заявка изменена!</span>");
     });
   });
 }
 
-//Удалить заявку
 function DeleteAppsFromDetail(){
-  AppExist(config.TempAppID).then(function (response) {
-    var flag = (response.length>0);
-    GetApp(config.TempAppID).then(function (response) {
-      if(!confirm("Действительно удалить запись о заявке "+
-          (flag?response[0].Name:"")+"?"))return;
-      DeleteApp(config.TempAppID).then(function () {
-        getContent("#Apps",true);
-      });
+  var item = UserConfig.TempAppID();
+  AppsData.GetApp(item).then(function (response) {
+    var flag = (response!=0);
+    if(!confirm("Действительно удалить запись о заявке "+
+        (flag?response.Name:"")+"?"))return;
+    AppsData.DeleteApp(item).then(function (response) {
+      console.log(response);
+      if(response)getContent("#Apps",true);
     });
   });
 }
 
-//Добавить комментарий
 function AddComment(){
-  if($("#CommArea").val().trim()!=""){
+  var ca = $("#CommArea");
+  if(ca.val().trim()!=""){
   
-    var textvar=$("#CommArea").val().trim();
+    var textvar=ca.val().trim();
     textvar=textvar.replace(/<.*?/g,"");
   
-    if(textvar!=$("#CommArea").val().trim()){
+    if(textvar!=ca.val().trim()){
       alert("Скобки <> запрещенны!");
       return;
     }
   
     var data={
-      app: config.TempAppID,
-      user: config.UserInfo.login,
-      date: LocalDateTime(),
+      app: UserConfig.TempAppID(),
+      user: UserConfig.UserInfo().login,
+      date: Dates.LocalDateTime(),
       text: textvar
     };
-    SaveComm(data).then(function(response){
+
+    CommentsData.SaveComm(data).then(function(response){
       var newcomm = response;
       $("#CommArea").val("");
   
       var Tpl1 = require("../Templates/Comment.ejs");
-      var result = Tpl1({UF:config.UserInfo,com:newcomm});
+      var result = Tpl1({UF:UserConfig.UserInfo(),com:newcomm});
       $("#DetailFrameComments").append(result);
+      $("#CMDelBtn"+newcomm.id).on("click",newcomm.id,function(event){
+        DeleteComment(event.data);
+      });
     });
   }
 }
 
-//Удалить комментарий
 function DeleteComment(id){
-  DeleteComm(id).then(function(){
-    $("#CM"+id).remove();
+  CommentsData.DeleteComm(id).then(function(response){
+    if(response)$("#CM"+id).remove();
   });
 }
 
@@ -284,6 +333,7 @@ var AppListForSort;
 var AppListBeforeFilter;
 var LastClick = 0;
 function Sort(i){
+
   AppListForSort=_.sortBy(AppListForSort, function(o) { 
     switch (i) {
     case 1:
@@ -291,11 +341,9 @@ function Sort(i){
     case 2:
       return o.Date;
     case 3:
-      if(!UserExist(o.Client)) return "";
-      return GetUser(o.Client).name;
+      return o.Client;
     case 4:
-      if(!UserExist(o.Executor)) return "";
-      return GetUser(o.Executor).name;
+      return o.Executor;
     case 5:
       return o.Priority;
     case 6:
@@ -313,38 +361,37 @@ function Sort(i){
     AppListForSort=AppListForSort.reverse();
     LastClick=0;
   }else LastClick=i;
-  
-  if($("#AppsList")!=null)$("#AppsList").parent().remove();
-  $("#AppsFrame").append(GetAppsListItem(AppListForSort,config.UserInfo));
+  var al = $("#AppsList");
+  if(al!=null)al.parent().remove();
+  $("#AppsFrame").append(GetAppsListItem(AppListForSort,UserConfig.UserInfo()));
 }
 
 function Find(str){
   var filter=[];
-  if(config.UserInfo.role==1) filter["executor"]=config.UserInfo.login;
-  if(config.UserInfo.role==2) filter["client"]=config.UserInfo.login;
+  var info = UserConfig.UserInfo();
+  if(info.role==1) filter["executor"]=info.login;
+  if(info.role==2) filter["client"]=info.login;
   
-  GetAppList(filter).then(function (response) {
-    var AppsList=response;
-  
-    AppListBeforeFilter=AppsList;
+  AppsData.GetAppList(filter).then(function (response) {
+    AppListBeforeFilter=response;
     AppListBeforeFilter=_.filter(AppListBeforeFilter, _.conforms({ "Name": function(n) {
       return n.toLowerCase().indexOf(str.toLowerCase())>=0;}
     }));
-    Filter($("#FilterClientSelect").val());
+    Filter((info.role==2)?info.login:$("#FilterClientSelect").val());
   });
 }
 
 function Filter(filt){
   var filter = [];
-  if (config.UserInfo.role == 1) filter["executor"] = config.UserInfo.login;
-  if (config.UserInfo.role == 2) filter["client"] = config.UserInfo.login;
-  GetAppList(filter).then(function (response) {
-    var AppsList = response;
+  var info = UserConfig.UserInfo();
+  if (info.role == 1) filter["executor"] = info.login;
+  if (info.role == 2) filter["client"] = info.login;
+  AppsData.GetAppList(filter).then(function (response) {
     if($("#FindString").val().trim()=="") {
       if (AppListBeforeFilter) {
         AppListForSort = AppListBeforeFilter;
       } else {
-        AppListBeforeFilter = AppsList;
+        AppListBeforeFilter = response;
       }
     }
     if(filt!="null")
@@ -352,16 +399,37 @@ function Filter(filt){
         return n.toLowerCase()==filt.toLowerCase();}
       }));
     else AppListForSort = AppListBeforeFilter;
-    if($("#AppsList")!=null)$("#AppsList").parent().remove();
-    $("#AppsFrame").append(GetAppsListItem(AppListForSort,config.UserInfo));
+    var al = $("#AppsList");
+    if(al!=null)al.parent().remove();
+    $("#AppsFrame").append(GetAppsListItem(AppListForSort,UserConfig.UserInfo()));
   });
 }
 
-module.exports.Sort=Sort;
-module.exports.AddComment=AddComment;
-module.exports.DeleteComment=DeleteComment;
-module.exports.DeleteAppsFromDetail=DeleteAppsFromDetail;
-module.exports.EditAppsFromDetail=EditAppsFromDetail;
+function GetAppsListItem(list,UserInfo){
+  var element=document.createElement("div");
+  var Tpl1 = require("../Templates/AppList.ejs");
+  element.innerHTML = Tpl1({inInfo:UserInfo,inList:list});
+  for(var i = 1;i<9;i++) {
+    $(element).find(".simple-little-table tr:first-child th:nth-child(" + i + ")").on("click",i,function (event) {
+      Sort(event.data);
+    });
+  }
+  return element;
+}
+
+function TextAreaResize(event, LineHeight, MinLineCount) {
+  var MinLineHeight = MinLineCount * LineHeight;
+  var obj = event.target;
+  var div = document.getElementById(obj.id + "Div");
+  div.innerHTML = obj.value;
+  var ObjHeight = div.offsetHeight;
+  if (event.keyCode == 13)
+    ObjHeight += LineHeight;
+  else if (ObjHeight < MinLineHeight)
+    ObjHeight = MinLineHeight;
+  obj.style.height = ObjHeight + "px";
+}
+
 module.exports.GetDetailInfo=GetDetailInfo;
 module.exports.ShowDetailAppsFrame=ShowDetailAppsFrame;
 module.exports.ShowCreateFrame=ShowCreateFrame;

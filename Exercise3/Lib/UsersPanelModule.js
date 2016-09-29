@@ -1,36 +1,57 @@
-require("./Framework");
-//Добавление нового пользователя администратором
+var $ = require("jquery");
+var passwordHash = require("password-hash");
+var UserConfig = require("./modules/UserConfig");
+var UsersData = require("./modules/UsersData");
+var Validation = require("./modules/Validation");
+var Alerts = require("./modules/Alerts");
+
+var Tpl = require("../Templates/MainWindow.ejs");
+var TplUW = require("../Templates/UsersWindow.ejs");
+
 module.exports=function(){
-  $("#AddEditUserForm").css("display","none");
-  $("#AddEditUserForm").on("submit", function(event) {
+  var page = $("#page");
+  page.append(Tpl);
+  var mainWind = $("#MainWindow");
+  mainWind.append(TplUW);
+
+  var info = UserConfig.UserInfo();
+  $("#StatusBar").html(info.name+"("+info.login+")");
+  ShowIt();
+
+  var form = $("#AddEditUserForm");
+  form.css("display","none");
+
+  form.on("submit", function(event) {
     event.preventDefault();
     var data={
-      login: $("#AddEditUserForm #username").val().trim(),
-      pass: $("#AddEditUserForm #password").val().trim(),
-      name: $("#AddEditUserForm #name").val().trim(),
-      role: $("#AddEditUserForm #roleselect").val().trim()
+      login: form.find("#username").val().trim(),
+      pass: form.find("#password").val().trim(),
+      name: form.find("#name").val().trim(),
+      role: form.find("#roleselect").val().trim()
     };
-    if(!ValidateValue("login",data.login)){
-      AlertMsg($("#AddEditUserForm"),WrongValueMessage("login"));
+
+    if(!Validation.Check("login",data.login)){
+      Alerts($("#AddEditUserForm"),Validation.WrongValueMessage("login"));
       return;
     }
   
-    if(!ValidateValue("pass",data.pass)){
-      AlertMsg($("#AddEditUserForm"),WrongValueMessage("pass"));
+    if(!Validation.Check("pass",data.pass)){
+      Alerts($("#AddEditUserForm"),Validation.WrongValueMessage("pass"));
       return;
     }
       
-    if(!ValidateValue("name",data.name)){
-      AlertMsg($("#AddEditUserForm"),WrongValueMessage("name"));
+    if(!Validation.Check("name",data.name)){
+      Alerts($("#AddEditUserForm"),Validation.WrongValueMessage("name"));
       return;
     }
-    UserExist(data.login).then(function (response) {
-      if(response.length>0){
-        AlertMsg($("#AddEditUserForm"),"Пользователь с таким логином существует!");
+
+    UsersData.GetUser(data.login).then(function (response) {
+      if(response!=0){
+        Alerts($("#AddEditUserForm"),"Пользователь с таким логином существует!");
         return;
       }else{
-        SaveUser(data).then(function(){
-          AlertMsg($("#AddEditUserForm"),"<span style='color: green'>Пользователь создан!</span>");
+        UsersData.SaveUser(data).then(function(){
+          Alerts($("#AddEditUserForm"),"<span class='greenCl'>Пользователь создан!</span>");
           ShowIt();
         });
       }
@@ -38,27 +59,28 @@ module.exports=function(){
   });
 };
 
-//Открытие фильтра пользователей
 function DropFilter(){
-  config.UserFilterOpened=$("#filter").css("display")=="block"?false:true;
-  $("#filter").css("display",config.UserFilterOpened?"block":"none");
-  $("#ufilterdrop").html(config.UserFilterOpened?"Фильтр &#149;":"Фильтр ▼");
+  var filter = $("#filter");
+  var flag = UserConfig.UserFilterOpened();
+  flag = !flag;
+  UserConfig.UserFilterOpened(flag);
+  filter.css("display",flag?"block":"none");
+  $("#ufilterdrop").html(flag?"Фильтр &#149;":"Фильтр ▼");
 }
 
-//Изменение фильтра пользователей
 function UFilterChange(){
-  config.UsersFilter=[];
-  if($("#ufilter1").prop("checked"))config.UsersFilter[0]=1;
-  if($("#ufilter2").prop("checked"))config.UsersFilter[1]=1;
-  if($("#ufilter3").prop("checked"))config.UsersFilter[2]=1; 
+  var tmp = [];
+  tmp[0]=$("#ufilter1").prop("checked")?1:0;
+  tmp[1]=$("#ufilter2").prop("checked")?1:0;
+  tmp[2]=$("#ufilter3").prop("checked")?1:0;
+  UserConfig.UsersFilter(tmp);
   ShowIt();
 }
 
-//Клик по боковому списку пользователей
 function SideUserMenuClick(x){
   AddNewUserFormShow(false);
   var Tpl1 = require("../Templates/EditUserForm.ejs");
-  var result = Tpl1({items:config.UsersList[x]});
+  var result = Tpl1({items: UserConfig.UsersList()[x]});
   $("#UsersContentEdit").html(result);
   $("#EditUserBtn").on("click",
       (function(i){ return function(){ChangeUserInfo(i);};})(x));
@@ -66,98 +88,100 @@ function SideUserMenuClick(x){
       (function(i){ return function(){DeleteUserFromList(i);};})(x));
 }
 
-//Изменение информации о пользователе
 function ChangeUserInfo(x){
+  var form = $("#UsersContentEdit");
   var data={
-    login: config.UsersList[x].login,
-    pass: $("#UsersContentEdit #newpw").val().trim(),
-    name: $("#UsersContentEdit #newnm").val().trim(),
-    role: $("#UsersContentEdit #rlsl").val().trim()
+    login:  UserConfig.UsersList()[x].login,
+    pass: form.find("#newpw").val().trim(),
+    name: form.find("#newnm").val().trim(),
+    role: form.find("#rlsl").val().trim()
   };
-    
-  if(!ValidateValue("pass",data.pass)){
-    AlertMsg($("#UsersContentEdit"),WrongValueMessage("pass"));
+
+  if(!passwordHash.isHashed(data.pass) && !Validation.Check("pass",data.pass)){
+    Alerts($("#UsersContentEdit"),Validation.WrongValueMessage("pass"));
     return;
   }
 
-  if(!ValidateValue("role",data.role)){
-    AlertMsg($("#UsersContentEdit"),WrongValueMessage("")+": "+data.role);
+  if(!Validation.Check("role",data.role)){
+    Alerts($("#UsersContentEdit"),Validation.WrongValueMessage("")+": "+data.role);
     return;
   }
     
-  if(!ValidateValue("name",data.name)){
-    AlertMsg($("#UsersContentEdit"),WrongValueMessage("name"));
+  if(!Validation.Check("name",data.name)){
+    Alerts($("#UsersContentEdit"),Validation.WrongValueMessage("name"));
     return;
   }
-    
-  SaveUser(data).then(function(){
-    config.UsersList[x]=data;
-    $("#UL"+x).html(config.UsersList[x].name);
-    if(!(config.UsersList[x].role in config.UsersFilter))
+
+  UsersData.SaveUser(data).then(function(){
+    var tmp = UserConfig.UsersList();
+    tmp[x]=data;
+    UserConfig.UsersList(tmp);
+    $("#UL"+x).html(UserConfig.UsersList()[x].name);
+    if(!(UserConfig.UsersList()[x].role in UserConfig.UsersFilter()))
       $("#UL"+x).parentNode.removeChild($("#UL"+x));
-    AlertMsg($("#UsersContentEdit"),"<span style='color: green'>Изменения сохранены!</span>");
+    Alerts($("#UsersContentEdit"),"<span class='greenCl'>Изменения сохранены!</span>");
   });
 }
 
-//Удаление пользователя
 function DeleteUserFromList(x){
+  var item = UserConfig.UsersList()[x];
   if(!confirm("Действительно удалить запись о пользователе "+
-      config.UsersList[x].name+"("+config.UsersList[x].login+")?"))return;
-  DeleteUser(config.UsersList[x].login).then(function () {
-    $("#UsersContentEdit").html("");
-    $("#UL"+x).remove();
+      item.name+"("+item.login+")?"))return;
+  UsersData.DeleteUser(item.login).then(function (response) {
+    if(response){
+      $("#UsersContentEdit").html("");
+      $("#UL"+x).remove();
+      location.hash="Users";
+    }
   });
 }
 
-//Показать форму добавления пользователя
 function AddNewUserFormShow(flag){
-  $("#AddEditUserForm").css("display",(flag?"block":"none"));
+  var form = $("#AddEditUserForm");
+  form.css("display",(flag?"block":"none"));
   $("#UsersContentEdit").html("");
-  $("#AddEditUserForm").trigger("reset");
-  AlertMsg($("#AddEditUserForm"),"");
+  form.trigger("reset");
+  Alerts(form,"");
 }
 
 function ShowIt(){
   $("#MB1").css("backgroundColor","");
   $("#MB2").css("backgroundColor","#d9dee2");
-  return GetUsersList(config.UsersFilter).then(function (response) {
-    config.UsersList=response;
-  
+  return UsersData.GetUsersList(UserConfig.UsersFilter()).then(function (response) {
+    UserConfig.UsersList(response);
+
     var Tpl1 = require("../Templates/UsersList.ejs");
-    var result = Tpl1({UFO:config.UserFilterOpened,items:config.UsersList});
+    var result = Tpl1({UFO:UserConfig.UserFilterOpened(),items:UserConfig.UsersList()});
     $("#UsersMenu").html(result);
-  
-    $("#ufilter1").attr("checked",(0 in config.UsersFilter)?true:false);
-    $("#ufilter2").attr("checked",(1 in config.UsersFilter)?true:false);
-    $("#ufilter3").attr("checked",(2 in config.UsersFilter)?true:false);
-    $("#ufilter1").on("change",function(){UFilterChange();});
-    $("#ufilter2").on("change",function(){UFilterChange();});
-    $("#ufilter3").on("change",function(){UFilterChange();});
-  
-    $("#ufilterdrop").on("click",function(){DropFilter();});
-  
-    for (var it in config.UsersList) {
-      $("#UL"+it).on("click",
-        (function(i){ return function(){SideUserMenuClick(i);};})(it));
+    var filt = UserConfig.UsersFilter();
+    var uf1 = $("#ufilter1");
+    var uf2 = $("#ufilter2");
+    var uf3 = $("#ufilter3");
+    uf1.attr("checked",filt[0]==1);
+    uf2.attr("checked",filt[1]==1);
+    uf3.attr("checked",filt[2]==1);
+    uf1.on("change",function(){UFilterChange();});
+    uf2.on("change",function(){UFilterChange();});
+    uf3.on("change",function(){UFilterChange();});
+
+    $("#ufilterdrop").on("click",function(event){event.preventDefault(); DropFilter();});
+
+    for (var it in UserConfig.UsersList()) {
+      $("#UL"+it).on("click",it,(function(i){ return function(event){SideUserMenuClick(event.data);};}));
     }
-    $("#AddEditUserForm").css("display","none");
     $("#UsersContentEdit").html("");
   });
 }
 
 function ShowUserInfo(log){
   ShowIt().then(function () {
-    for(var i=0; i<config.UsersList.length; i++){
-      if(config.UsersList[i].login==log) SideUserMenuClick(i);
+    var list = UserConfig.UsersList();
+    for(var i=0; i<list.length; i++){
+      if(list[i].login==log) SideUserMenuClick(i);
     }
   });
 }
 
 module.exports.Show=ShowIt;
-module.exports.DropFilter=DropFilter;
-module.exports.UFilterChange=UFilterChange;
-module.exports.SideUserMenuClick=SideUserMenuClick;
-module.exports.ChangeUserInfo=ChangeUserInfo;
-module.exports.DeleteUserFromList=DeleteUserFromList;
 module.exports.AddNewUserFormShow=AddNewUserFormShow;
 module.exports.ShowUserInfo=ShowUserInfo;

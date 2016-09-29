@@ -8,9 +8,7 @@
 		</div>
 	</div>
 	<% if(data.UF.role==0 || data.com.User.toLowerCase()==data.UF.login.toLowerCase()){%>
-	<button id='CMDelBtn<%=data.com.ID%>' class='btn' style='float: right;'
-					onclick='Main.AppsModule.DeleteComment(<%=data.com.id%>);'
-	>Удалить</button>
+	<button id='CMDelBtn<%=data.com.id%>' class='btn floatRight'>Удалить</button>
 	<% } %>
 	<div class='CommsText'><%=data.com.Text%></div>
 </div>

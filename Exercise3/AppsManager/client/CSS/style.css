@@ -3,7 +3,7 @@ html, body{
 }
 
 body{
-    font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;    
+    font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;
     margin: 0;
     background-color: #d9dee2;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#ebeef2), to(#d9dee2));
@@ -11,7 +11,7 @@ body{
     background-image: -moz-linear-gradient(top, #ebeef2, #d9dee2);
     background-image: -ms-linear-gradient(top, #ebeef2, #d9dee2);
     background-image: -o-linear-gradient(top, #ebeef2, #d9dee2);
-    background-image: linear-gradient(top, #ebeef2, #d9dee2);    
+    background-image: linear-gradient(top, #ebeef2, #d9dee2);
 }
 
 button{
@@ -22,17 +22,17 @@ button{
     background-image: -ms-linear-gradient(top, #fddb6f, #ffb94b);
     background-image: -o-linear-gradient(top, #fddb6f, #ffb94b);
     background-image: linear-gradient(top, #fddb6f, #ffb94b);
-    
+
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    
+
     text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-    
+
      -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
      -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-     box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;    
-    
+     box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+
     border-width: 1px;
     border-style: solid;
     border-color: #d69e31 #e3a037 #d5982d #e3a037;
@@ -46,7 +46,7 @@ button{
     color: #8f5a0a;
 }
 
-button:hover,#submit:focus{		
+button:hover,#submit:focus{
     background-color: #fddb6f;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#ffb94b), to(#fddb6f));
     background-image: -webkit-linear-gradient(top, #ffb94b, #fddb6f);
@@ -54,22 +54,22 @@ button:hover,#submit:focus{
     background-image: -ms-linear-gradient(top, #ffb94b, #fddb6f);
     background-image: -o-linear-gradient(top, #ffb94b, #fddb6f);
     background-image: linear-gradient(top, #ffb94b, #fddb6f);
-}	
+}
 
-button:active{		
+button:active{
     outline: none;
      -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
      -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
-     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;		
+     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
 }
 textarea {
-	 resize: none; /* Запрещаем изменять размер */
-} 
+	 resize: none; /* Р—Р°РїСЂРµС‰Р°РµРј РёР·РјРµРЅСЏС‚СЊ СЂР°Р·РјРµСЂ */
+}
 
 .btn{
   all: unset;
   display: inline-block;
-  font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;  
+  font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;
   font-weight: bold;
   color: rgb(68,68,68);
   text-decoration: none;
@@ -103,7 +103,7 @@ button::-moz-focus-inner{
 
 .RightsAllight{
     position: absolute;
-    right: 30px;   
+    right: 30px;
     color: #333;
 	display: inline-block;
 }
@@ -114,7 +114,7 @@ button::-moz-focus-inner{
 }
 
 .alert{
-    font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;    
+    font: 12px 'Lucida Sans Unicode', 'Trebuchet MS', Arial, Helvetica;
     color: red;
 	display: inline-block;
 }
@@ -126,7 +126,7 @@ button::-moz-focus-inner{
     background-image: -moz-linear-gradient(top, #fff, #eee);
     background-image: -ms-linear-gradient(top, #fff, #eee);
     background-image: -o-linear-gradient(top, #fff, #eee);
-    background-image: linear-gradient(top, #fff, #eee);  
+    background-image: linear-gradient(top, #fff, #eee);
     height: 240px;
     width: 400px;
     margin: -150px 0 0 -230px;
@@ -137,7 +137,7 @@ button::-moz-focus-inner{
     z-index: 0;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    border-radius: 3px;  
+    border-radius: 3px;
 }
 
 .FormsStyle:before{
@@ -161,22 +161,22 @@ button::-moz-focus-inner{
     background-image: -moz-linear-gradient(top, #ebeef2, #d9dee2);
     background-image: -ms-linear-gradient(top, #ebeef2, #d9dee2);
     background-image: -o-linear-gradient(top, #ebeef2, #d9dee2);
-    background-image: linear-gradient(top, #ebeef2, #d9dee2); 
-	padding:10px;    
-    position:absolute;  
-    top:25px;   
-    left:0px; right:0px;   
+    background-image: linear-gradient(top, #ebeef2, #d9dee2);
+	padding:10px;
+    position:absolute;
+    top:25px;
+    left:0px; right:0px;
 }
 
 
 #MenuBar a{
-    padding:10px; 
-    padding-right:15px; 
-    padding-left:15px; 
-    color:#333;  
+    padding:10px;
+    padding-right:15px;
+    padding-left:15px;
+    color:#333;
     font: normal 13px/1 Verdana, Helvetica;
     font-weight: 500;
-    text-decoration:none;    
+    text-decoration:none;
 }
 
 #MenuBar a:hover{
@@ -184,17 +184,17 @@ button::-moz-focus-inner{
 }
 
 .WindowClass{
-	position:absolute;  
-    top:10px;   
-    bottom:0px;   
-    left:0px; right:0px; 
+	position:absolute;
+    top:10px;
+    bottom:0px;
+    left:0px; right:0px;
 }
 
 .FrameClass{
-	position:absolute;  
-    top:65px;   
-    bottom:2px;   
-    left:2px; right:2px; 
+	position:absolute;
+    top:65px;
+    bottom:2px;
+    left:2px; right:2px;
 }
 
 .SideMenu {
@@ -203,7 +203,7 @@ button::-moz-focus-inner{
     height: 100%;
     box-sizing: border-box;
    -moz-box-sizing: border-box;
-    border-right: 1px solid #333;    
+    border-right: 1px solid #333;
     overflow-y: auto;
 }
 
@@ -219,7 +219,7 @@ button::-moz-focus-inner{
 
 .SideMenu ul li a {
     padding: 15px 20px;
-    color:#333;  
+    color:#333;
     font: normal 13px/1 Verdana, Helvetica;
     font-weight: 500;
     text-decoration: none;
@@ -233,7 +233,7 @@ button::-moz-focus-inner{
 }
 .SideMenu ul li:hover a {
     background: #d9dee2;
-} 
+}
 
 .main-content{
     font: normal 13px/1 Verdana, Helvetica;
@@ -319,7 +319,7 @@ fieldset{
     margin: 25px 0 0 0;
 }
 
-#submit{		
+#submit{
     background-color: #ffb94b;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#fddb6f), to(#ffb94b));
     background-image: -webkit-linear-gradient(top, #fddb6f, #ffb94b);
@@ -327,17 +327,17 @@ fieldset{
     background-image: -ms-linear-gradient(top, #fddb6f, #ffb94b);
     background-image: -o-linear-gradient(top, #fddb6f, #ffb94b);
     background-image: linear-gradient(top, #fddb6f, #ffb94b);
-    
+
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    
+
     text-shadow: 0 1px 0 rgba(255,255,255,0.5);
-    
+
      -moz-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
      -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
-     box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;    
-    
+     box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+
     border-width: 1px;
     border-style: solid;
     border-color: #d69e31 #e3a037 #d5982d #e3a037;
@@ -351,7 +351,7 @@ fieldset{
     color: #8f5a0a;
 }
 
-#submit:hover,#submit:focus{		
+#submit:hover,#submit:focus{
     background-color: #fddb6f;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#ffb94b), to(#fddb6f));
     background-image: -webkit-linear-gradient(top, #ffb94b, #fddb6f);
@@ -359,14 +359,14 @@ fieldset{
     background-image: -ms-linear-gradient(top, #ffb94b, #fddb6f);
     background-image: -o-linear-gradient(top, #ffb94b, #fddb6f);
     background-image: linear-gradient(top, #ffb94b, #fddb6f);
-}	
+}
 
-#submit:active{		
+#submit:active{
     outline: none;
-   
+
      -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
      -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
-     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;		
+     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;
 }
 
 #submit::-moz-focus-inner{
@@ -374,7 +374,7 @@ fieldset{
 }
 
 #actions a{
-    color: #3151A2;    
+    color: #3151A2;
     float: right;
     line-height: 35px;
     margin-left: 10px;
@@ -397,7 +397,7 @@ fieldset{
  select {
     width: 174px;
  }
-   
+
 .myselect {
     padding: 10px 10px 10px 10px;
     margin: 0 0 10px 0;
@@ -424,12 +424,12 @@ fieldset{
 	-moz-border-radius:3px;
 	-webkit-border-radius:3px;
 	border-radius:3px;
- 
+
 	-moz-box-shadow: 0 1px 2px #d1d1d1;
 	-webkit-box-shadow: 0 1px 2px #d1d1d1;
 	box-shadow: 0 1px 2px #d1d1d1;
 }
- 
+
 .simple-little-table th {
 	font-weight:bold;
 	padding:21px 25px 22px 25px;
@@ -437,7 +437,7 @@ fieldset{
 	border-bottom:1px solid #e0e0e0;
 	border-right:1px solid #e0e0e0;
 	border-left:1px solid #e0e0e0;
- 
+
 	background: #ededed;
 	background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#ebebeb));
 	background: -moz-linear-gradient(top,  #ededed,  #ebebeb);
@@ -470,7 +470,7 @@ fieldset{
 	border-top: 1px solid #ffffff;
 	border-bottom:1px solid #e0e0e0;
 	border-left: 1px solid #e0e0e0;
- 
+
 	background: #fafafa;
 	background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
 	background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);
@@ -498,7 +498,7 @@ fieldset{
 	background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));
 	background: -moz-linear-gradient(top,  #f2f2f2,  #f0f0f0);
 }
- 
+
 .simple-little-table a:link {
 	color: #666;
 	font-weight: bold;
@@ -527,7 +527,7 @@ fieldset{
 	font-weight:600;
 	border-bottom: 1px solid #333;
 	padding-bottom: 4px;
-	
+
 }
 .CommsUser{
 	display: inline;
@@ -541,8 +541,8 @@ fieldset{
 .CommsText{
     padding-top: 5px;
 }
-#CommArea
-{
+
+#CommArea {
   width: 370px;
   height: 30px;
   overflow: hidden;
@@ -552,8 +552,8 @@ fieldset{
   font-size: 12px;
   color: #000000;
 }
-#CommAreaDiv
-{
+
+#CommAreaDiv {
   width: 370px;
   font-family: Arial;
   font-size: 12px;
@@ -562,4 +562,79 @@ fieldset{
   visibility: hidden;
   position: absolute;
   left: -9999px;
+}
+
+.pointerCl {
+  cursor:pointer;
+}
+
+.centerText {
+  text-align:center;
+}
+
+#AppsFrame {
+  margin-left:2%;
+  margin-right:2%;
+}
+
+#AddAppsBtn {
+  float:right;
+}
+
+#FindString{
+  float:right;
+  margin:2px;
+}
+
+#FilterClientSelect{
+  width:222px;float:right;margin:4px;
+}
+
+#DetailAppsFrame{
+  margin-left:25%;
+  margin-right:25%;
+}
+
+#BackAppsBtn{
+  float:right;
+}
+
+#NewAppForm{
+  margin-left: 22%;
+}
+
+.inpWidth{
+  width:220px;
+}
+
+#appdisc{
+  width:99%
+}
+
+.floatRight{
+  float: right;
+}
+
+#ufilterdrop{
+  color:blue;
+}
+
+.greenCl{
+  color:green;
+}
+
+#filter{
+  padding-left: 40px;
+}
+
+.blockSt{
+  display: block;
+}
+
+.noneSt{
+  display: none;
+}
+
+.vertAlTop{
+  vertical-align: top;
 }

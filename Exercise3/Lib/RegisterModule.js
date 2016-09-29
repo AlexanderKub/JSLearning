@@ -1,47 +1,49 @@
-require("./Framework");
-var LogonModule = require("./LoginModule");
-//Регистрация
+var $ = require("jquery");
+var UserConfig = require("./modules/UserConfig");
+var UsersData = require("./modules/UsersData");
+var Validation = require("./modules/Validation");
+var Alerts = require("./modules/Alerts");
+
+var Tpl = require("../Templates/Registration.ejs");
+
 module.exports=function(){
+  var page = $("#page");
+  page.append(Tpl);
   $("#RegistrationForm").on("submit", function(event) {
     event.preventDefault();
     var rf = $("#RegistrationForm");
-    var data={
-      login: rf.find("#username").val().trim(),
-      pass: rf.find("#password").val().trim(),
-      name: rf.find("#name").val().trim(),
-      role: (StorageIsClear()?0:2)
-    };
-    
-    if(!ValidateValue("login",data.login)){
-      AlertMsg(rf,WrongValueMessage("login"));
-      return;
-    }
-    
-    if(!ValidateValue("pass",data.pass)){
-      AlertMsg(rf,WrongValueMessage("pass"));
-      return;
-    }
-    
-    if(!ValidateValue("name",data.name)){
-      AlertMsg(rf,WrongValueMessage("name"));
-      return;
-    }
-    
-    UserExist(data.login).then(function(response) {
-      if (response.length > 0) {
-        AlertMsg(rf, "Логин занят!");
-      } else {
-        SaveUser(data);
-        getContent("#Login", true);
-        LogonModule.Show();
-        AlertMsg($("#LoginForm"), "<span style='color:green'>Успешная регистрация!</span>");
+    UsersData.StorageIsClear().then(function (response) {
+      var data={
+        login: rf.find("#username").val().trim(),
+        pass: rf.find("#password").val().trim(),
+        name: rf.find("#name").val().trim(),
+        role: (response?0:2)
+      };
+
+      if(!Validation.Check("login",data.login)){
+        Alerts(rf,Validation.WrongValueMessage("login"));
+        return;
       }
+
+      if(!Validation.Check("pass",data.pass)){
+        Alerts(rf,Validation.WrongValueMessage("pass"));
+        return;
+      }
+
+      if(!Validation.Check("name",data.name)){
+        Alerts(rf,Validation.WrongValueMessage("name"));
+        return;
+      }
+
+      UsersData.GetUser(data.login).then(function(response) {
+        if (response!=0) {
+          Alerts(rf, "Логин занят!");
+        } else {
+          UsersData.SaveUser(data).then(function(){
+            getContent("#Login?status=ok", true);
+          });
+        }
+      });
     });
   });
-};
-
-module.exports.Show=function() {
-  var rf = $("#RegistrationForm");
-  rf.trigger("reset");
-  AlertMsg(rf, "");
 };

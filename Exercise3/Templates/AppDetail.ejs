@@ -1,3 +1,4 @@
+<%var Dates = require("../Lib/modules/Dates");%>
 <div id='AppsDetail'>
 	<table class='simple-little-table' cellspacing='0'>
 		<tr>
@@ -24,17 +25,16 @@
 					<%=data.inRec.ExecutorName%>
 				<% }else{ %>
 					<select id='editappexecut'><option value='null'>-пусто-</option>
-					<% for (var x in data.inList) { %>
-						<option value='<%=data.inList[x].login.toLowerCase()%>'
+					<% _.each(data.inList,function(item){ %>
+						<option value='<%=item.login.toLowerCase()%>'
 						
-						<% if(data.inRec.Executor && data.inRec.Executor.toLowerCase()==
-							data.inList[x].login.toLowerCase()){ %>
+						<% if(data.inRec.Executor && data.inRec.Executor.toLowerCase()==item.login.toLowerCase()){ %>
 								selected='selected'
-							<% } %>
-							>
-							<%=data.inList[x].name %>
+						<% } %>
+						>
+							<%=item.name %>
 						</option>
-					<% } %>
+					<% });%>
 				<% } %>
 				</select>
 			</td>
@@ -55,7 +55,7 @@
 				<%=new Date(Date.parse(data.inRec.Deadline)).toUTCString()%>
 			<% }else{ %>
 				<input type="datetime-local" id="editappdeadline" 
-				value="<%=dateFormat1(data.inRec.Deadline)%>">
+				value="<%=Dates.dateFormat1(data.inRec.Deadline)%>">
 			<% } %>
 			</td>
 		</tr>
@@ -67,7 +67,7 @@
 					<%=new Date(Date.parse(data.inRec.Estimated)).toUTCString()%>
 				<%}else{ %>
 					<input type="datetime-local" id="editappestimated"
-					value="<%=dateFormat1(data.inRec.Estimated)%>">
+					value="<%=Dates.dateFormat1(data.inRec.Estimated)%>">
 				<%} %>
 			</td>
 		</tr>
@@ -88,7 +88,7 @@
 		<% } %>
 		
 		<tr>
-			<td colspan='2' style='vertical-align: top;'>
+			<td colspan='2' class='vertAlTop'>
 				Описание:<br><%=data.inRec.Discription%>
 			</td>
 		</tr>

@@ -1,75 +1,68 @@
-require("./Framework");
-//Авторизация
-module.exports=function(){
+var $ = require("jquery");
+var UserConfig = require("./modules/UserConfig");
+var UsersData = require("./modules/UsersData");
+var Validation = require("./modules/Validation");
+var Alerts = require("./modules/Alerts");
+
+var Tpl = require("../Templates/Authorization.ejs");
+
+module.exports = function(flag){
+  var page = $("#page");
+  page.append(Tpl);
   var lf = $("#LoginForm");
-  if (!config.UserInfo && sessionStorage.getItem("User_login") && sessionStorage.getItem("User_pass")) {
-    var log = sessionStorage.getItem("User_login");
-    var ps = sessionStorage.getItem("User_pass");
-    UserExist(log).then(function(response) {
-      if(response.length==0)
-        AlertMsg(lf,"Пользователь не существует!");
-      else{
-        CheckPassword(log,ps).then(function(response) {
-          if(response.length==0)
-            AlertMsg(lf,"Неверный пароль!");
-          else{
-            GetUser(log).then(function(response) {
-              config.UserInfo=response[0];
-              SaveUser(config.UserInfo);
-              getContent("#Apps", true);
-              sessionStorage.setItem("User_login", config.UserInfo.login);
-              sessionStorage.setItem("User_pass", config.UserInfo.pass);
-            });
-          }
-        });
-      }
-    });
-  }
-  
+
+  if(flag)
+    Alerts(lf, "<span class='greenCl'>Успешная регистрация!</span>");
+
   lf.on("submit", function(event) {
     event.preventDefault();
     var data={
       login: lf.find("#username").val().trim(),
       pass: lf.find("#password").val().trim()
     };
-    if(!ValidateValue("login",data.login)){
-      AlertMsg(lf,WrongValueMessage("login"));
+    if(!Validation.Check("login",data.login)){
+      Alerts(lf,Validation.WrongValueMessage("login"));
       return;
     }
-    
-    if(!ValidateValue("pass",data.pass)){
-      AlertMsg(lf,WrongValueMessage("pass"));
+
+    if(!Validation.Check("pass",data.pass)){
+      Alerts(lf,Validation.WrongValueMessage("pass"));
       return;
     }
-    
-    UserExist(data.login).then(function(response) {
-      if(response.length==0)
-        AlertMsg(lf,"Пользователь не существует!");
-      else{
-        CheckPassword(data.login,data.pass).then(function(response) {
-          if(response.length==0)
-            AlertMsg(lf,"Неверный пароль!");
-          else{
-            GetUser(data.login).then(function(response) {
-              config.UserInfo=response[0];
-              SaveUser(config.UserInfo);
-              getContent("#Apps", true);
-              sessionStorage.setItem("User_login", config.UserInfo.login);
-              sessionStorage.setItem("User_pass", config.UserInfo.pass);
-            });
-          }
-        });
+    UsersData.AuthUser(data.login,data.pass).then(function(response) {
+      if(response==0) {
+        Alerts(lf, "Неверный логин!");
+      }else{
+        if(response==1) {
+          Alerts(lf,"Неверный пароль!");
+        }else{
+          UserConfig.UserInfo(response);
+          UsersData.LoginUser(response.login);
+          getContent("#Apps", true);
+          sessionStorage.setItem("User_login", UserConfig.UserInfo().login);
+          sessionStorage.setItem("User_pass", UserConfig.UserInfo().pass);
+        }
       }
     });
   });
-  
-  Show();
+
+  if (!UserConfig.UserInfo() && sessionStorage.getItem("User_login") && sessionStorage.getItem("User_pass")) {
+    var log = sessionStorage.getItem("User_login");
+    var ps = sessionStorage.getItem("User_pass");
+    UsersData.AuthUser(log,ps).then(function(response) {
+      if(response==0) {
+        Alerts(lf, "Неверный логин!");
+      }else{
+        if(response==1) {
+          Alerts(lf,"Неверный пароль!");
+        }else{
+          UserConfig.UserInfo(response);
+          UsersData.SaveUser(UserConfig.UserInfo());
+          getContent("#Apps", true);
+          sessionStorage.setItem("User_login", UserConfig.UserInfo().login);
+          sessionStorage.setItem("User_pass", UserConfig.UserInfo().pass);
+        }
+      }
+    });
+  }
 };
-
-function Show(){
-  var lf = $("#LoginForm");
-  lf.trigger("reset");
-  AlertMsg(lf,"");
-}
-
-module.exports.Show=Show;

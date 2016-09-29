@@ -1,7 +1,7 @@
 <% if(data.empty) { %> <option value='null'><%=data.empty%></option> <% } %>
 	var ExecutorList=GetUsersList([,1]);
-	<% for (var x in data.list) { %>
-		<option value='<%=data.list[x].login.toLowerCase()%>'>
-		<%=data.list[x].name%>
-	<% } %>
+	<% _.each(data.list,function(item){ %>
+		<option value='<%=item.login.toLowerCase()%>'>
+		<%=item.name%>
+	<% }); %>
 </option>

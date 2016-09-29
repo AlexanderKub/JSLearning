@@ -1,31 +1,12 @@
-//Инициализация
-require("./Framework");
+var $ = require("jquery");
+var UserConfig = require("./modules/UserConfig");
+var UsersData = require("./modules/UsersData");
 var LoginModule = require("./LoginModule");
 var RegisterModule = require("./RegisterModule");
 var UsersPanelModule = require("./UsersPanelModule");
 var AppsModule = require("./RestoreAppsModule");
-
-var Tpl = require("../Templates/Authorization.ejs");
-var page = $("#page");
-page.append(Tpl);
-Tpl = require("../Templates/Registration.ejs");
-page.append(Tpl);
-Tpl = require("../Templates/MainWindow.ejs");
-page.append(Tpl);
-var mainWind = $("#MainWindow");
-Tpl = require("../Templates/UsersWindow.ejs");
-mainWind.append(Tpl);
-Tpl = require("../Templates/AppsWindow.ejs");
-mainWind.append(Tpl);
-
-Tpl = require("../Templates/404.ejs");
-page.append(Tpl);
-var NotFound = page.find("#404");
-
-LoginModule();
-RegisterModule();
-UsersPanelModule();
-AppsModule();
+var Alerts = require("./modules/Alerts");
+var passwordHash = require("password-hash");
 
 $("document").ready(function(){
   getContent(window.location.hash, true);
@@ -37,116 +18,100 @@ window.addEventListener("popstate", function(e) {
 
 function getContent(url, addEntry) {
   if(addEntry) history.pushState(null, null, url);
-  HideWindows();
-  HideFrames();
   console.log(url);
+  var page = $("#page");
+  page.html("");
 
-  if(url=="" || url=="#" || url=="#Login"){
-    $("#LogonWindow").show();
-    LoginModule.Show();
+  if(url=="#Logout"){
+    sessionStorage.clear();
+    getContent("#Login", true);
     return;
   }
-  
+
+  if(url=="" || url=="#" || url=="#Login" || url.indexOf("#Login")>-1){
+    if(url.split("=").length>1){
+      LoginModule("ok");
+      return;
+    }
+    LoginModule();
+    return;
+  }
+
   if(url=="#Registration"){
-    $("#RegWindow").show();
-    RegisterModule.Show();
+    RegisterModule();
     return;
   }
-
-  if(config.UserInfo){
-    $("#MB2").css("display",(config.UserInfo.role==0?"inline":"none"));
-    $("#StatusBar").html(config.UserInfo.name+"("+config.UserInfo.login+")");
+  var info = UserConfig.UserInfo();
+  if(info){
+    $("#MB2").css("display",(info.role==0?"inline":"none"));
 
     if(url=="#Users"){
-      $("#MainWindow").show();
-      $("#UsersFrame").show();
-
-      UsersPanelModule.Show();
+      UsersPanelModule();
       return;
     }
 
     if(url=="#CreateUser"){
-      $("#MainWindow").show();
-      $("#UsersFrame").show();
-      UsersPanelModule.Show().then(function(){
-        UsersPanelModule.AddNewUserFormShow(true);
-      });
+      UsersPanelModule();
+      UsersPanelModule.AddNewUserFormShow(true);
       return;
     }
 
     if(url=="#Apps"){
-      $("#MainWindow").show();
-      $("#AppsFrame").show();
-
+      AppsModule();
       AppsModule.ShowAppsFrame();
       return;
     }
 
-    AlertMsg($("#AppsFrameMsg"),"");
-    AlertMsg($("#DetailAppsFrameMsg"),"");
+    Alerts($("#AppsFrameMsg"),"");
+    Alerts($("#DetailAppsFrameMsg"),"");
 
     if(url=="#CreateApp"){
-      $("#MainWindow").show();
-      $("#CreateAppsFrame").show();
-
+      AppsModule();
       AppsModule.ShowCreateFrame();
       return;
     }
 
     if(url.indexOf("#AppsDetail")>-1){
-      $("#MainWindow").show();
-      $("#DetailAppsFrame").show();
       var id = parseInt(url.split("=")[1]);
+      AppsModule();
       AppsModule.GetDetailInfo(id);
       return;
     }
 
     if(url.indexOf("#UsersDetail")>-1){
-      $("#MainWindow").show();
-      $("#UsersFrame").show();
       var id = url.split("=")[1];
+      UsersPanelModule();
       UsersPanelModule.ShowUserInfo(id);
       return;
     }
-  }else{
+  } else{
     if (sessionStorage.getItem("User_login") && sessionStorage.getItem("User_pass")) {
       var log = sessionStorage.getItem("User_login");
       var ps = sessionStorage.getItem("User_pass");
-      UserExist(log).then(function(response) {
-        if(response.length>0){
-          CheckPassword(log,ps).then(function(response) {
-           if(response.length>0){
-             GetUser(log).then(function(response) {
-               config.UserInfo=response[0];
-                 SaveUser(config.UserInfo);
-                 getContent((url=="" || url=="#" || url=="#Login")?"#Apps":url, true);
-                 sessionStorage.setItem("User_login", config.UserInfo.login);
-                 sessionStorage.setItem("User_pass", config.UserInfo.pass);
-                 return;
-             });
-           }
-        });
-      }
-     });
+      UsersData.GetUser(log).then(function(response) {
+        if(response==0) {
+          Alerts(lf, "Неверный логин!");
+        }else{
+          if(response==1) {
+              Alerts(lf,"Неверный пароль!");
+          }else{
+            UserConfig.UserInfo(response);
+            UsersData.SaveUser(UserConfig.UserInfo());
+            getContent("#Apps", true);
+            var info = UserConfig.UserInfo();
+            sessionStorage.setItem("User_login", info.login);
+            sessionStorage.setItem("User_pass", info.pass);
+          }
+        }
+      });
     }else {
       getContent("#Login", true);
       return;
     }
   }
-  NotFound.show();
+
+  var Tpl = require("../Templates/404.ejs");
+  page.append(Tpl);
 }
 
-function HideWindows() {
-    NotFound.hide();
-    var windowsList=document.getElementsByClassName("WindowClass");
-    for (var i = 0; i < windowsList.length; i++)
-        windowsList[i].style.display="none";
-}
-
-function HideFrames(){
-    var frameList=document.getElementsByClassName("FrameClass");
-    for (var i = 0; i < frameList.length; i++)
-        frameList[i].style.display=(frameList[i].id==name?"block":"none");
-}
 global.getContent=getContent;
-module.exports.AppsModule=AppsModule;

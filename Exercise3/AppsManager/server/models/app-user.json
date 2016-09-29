@@ -24,8 +24,7 @@
       "required": true
     },
     "lastsession": {
-      "type": "date",
-      "required": true
+      "type": "date"
     }
   },
   "validations": [],
