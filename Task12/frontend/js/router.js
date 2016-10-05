@@ -1,13 +1,18 @@
 import Feeds from "./feedPage";
+import Auth from "./authPage";
+import Reg from "./regPage";
 
 import {Router} from "backbone";
 import $ from "jquery";
 
+import userData from "./utils/usersData";
 import tmpl from "./index.ejs";
 $("#page").html(tmpl({}));
 
 export default Router.extend({
   routes: {
+    "auth": "authPage",
+    "registration": "regPage",
     "feeds": "navigateFeeds",
     "*path" : "redirectSections"
   },
@@ -21,12 +26,51 @@ export default Router.extend({
   },
   
   redirectSections : function(){
-    this.navigate("feeds", {trigger: true});
+    var router = this;
+    this.isAuth().then(function (response) {
+      if(response>0) router.navigate("feeds", {trigger: true});
+      else router.navigate("auth", {trigger: true});
+    });
+  },
+
+  authPage: function () {
+    var router = this;
+    this.isAuth().then(function (response) {
+      if (!response) {
+        if (router.oldView) router.closeOld();
+        $("#page").append(router.$el);
+        router.oldView = new Auth({el : router.$el});
+        return;
+      }
+      router.navigate("feeds", {trigger: true});
+    });
+  },
+
+  regPage: function () {
+    var router = this;
+    this.isAuth().then(function (response) {
+      if (!response) {
+        if (router.oldView) router.closeOld();
+        $("#page").append(router.$el);
+        router.oldView = new Reg({el: router.$el});
+        return;
+      }
+      router.navigate("feeds", {trigger: true});
+    });
   },
 
   navigateFeeds: function(){
-    if (this.oldView) this.closeOld();
-    $("#page").append(this.$el);
-    this.oldView = new Feeds({el : this.$el});
+    var router = this;
+    this.isAuth().then(function (response) {
+      if(response>0){
+        if (router.oldView) router.closeOld();
+        $("#page").append(router.$el);
+        router.oldView = new Feeds({el : router.$el});
+      }else router.navigate("auth", {trigger: true});
+    });
+  },
+
+  isAuth: function () {
+    return userData.isAuthUser(sessionStorage.getItem("User.token"));
   }
 });

@@ -1,20 +1,12 @@
 {
-  "name": "user",
-  "plural": "users",
+  "name": "userData",
+  "plural": "userData",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "login": {
-      "type": "string",
-      "required": true
-    },
-    "password": {
-      "type": "string",
-      "required": true
-    },
     "subs": {
       "type": [
         "number"

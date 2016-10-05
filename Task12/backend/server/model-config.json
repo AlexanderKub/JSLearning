@@ -13,11 +13,19 @@
       "./mixins"
     ]
   },
-  "user": {
+  "userData": {
     "dataSource": "StorageDB",
     "public": true
   },
   "post": {
+    "dataSource": "StorageDB",
+    "public": true
+  },
+  "userAuth": {
+    "dataSource": "StorageDB",
+    "public": true
+  },
+  "userInfo": {
     "dataSource": "StorageDB",
     "public": true
   }

@@ -8,6 +8,6 @@ export default Collection.extend({
     this.userID = userID;
   },
   url: function () {
-    return "!host/api/users/" + this.userID + "/posts";
+    return NODE_URL+"/api/users/" + this.userID + "/posts";
   }
 });

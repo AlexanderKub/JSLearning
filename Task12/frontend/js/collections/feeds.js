@@ -4,7 +4,15 @@ import Post from "../models/post";
 export default Collection.extend({
   model : Post,
   comparator: "date",
+  subs: [1, 2],
   url: function () {
-    return "!host/api/posts";
+    var filter = {
+      "where": {
+        "userId": {
+          "inq": this.subs
+        }
+      }
+    };
+    return NODE_URL+"/api/posts?filter="+JSON.stringify(filter);
   }
 });

@@ -8,7 +8,8 @@ import FeedView from "./feedItem";
 
 let feedList = Backbone.View.extend({
   events: {
-    "click td": "navigation"
+    "click td": "navigation",
+    "click .Logout": "logout"
   },
 
   template: tmpl,
@@ -16,6 +17,7 @@ let feedList = Backbone.View.extend({
   initialize: function () {
     this.$el.html(this.template());
     this.coll = new FeedCollection();
+    this.coll.subs = [1];
     this.listenTo(this.coll, "sync", this.render);
     this.listenTo(this.coll, "create", this.render);
     this.coll.fetch();
@@ -24,7 +26,6 @@ let feedList = Backbone.View.extend({
   render: function () {
     $("tbody").html("");
     const tbody = this.$("tbody");
-    console.log("render1");
     _.each(this.coll.models, function (model) {
       const modelView = new FeedView({
         model: model
@@ -36,6 +37,11 @@ let feedList = Backbone.View.extend({
 
   navigation: function () {
     console.log("test");
+  },
+
+  logout: function () {
+    sessionStorage.removeItem("User.token");
+    Backbone.history.navigate("auth",  {trigger: true});
   }
 });
 

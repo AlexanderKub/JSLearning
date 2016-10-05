@@ -11,7 +11,6 @@ export default View.extend({
   },
 
   render: function() {
-    console.log("render1");
     var html = this.template(this.model.toJSON());
     this.$el.append(html);
   }

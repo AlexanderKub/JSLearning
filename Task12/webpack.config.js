@@ -38,6 +38,10 @@ module.exports = {
   plugins: [
     new webpack.ProvidePlugin({
       _: "underscore"
+    }),
+    new webpack.DefinePlugin({
+      "NODE_ENV": JSON.stringify("development"),
+      "NODE_URL": JSON.stringify("http://127.0.0.1:4000")
     })
   ]
 };

@@ -1,16 +1,10 @@
 {
   "ids": {
-    "user": 3,
-    "post": 3
+    "userAuth": 2
   },
   "models": {
-    "user": {
-      "1": "{\"login\":\"admin\",\"password\":\"1339\",\"id\":1}",
-      "2": "{\"login\":\"test\",\"password\":\"1339\",\"id\":2,\"subs\":[1]}"
-    },
-    "post": {
-      "1": "{\"date\":\"2016-09-20T00:00:00.000Z\",\"content\":\"Helloo world!\",\"userId\":1,\"id\":1}",
-      "2": "{\"date\":\"2016-09-19T10:00:00.000Z\",\"content\":\"Hi!\",\"userId\":2,\"id\":2}"
+    "userAuth": {
+      "1": "{\"login\":\"admin\",\"password\":\"1339\",\"session\":\"2016-10-04T07:31:10.145Z\",\"token\":\"MkO1ipl2USYzvt5\",\"id\":1}"
     }
   }
 }

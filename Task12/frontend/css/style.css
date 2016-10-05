@@ -1,3 +1,57 @@
-.body{
+body{
+  font-family: cursive;
   background: ghostwhite;
+}
+
+.styledForm{
+  display: table;
+  position: relative;
+  left: 40vw;
+  top: 30vh;
+  padding: 8px;
+  border-radius: 10px;
+  text-align: center;
+  background: #ebf7e0;
+  border: 2px solid #828180;
+}
+
+.inputField{
+  font-family: cursive;
+  display: list-item;
+  margin: 5px;
+  font-size: 20px;
+}
+
+.authButton{
+  margin: 5px;
+}
+
+.styledButton{
+  font-size: 17px;
+  font-family: cursive;
+  cursor: pointer;
+  border-radius: 5px;
+  border-style: double;
+  padding: 5px;
+  background: #e3f5e4;
+}
+
+.styledButton:hover{
+  border-radius: 5px;
+  border-style: dotted;
+  padding: 5px;
+  background: #ddf5f5;
+}
+
+.styledButton:active{
+  border-radius: 5px;
+  border-style: inset;
+  padding: 5px;
+  background: #ddf5f5;
+}
+
+.styledLabel{
+  color: #828180;
+  font-weight: bolder;
+  font-size: 20px;
 }
