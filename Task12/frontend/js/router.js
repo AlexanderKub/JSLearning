@@ -11,7 +11,7 @@ $("#page").html(tmpl({}));
 
 export default Router.extend({
   routes: {
-    "auth": "authPage",
+    "auth(/:state)": "authPage",
     "registration": "regPage",
     "feeds": "navigateFeeds",
     "*path" : "redirectSections"
@@ -27,19 +27,19 @@ export default Router.extend({
   
   redirectSections : function(){
     var router = this;
-    this.isAuth().then(function (response) {
+    router.isAuth().then(function (response) {
       if(response>0) router.navigate("feeds", {trigger: true});
       else router.navigate("auth", {trigger: true});
     });
   },
 
-  authPage: function () {
+  authPage: function (state) {
     var router = this;
-    this.isAuth().then(function (response) {
+    router.isAuth().then(function (response) {
       if (!response) {
         if (router.oldView) router.closeOld();
         $("#page").append(router.$el);
-        router.oldView = new Auth({el : router.$el});
+        router.oldView = new Auth({el : router.$el, state: state});
         return;
       }
       router.navigate("feeds", {trigger: true});
@@ -48,7 +48,7 @@ export default Router.extend({
 
   regPage: function () {
     var router = this;
-    this.isAuth().then(function (response) {
+    router.isAuth().then(function (response) {
       if (!response) {
         if (router.oldView) router.closeOld();
         $("#page").append(router.$el);
@@ -59,18 +59,24 @@ export default Router.extend({
     });
   },
 
-  navigateFeeds: function(){
+  navigateFeeds: function () {
     var router = this;
-    this.isAuth().then(function (response) {
+    router.isAuth().then(function (response) {
       if(response>0){
-        if (router.oldView) router.closeOld();
-        $("#page").append(router.$el);
-        router.oldView = new Feeds({el : router.$el});
+        userData.GetUserSubs(response).then(function (response) {
+          if (router.oldView) router.closeOld();
+          $("#page").append(router.$el);
+          router.oldView = new Feeds({el: router.$el, userSubs: response || []});
+        });
       }else router.navigate("auth", {trigger: true});
     });
   },
 
   isAuth: function () {
-    return userData.isAuthUser(sessionStorage.getItem("User.token"));
+    if(sessionStorage.getItem("User.token"))
+      return userData.isAuthUser(sessionStorage.getItem("User.login"),sessionStorage.getItem("User.token"));
+    else return new Promise(function (resolve) {
+      resolve(0);
+    });
   }
 });

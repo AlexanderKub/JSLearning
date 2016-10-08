@@ -15,12 +15,6 @@
       "type": "string",
       "required": true
     },
-    "likes": {
-      "type": "number"
-    },
-    "reposts": {
-      "type": "number"
-    },
     "repostOf": {
       "type": "number"
     }
@@ -30,6 +24,16 @@
     "user": {
       "type": "belongsTo",
       "model": "userData",
+      "foreignKey": ""
+    },
+    "likes": {
+      "type": "hasMany",
+      "model": "like",
+      "foreignKey": ""
+    },
+    "reposts": {
+      "type": "hasMany",
+      "model": "repost",
       "foreignKey": ""
     }
   },

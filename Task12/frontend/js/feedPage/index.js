@@ -14,10 +14,9 @@ let feedList = Backbone.View.extend({
 
   template: tmpl,
 
-  initialize: function () {
+  initialize: function (options) {
     this.$el.html(this.template());
-    this.coll = new FeedCollection();
-    this.coll.subs = [1];
+    this.coll = new FeedCollection({subs:options.userSubs});
     this.listenTo(this.coll, "sync", this.render);
     this.listenTo(this.coll, "create", this.render);
     this.coll.fetch();
@@ -41,6 +40,7 @@ let feedList = Backbone.View.extend({
 
   logout: function () {
     sessionStorage.removeItem("User.token");
+    sessionStorage.removeItem("User.login");
     Backbone.history.navigate("auth",  {trigger: true});
   }
 });

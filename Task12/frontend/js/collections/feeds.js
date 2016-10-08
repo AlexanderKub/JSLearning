@@ -4,11 +4,13 @@ import Post from "../models/post";
 export default Collection.extend({
   model : Post,
   comparator: "date",
-  subs: [1, 2],
+  initialize: function (options) {
+    this.subs = options.subs;
+  },
   url: function () {
     var filter = {
       "where": {
-        "userId": {
+        "userDataId": {
           "inq": this.subs
         }
       }

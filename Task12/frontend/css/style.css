@@ -5,9 +5,10 @@ body{
 
 .styledForm{
   display: table;
-  position: relative;
-  left: 40vw;
-  top: 30vh;
+  position: fixed;
+  width: 60vw;
+  left: 20vw;
+  transform: translate(0,100vh);
   padding: 8px;
   border-radius: 10px;
   text-align: center;
@@ -16,10 +17,12 @@ body{
 }
 
 .inputField{
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   font-family: cursive;
-  display: list-item;
-  margin: 5px;
   font-size: 20px;
+  width: 100%;
 }
 
 .authButton{
@@ -54,4 +57,20 @@ body{
   color: #828180;
   font-weight: bolder;
   font-size: 20px;
+}
+
+.styledLabel.message{
+  color: forestgreen;
+  height: 1.5em;
+}
+
+.styledLabel.warning{
+  color: #be0000;
+  height: 1.5em;
+}
+
+.showForm{
+  transform: translate(0,calc(50vh - 115px));
+  -webkit-transition: -webkit-transform 350ms linear;
+  transition: transform 350ms linear;
 }

@@ -1,0 +1,40 @@
+{
+  "name": "userAuth",
+  "plural": "userAuth",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "login": {
+      "type": "string",
+      "required": true
+    },
+    "password": {
+      "type": "string",
+      "required": true
+    },
+    "session": {
+      "type": "date"
+    },
+    "token": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "info": {
+      "type": "hasOne",
+      "model": "userInfo",
+      "foreignKey": ""
+    },
+    "data": {
+      "type": "hasOne",
+      "model": "userData",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

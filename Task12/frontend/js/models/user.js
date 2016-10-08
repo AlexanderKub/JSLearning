@@ -1,10 +1,8 @@
 import {Model} from "backbone";
 
 export default Model.extend({
-  urlRoot: "/api/users",
+  urlRoot: "/api/userData",
   defaults: {
-    login: "",
-    password: "",
     subs: [],
     folowers:[]
   }

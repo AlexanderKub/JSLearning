@@ -1,0 +1,19 @@
+{
+  "name": "repost",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "userData": {
+      "type": "belongsTo",
+      "model": "userData",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

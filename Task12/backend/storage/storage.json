@@ -1,10 +1,36 @@
 {
   "ids": {
-    "userAuth": 2
+    "userAuth": 4,
+    "userData": 4,
+    "userInfo": 4,
+    "post": 3,
+    "like": 5
   },
   "models": {
     "userAuth": {
-      "1": "{\"login\":\"admin\",\"password\":\"1339\",\"session\":\"2016-10-04T07:31:10.145Z\",\"token\":\"MkO1ipl2USYzvt5\",\"id\":1}"
+      "1": "{\"login\":\"qwer\",\"password\":\"962012d09b8170d912f0669f6d7d9d07\",\"id\":1,\"session\":\"2016-10-08T01:16:21.328Z\",\"token\":\"hH5ulQUpJUlQ8mKdw\"}",
+      "2": "{\"login\":\"loree3l\",\"password\":\"lol\",\"id\":2,\"session\":\"2016-10-07T00:00:00.000Z\",\"token\":\"cG8SZ3PSDriXXf28F\"}",
+      "3": "{\"login\":\"qwerty\",\"password\":\"d8578edf8458ce06fbc5bb76a58c5ca4\",\"id\":3,\"session\":\"2016-10-08T01:02:47.738Z\",\"token\":\"0opYYhKwQEtWDfZi1\"}"
+    },
+    "userData": {
+      "1": "{\"subs\":[],\"folowers\":[],\"userAuthId\":1,\"id\":1}",
+      "2": "{\"subs\":[],\"folowers\":[],\"userAuthId\":2,\"id\":2}",
+      "3": "{\"subs\":[],\"folowers\":[],\"userAuthId\":3,\"id\":3}"
+    },
+    "userInfo": {
+      "1": "{\"name\":\"User1\",\"userAuthId\":1,\"id\":1}",
+      "2": "{\"name\":\"User2\",\"userAuthId\":2,\"id\":2}",
+      "3": "{\"name\":\"User3\",\"userAuthId\":3,\"id\":3}"
+    },
+    "post": {
+      "1": "{\"date\":\"2016-10-06T00:00:00.000Z\",\"content\":\"Helloo World\",\"likes\":0,\"reposts\":0,\"repostOf\":0,\"userId\":1,\"userDataId\":1,\"id\":1}",
+      "2": "{\"date\":\"2016-10-06T00:00:00.000Z\",\"content\":\"Hello World!\",\"likes\":0,\"reposts\":0,\"repostOf\":0,\"userDataId\":2,\"id\":2}"
+    },
+    "like": {
+      "1": "{\"userDataId\":1,\"postId\":1,\"id\":1}",
+      "2": "{\"userDataId\":1,\"postId\":1,\"id\":2}",
+      "3": "{\"userDataId\":1,\"postId\":2,\"id\":3}",
+      "4": "{\"userDataId\":0,\"postId\":0,\"id\":4}"
     }
   }
 }

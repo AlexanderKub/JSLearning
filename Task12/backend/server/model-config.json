@@ -28,5 +28,13 @@
   "userInfo": {
     "dataSource": "StorageDB",
     "public": true
+  },
+  "like": {
+    "dataSource": "StorageDB",
+    "public": true
+  },
+  "repost": {
+    "dataSource": "StorageDB",
+    "public": true
   }
 }
