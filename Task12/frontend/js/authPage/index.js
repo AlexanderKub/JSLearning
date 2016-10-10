@@ -15,6 +15,7 @@ let authPage = Backbone.View.extend({
 
   initialize: function (options) {
     this.$el.html(this.template());
+    console.log(this.$el.find(".styledForm").css("width"));
     if(options.state=="ok"){
       var message = this.$el.find(".warning");
       message.removeClass("warning");
