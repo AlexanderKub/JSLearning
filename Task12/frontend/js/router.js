@@ -1,4 +1,5 @@
 import Feeds from "./feedPage";
+import FeedsHeader from "./feedPage/header";
 import Auth from "./authPage";
 import Reg from "./regPage";
 
@@ -7,7 +8,7 @@ import $ from "jquery";
 
 import userData from "./utils/usersData";
 import tmpl from "./index.ejs";
-$("#page").html(tmpl({}));
+$("#scroll-content").html(tmpl({}));
 
 export default Router.extend({
   routes: {
@@ -37,9 +38,7 @@ export default Router.extend({
     var router = this;
     router.isAuth().then(function (response) {
       if (!response) {
-        if (router.oldView) router.closeOld();
-        $("#page").append(router.$el);
-        router.oldView = new Auth({el : router.$el, state: state});
+        router.openNewPage(new Auth({el : router.$el, state: state}));
         return;
       }
       router.navigate("feeds", {trigger: true});
@@ -50,9 +49,7 @@ export default Router.extend({
     var router = this;
     router.isAuth().then(function (response) {
       if (!response) {
-        if (router.oldView) router.closeOld();
-        $("#page").append(router.$el);
-        router.oldView = new Reg({el: router.$el});
+        router.openNewPage(new Reg({el: router.$el}));
         return;
       }
       router.navigate("feeds", {trigger: true});
@@ -64,9 +61,7 @@ export default Router.extend({
     router.isAuth().then(function (response) {
       if(response>0){
         userData.GetUserSubs(response).then(function (response) {
-          if (router.oldView) router.closeOld();
-          $("#page").append(router.$el);
-          router.oldView = new Feeds({el: router.$el, userSubs: response || []});
+          router.openNewPage(new Feeds({el: router.$el, userSubs: response || []}),FeedsHeader);
         });
       }else router.navigate("auth", {trigger: true});
     });
@@ -78,5 +73,14 @@ export default Router.extend({
     else return new Promise(function (resolve) {
       resolve(0);
     });
+  },
+
+  openNewPage(view, header, footer){
+    var router = this;
+    if (router.oldView) router.closeOld();
+    if(header) new header({el: $("header")});
+    if(footer) new footer({el: $("footer")});
+    $("#scroll-content").append(router.$el);
+    router.oldView = view;
   }
 });
