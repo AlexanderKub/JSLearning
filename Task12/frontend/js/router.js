@@ -1,10 +1,10 @@
+import $ from "jquery";
 import Feeds from "./feedPage";
 import FeedsHeader from "./feedPage/header";
 import Auth from "./authPage";
 import Reg from "./regPage";
 
 import {Router} from "backbone";
-import $ from "jquery";
 
 import userData from "./utils/usersData";
 import tmpl from "./index.ejs";
@@ -38,7 +38,8 @@ export default Router.extend({
     var router = this;
     router.isAuth().then(function (response) {
       if (!response) {
-        router.openNewPage(new Auth({el : router.$el, state: state}));
+        var view = new Auth({el : router.$el, state: state});
+        router.openNewPage(view);
         return;
       }
       router.navigate("feeds", {trigger: true});
@@ -49,7 +50,8 @@ export default Router.extend({
     var router = this;
     router.isAuth().then(function (response) {
       if (!response) {
-        router.openNewPage(new Reg({el: router.$el}));
+        var view = new Reg({el: router.$el});
+        router.openNewPage(view);
         return;
       }
       router.navigate("feeds", {trigger: true});
@@ -61,7 +63,8 @@ export default Router.extend({
     router.isAuth().then(function (response) {
       if(response>0){
         userData.GetUserSubs(response).then(function (response) {
-          router.openNewPage(new Feeds({el: router.$el, userSubs: response || []}),FeedsHeader);
+          var view = new Feeds({el: router.$el, userSubs: response || []});
+          router.openNewPage(view, FeedsHeader);
         });
       }else router.navigate("auth", {trigger: true});
     });
@@ -76,10 +79,13 @@ export default Router.extend({
   },
 
   openNewPage(view, header, footer){
+    if(header) new header({el: $("header")});
+    else $("header").html("");
+    if(footer) new footer({el: $("footer")});
+    else $("footer").html("");
+
     var router = this;
     if (router.oldView) router.closeOld();
-    if(header) new header({el: $("header")});
-    if(footer) new footer({el: $("footer")});
     $("#scroll-content").append(router.$el);
     router.oldView = view;
   }

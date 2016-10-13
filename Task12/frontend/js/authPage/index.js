@@ -1,6 +1,6 @@
 import $ from "jquery";
-import Backbone from "backbone";
 import _ from "underscore";
+import Backbone from "backbone";
 
 import tmpl from "./templates/index.ejs";
 import usersData from "../utils/usersData";

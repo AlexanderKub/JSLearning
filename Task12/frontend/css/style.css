@@ -13,6 +13,10 @@ header{
   padding:0;
 }
 
+.headerTitle{
+
+}
+
 footer {
   background-color:#c27b00;
   position:fixed;
@@ -84,18 +88,41 @@ header, footer{
   background: #e3f5e4;
 }
 
-.styledButton:hover{
-  border-radius: 5px;
-  border-style: dotted;
-  padding: 5px;
-  background: #ddf5f5;
-}
-
 .styledButton:active{
   border-radius: 5px;
   border-style: inset;
   padding: 5px;
   background: #ddf5f5;
+}
+
+.logoutButton{
+  position: fixed;
+  right: 0;
+  width: 110px;
+  font-size: 20px;
+  background-color: #deb500;
+  text-align: center;
+  color: #f3f3f3;
+  font-weight: bold;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.5);
+  height: 45px;
+}
+
+.menuButton{
+  position: fixed;
+  left: 0;
+  width: 60px;
+  font-size: 20px;
+  background-color: #deb500;
+  text-align: center;
+  color: #f3f3f3;
+  font-weight: bold;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.5);
+  height: 45px;
+}
+
+.menuLabel{
+  width: 45px;
 }
 
 .styledLabel{
@@ -118,4 +145,9 @@ header, footer{
   transform: translate(0,calc(50vh - 115px));
   -webkit-transition: -webkit-transform 350ms linear;
   transition: transform 350ms linear;
+}
+
+.rotate90{
+  transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
 }

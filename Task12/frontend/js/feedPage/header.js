@@ -6,7 +6,8 @@ import tmpl from "./templates/header.ejs";
 
 let feedList = Backbone.View.extend({
   events: {
-    "click .Logout": "logout"
+    "click .logoutButton": "logout",
+    "click .menuButton": "showMenu"
   },
 
   template: tmpl,
@@ -19,6 +20,10 @@ let feedList = Backbone.View.extend({
     sessionStorage.removeItem("User.token");
     sessionStorage.removeItem("User.login");
     Backbone.history.navigate("auth",  {trigger: true});
+  },
+
+  showMenu: function () {
+    console.log("show menu");
   }
 });
 

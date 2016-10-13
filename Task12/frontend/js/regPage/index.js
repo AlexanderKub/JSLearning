@@ -1,6 +1,6 @@
 import $ from "jquery";
-import Backbone from "backbone";
 import _ from "underscore";
+import Backbone from "backbone";
 
 import tmpl from "./templates/index.ejs";
 import ajax from "../utils/ajax";
@@ -17,6 +17,8 @@ let authPage = Backbone.View.extend({
 
   initialize: function () {
     this.$el.html(this.template());
+    var form = this.$el.find(".styledForm");
+    form.css("left",(parseFloat($("html").css("width"))-parseFloat(form.css("width"))-parseFloat(form.css("padding"))*2)*0.5);
     var el = this.$el;
     _.delay(function(){
       el.find(".styledForm").addClass("showForm");

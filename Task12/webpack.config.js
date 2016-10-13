@@ -37,8 +37,8 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({
-      _: "underscore",
-      $: "jquery"
+      $: "jquery",
+      _: "underscore"
     }),
     new webpack.DefinePlugin({
       "NODE_ENV": JSON.stringify("development"),
