@@ -8,8 +8,7 @@ import FeedView from "./feedItem";
 
 let feedList = Backbone.View.extend({
   events: {
-    "click td": "navigation",
-    "click .Logout": "logout"
+    "click td": "navigation"
   },
 
   template: tmpl,
@@ -36,12 +35,6 @@ let feedList = Backbone.View.extend({
 
   navigation: function () {
     console.log("test");
-  },
-
-  logout: function () {
-    sessionStorage.removeItem("User.token");
-    sessionStorage.removeItem("User.login");
-    Backbone.history.navigate("auth",  {trigger: true});
   }
 });
 
