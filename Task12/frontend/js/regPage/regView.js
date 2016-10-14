@@ -2,9 +2,11 @@ import $ from "jquery";
 import _ from "underscore";
 import Backbone from "backbone";
 
-import tmpl from "./templates/index.ejs";
+import tmpl from "./templates/regFormTemplate.ejs";
 import ajax from "../utils/ajax";
 import usersData from "../utils/usersData";
+import BasicHeader from "../basic/basicHeader";
+import BasicFooter from "../basic/basicFooter";
 
 import validation from "../utils/validation";
 let authPage = Backbone.View.extend({
@@ -16,6 +18,12 @@ let authPage = Backbone.View.extend({
   template: tmpl,
 
   initialize: function () {
+
+  },
+
+  render: function () {
+    this.header = new BasicHeader({el: $("header")});
+    this.footer = new BasicFooter({el: $("footer")});
     this.$el.html(this.template());
     var form = this.$el.find(".styledForm");
     form.css("left",(parseFloat($("html").css("width"))-parseFloat(form.css("width"))-parseFloat(form.css("padding"))*2)*0.5);

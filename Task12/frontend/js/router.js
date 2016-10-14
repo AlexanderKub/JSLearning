@@ -1,8 +1,7 @@
 import $ from "jquery";
-import Feeds from "./feedPage";
-import FeedsHeader from "./feedPage/header";
-import Auth from "./authPage";
-import Reg from "./regPage";
+import Feeds from "./feedPage/feedView";
+import Auth from "./authPage/authView";
+import Reg from "./regPage/regView";
 
 import {Router} from "backbone";
 
@@ -64,7 +63,7 @@ export default Router.extend({
       if(response>0){
         userData.GetUserSubs(response).then(function (response) {
           var view = new Feeds({el: router.$el, userSubs: response || []});
-          router.openNewPage(view, FeedsHeader);
+          router.openNewPage(view);
         });
       }else router.navigate("auth", {trigger: true});
     });
@@ -78,15 +77,9 @@ export default Router.extend({
     });
   },
 
-  openNewPage(view, header, footer){
-    if(header) new header({el: $("header")});
-    else $("header").html("");
-    if(footer) new footer({el: $("footer")});
-    else $("footer").html("");
-
+  openNewPage(view){
     var router = this;
     if (router.oldView) router.closeOld();
-    $("#scroll-content").append(router.$el);
-    router.oldView = view;
+    router.oldView = view.setElement(this.$el).render();
   }
 });

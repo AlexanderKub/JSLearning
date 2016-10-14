@@ -2,9 +2,12 @@ import $ from "jquery";
 import _ from "underscore";
 import Backbone from "backbone";
 
-import tmpl from "./templates/index.ejs";
+import tmpl from "./templates/authFormTemplate.ejs";
 import usersData from "../utils/usersData";
 import validation from "../utils/validation";
+import BasicHeader from "../basic/basicHeader";
+import BasicFooter from "../basic/basicFooter";
+
 let authPage = Backbone.View.extend({
   events: {
     "submit .authForm": "authorize",
@@ -12,12 +15,17 @@ let authPage = Backbone.View.extend({
   },
 
   template: tmpl,
-
   initialize: function (options) {
+    this.optionFlag = options;
+  },
+
+  render: function () {
+    this.header = new BasicHeader({el: $("header")});
+    this.footer = new BasicFooter({el: $("footer")});
     this.$el.html(this.template());
     var form = this.$el.find(".styledForm");
     form.css("left",(parseFloat($("html").css("width"))-parseFloat(form.css("width"))-parseFloat(form.css("padding"))*2)*0.5);
-    if(options.state=="ok"){
+    if(this.optionFlag.state=="ok"){
       var message = this.$el.find(".warning");
       message.removeClass("warning");
       message.addClass("message");

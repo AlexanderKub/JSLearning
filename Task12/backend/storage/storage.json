@@ -8,7 +8,7 @@
   },
   "models": {
     "userAuth": {
-      "1": "{\"login\":\"qwer\",\"password\":\"962012d09b8170d912f0669f6d7d9d07\",\"id\":1,\"session\":\"2016-10-11T16:34:21.242Z\",\"token\":\"jxmkJior6zTIWeDut\"}",
+      "1": "{\"login\":\"qwer\",\"password\":\"962012d09b8170d912f0669f6d7d9d07\",\"id\":1,\"session\":\"2016-10-14T15:13:00.497Z\",\"token\":\"Zwyvh5mGxfqYQrSDb\"}",
       "2": "{\"login\":\"loree3l\",\"password\":\"lol\",\"id\":2,\"session\":\"2016-10-07T00:00:00.000Z\",\"token\":\"cG8SZ3PSDriXXf28F\"}",
       "3": "{\"login\":\"qwerty\",\"password\":\"d8578edf8458ce06fbc5bb76a58c5ca4\",\"id\":3,\"session\":\"2016-10-08T01:02:47.738Z\",\"token\":\"0opYYhKwQEtWDfZi1\"}"
     },
