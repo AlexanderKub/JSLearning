@@ -97,7 +97,7 @@
 
 
 	// module
-	exports.push([module.id, "body{\n  overflow: hidden;\n  font-family: cursive;\n  background: ghostwhite;\n  margin: 0;\n}\n\nheader{\n  background-color:#deb500;\n  position:fixed;\n  z-index:2;\n  top:0; left:0;\n  width:100%;\n  height:45px;\n  padding:0;\n}\n\n.headerTitle{\n\n}\n\nfooter {\n  background-color:#deb500;\n  position:fixed;\n  z-index:2;\n  bottom:0; left:0;\n  width:100%;\n  height:48px;\n  padding:0;\n  border-top:1px solid #444;\n}\n\nheader, footer{\n  font-size:20px;\n  text-align:center;\n  color:#f3f3f3;\n  font-weight:bold;\n  text-shadow:0 -1px 0 rgba(0,0,0,0.5);\n  line-height:45px;\n  opacity: 0.6;\n}\n\n#wrapper {\n  z-index:1;\n  padding: 47px 0 47px 0;\n  width:100%;\n}\n#menu-wrapper {\n  z-index:4;\n  width:100vw;\n  height:100vh;\n  position: absolute;\n}\n\n#scroll-content {\n  z-index:1;\n  padding:0;\n  -webkit-overflow-scrolling:touch;\n  overflow:auto;\n  height: calc(100vh - 98px);\n}\n\n.content{\n  width: 100%;\n  text-align: center;\n}\n\n.styledForm{\n  display: table;\n  position: absolute;\n  width: 35vw;\n  min-width: 280px;\n  left: 50%;\n  transform: translate(0,100vh);\n  padding: 8px;\n  border-radius: 10px;\n  text-align: center;\n  background: #ebf7e0;\n  border: 2px solid #828180;\n}\n\n.inputField{\n  padding: 5px;\n  margin-top: 5px;\n  margin-bottom: 5px;\n  font-family: cursive;\n  font-size: 20px;\n  width: 100%;\n}\n\n.authButton{\n  margin: 5px;\n}\n\n.styledButton{\n  font-size: 17px;\n  font-family: cursive;\n  cursor: pointer;\n  border-radius: 5px;\n  border-style: double;\n  padding: 5px;\n  background: #e3f5e4;\n}\n\n.styledButton:active{\n  border-radius: 5px;\n  border-style: inset;\n  padding: 5px;\n  background: #ddf5f5;\n}\n\n.headerRightButton{\n  font-family: cursive;\n  cursor: pointer;\n  border-style: none;\n  border-left-style: double;\n  padding: 5px;\n  position: fixed;\n  right: 0;\n  font-size: 20px;\n  background-color: #deb500;\n  text-align: center;\n  color: #f3f3f3;\n  font-weight: bold;\n  text-shadow: 0 -1px 0 rgba(0,0,0,0.5);\n  height: 45px;\n}\n\n.headerRightButton:active{\n  border-radius: 5px;\n  border-style: inset;\n  padding: 5px;\n  background: #ddf5f5;\n}\n\n.logoutButton{\n  width: 110px;\n\n}\n\n.menuButton{\n  font-family: cursive;\n  cursor: pointer;\n  border-style: none;\n  border-right-style: double;\n  padding: 5px;\n  position: fixed;\n  left: 0;\n  width: 60px;\n  font-size: 20px;\n  background-color: #deb500;\n  text-align: center;\n  color: #f3f3f3;\n  font-weight: bold;\n  text-shadow: 0 -1px 0 rgba(0,0,0,0.5);\n  height: 45px;\n}\n\n.menuButton :active{\n  border-radius: 5px;\n  border-style: inset;\n  padding: 5px;\n  background: #ddf5f5;\n}\n\n.menuLabel{\n  width: 45px;\n}\n\n.styledLabel{\n  color: #828180;\n  font-weight: bolder;\n  font-size: 20px;\n}\n\n.styledLabel.message{\n  color: forestgreen;\n  height: 1.5em;\n}\n\n.styledLabel.warning{\n  color: #be0000;\n  height: 1.5em;\n}\n\n.showForm{\n  transform: translate(0,calc(50vh - 180px));\n  -webkit-transition: -webkit-transform 350ms linear;\n  transition: transform 350ms linear;\n}\n\n.rotate90{\n  transform: rotate(90deg);\n  -webkit-transform: rotate(90deg);\n}\n\n.simple-little-table{\n  display: inline-block;\n}\n\n.menu{\n  position: fixed;\n}\n\n.menu.show{\n}\n\n.menuShadow{\n  position: fixed;\n  height: 100vh;\n  width: 100vw;\n  background: black;\n  opacity: 0;\n  -webkit-transition: opacity 150ms linear;\n  transition: opacity 150ms linear;\n}\n\n.menu.show .menuShadow{\n  opacity: 0.5;\n  -webkit-transition: opacity 150ms linear;\n  transition: opacity 150ms linear;\n}\n\n.menuContent{\n  transform: translate(-100vw, 0);\n  -webkit-transition: -webkit-transform 350ms linear;\n  transition: transform 350ms linear;\n  position: fixed;\n  width: 90vw;\n  height: 100vh;\n  background: #e8d066;\n}\n.menu.show .menuContent {\n  transform: translate(0, 0);\n  -webkit-transition: -webkit-transform 350ms linear;\n  transition: transform 350ms linear;\n}\n", ""]);
+	exports.push([module.id, "body{\r\n  overflow: hidden;\r\n  font-family: cursive;\r\n  background: ghostwhite;\r\n  margin: 0;\r\n}\r\n\r\nheader{\r\n  position:fixed;\r\n  z-index:2;\r\n  top:0; left:0;\r\n  width:100%;\r\n  height:45px;\r\n  padding:0;\r\n}\r\n\r\n.headerTitle{\r\n\r\n}\r\n\r\nfooter {\r\n  position:fixed;\r\n  z-index:2;\r\n  bottom:0; left:0;\r\n  width:100%;\r\n  height:48px;\r\n  padding:0;\r\n}\r\n\r\nheader, footer{\r\n  font-size:20px;\r\n  text-align:center;\r\n  background-color:#e8d066;\r\n  color:#f3f3f3;\r\n  font-weight:bold;\r\n  text-shadow:0 -1px 0 rgba(0,0,0,0.5);\r\n  line-height:45px;\r\n}\r\n\r\n#wrapper {\r\n  z-index:1;\r\n  padding: 47px 0 47px 0;\r\n  width:100%;\r\n}\r\n#menu-wrapper {\r\n\r\n}\r\n\r\n#scroll-content {\r\n  z-index:1;\r\n  padding:0;\r\n  -webkit-overflow-scrolling:touch;\r\n  overflow:auto;\r\n  height: calc(100vh - 98px);\r\n}\r\n\r\n.content{\r\n  width: 100%;\r\n  text-align: center;\r\n  background: ghostwhite;\r\n}\r\n\r\n.styledForm{\r\n  display: table;\r\n  position: absolute;\r\n  width: 35vw;\r\n  min-width: 280px;\r\n  left: 50%;\r\n  transform: translate(0,100vh);\r\n  padding: 8px;\r\n  border-radius: 10px;\r\n  text-align: center;\r\n  background: #ebf7e0;\r\n  border: 2px solid #828180;\r\n}\r\n\r\n.inputField{\r\n  padding: 5px;\r\n  margin-top: 5px;\r\n  margin-bottom: 5px;\r\n  font-family: cursive;\r\n  font-size: 20px;\r\n  width: 100%;\r\n}\r\n\r\n.authButton{\r\n  margin: 5px;\r\n}\r\n\r\n.styledButton{\r\n  font-size: 17px;\r\n  font-family: cursive;\r\n  cursor: pointer;\r\n  border-radius: 5px;\r\n  border-style: double;\r\n  padding: 5px;\r\n  background: #e3f5e4;\r\n}\r\n\r\n.styledButton:active{\r\n  border-radius: 5px;\r\n  border-style: inset;\r\n  padding: 5px;\r\n  background: #ddf5f5;\r\n}\r\n\r\n.headerRightButton{\r\n  font-family: cursive;\r\n  cursor: pointer;\r\n  border-style: none;\r\n  border-left-style: double;\r\n  padding: 5px;\r\n  position: fixed;\r\n  right: 0;\r\n  font-size: 20px;\r\n  background-color: #e8d066;\r\n  text-align: center;\r\n  color: #f3f3f3;\r\n  font-weight: bold;\r\n  text-shadow: 0 -1px 0 rgba(0,0,0,0.5);\r\n  height: 45px;\r\n}\r\n\r\n.headerRightButton:active{\r\n  border-radius: 5px;\r\n  border-style: inset;\r\n  padding: 5px;\r\n  background: #ddf5f5;\r\n}\r\n\r\n.logoutButton{\r\n  width: 110px;\r\n}\r\n\r\n.menuButton{\r\n  font-family: cursive;\r\n  cursor: pointer;\r\n  border-style: none;\r\n  border-right-style: double;\r\n  padding: 5px;\r\n  position: fixed;\r\n  left: 0;\r\n  width: 60px;\r\n  font-size: 20px;\r\n  background-color: #e8d066;\r\n  text-align: center;\r\n  color: #f3f3f3;\r\n  font-weight: bold;\r\n  text-shadow: 0 -1px 0 rgba(0,0,0,0.5);\r\n  height: 45px;\r\n}\r\n\r\n.menuButton :active{\r\n  border-radius: 5px;\r\n  border-style: inset;\r\n  padding: 5px;\r\n  background: #ddf5f5;\r\n}\r\n\r\n.menuLabel{\r\n  width: 45px;\r\n}\r\n\r\n.styledLabel{\r\n  color: #828180;\r\n  font-weight: bolder;\r\n  font-size: 20px;\r\n}\r\n\r\n.styledLabel.message{\r\n  color: forestgreen;\r\n  height: 1.5em;\r\n}\r\n\r\n.styledLabel.warning{\r\n  color: #be0000;\r\n  height: 1.5em;\r\n}\r\n\r\n.showForm{\r\n  transform: translate(0,calc(50vh - 180px));\r\n  -webkit-transition: -webkit-transform 350ms linear;\r\n  transition: transform 350ms linear;\r\n}\r\n\r\n.rotate90{\r\n  transform: rotate(90deg);\r\n  -webkit-transform: rotate(90deg);\r\n}\r\n\r\n.simple-little-table{\r\n  display: inline-block;\r\n}\r\n\r\n.menu{\r\n  z-index: 4;\r\n  position: fixed;\r\n}\r\n\r\n.menu.show{\r\n\r\n}\r\n\r\n.menuShadow{\r\n  visibility: hidden;\r\n  position: fixed;\r\n  height: 100vh;\r\n  width: 100vw;\r\n  background: black;\r\n  opacity: 0;\r\n  -webkit-transition: opacity 250ms linear, visibility 250ms;\r\n  transition: opacity 250ms linear, visibility 250ms;\r\n}\r\n\r\n.menu.show .menuShadow{\r\n  visibility: visible;\r\n  opacity: 0.5;\r\n  -webkit-transition: opacity 150ms linear;\r\n  transition: opacity 150ms linear;\r\n}\r\n\r\n.menuContent{\r\n  transform: translate(-100vw, 0);\r\n  -webkit-transition: -webkit-transform 350ms linear;\r\n  transition: transform 350ms linear;\r\n  position: fixed;\r\n  width: 90vw;\r\n  max-width: 340px;\r\n  height: 100vh;\r\n  background: #e8d066;\r\n}\r\n.menu.show .menuContent {\r\n  transform: translate(0, 0);\r\n  -webkit-transition: -webkit-transform 350ms linear;\r\n  transition: transform 350ms linear;\r\n}\r\n\r\n.menuProfile{\r\n  position: absolute;\r\n  top: 0;\r\n  height: 30vh;\r\n  width: 100%;\r\n}\r\n\r\n.menuItemsList{\r\n  position: absolute;\r\n  bottom: 0;\r\n  height: 70vh;\r\n  width: 100%;\r\n}\r\n\r\n.menuTopBlocks {\r\n  position: absolute;\r\n  bottom: 20vh;\r\n  height: 50vh;\r\n  width: 100%;\r\n}\r\n\r\n.menuBottomBlocks{\r\n  position: absolute;\r\n  bottom: 0;\r\n  height: 20vh;\r\n  width: 100%;\r\n}\r\n\r\n.menuItemsList ul {\r\n  margin: 0;\r\n  margin-bottom: 4px;\r\n  padding: 12px;\r\n  padding-left: 55px;\r\n  padding-right: 0;\r\n  background: ghostwhite;\r\n  color: #2b2b2d;\r\n  font-weight: bolder;\r\n}\r\n\r\n.menuItemsList ul:hover {\r\n  margin-right: -5px;\r\n}\r\n\r\n.userImg{\r\n  float: left;\r\n  text-align: center;\r\n  width: 40%;\r\n  height: 65%;\r\n  background: ghostwhite;\r\n  margin: 30px;\r\n  margin-right: 10px;\r\n}\r\n\r\n.userInfo{\r\n  color: #2b2b2d;\r\n  font-weight: bolder;\r\n  margin-top: 30px;\r\n  margin-bottom: 30px;\r\n  margin-right: 5px;\r\n  height: 65%;\r\n}\r\n", ""]);
 
 	// exports
 
@@ -477,6 +477,7 @@
 	    var router = this;
 	    router.isAuth().then(function (response) {
 	      if (!response) {
+	        (0, _jquery2.default)("#menu-wrapper").html("");
 	        var view = new _authView2.default({ el: router.$el, state: state });
 	        router.openNewPage(view);
 	        return;
@@ -489,6 +490,7 @@
 	    var router = this;
 	    router.isAuth().then(function (response) {
 	      if (!response) {
+	        (0, _jquery2.default)("#menu-wrapper").html("");
 	        var view = new _regView2.default({ el: router.$el });
 	        router.openNewPage(view);
 	        return;
@@ -526,9 +528,8 @@
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*eslint-disable no-unused-vars*/
-	/*!
-	 * jQuery JavaScript Library v3.1.0
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	 * jQuery JavaScript Library v3.1.1
 	 * https://jquery.com/
 	 *
 	 * Includes Sizzle.js
@@ -538,7 +539,7 @@
 	 * Released under the MIT license
 	 * https://jquery.org/license
 	 *
-	 * Date: 2016-07-07T21:44Z
+	 * Date: 2016-09-22T22:30Z
 	 */
 	( function( global, factory ) {
 
@@ -611,13 +612,13 @@
 			doc.head.appendChild( script ).parentNode.removeChild( script );
 		}
 	/* global Symbol */
-	// Defining this global in .eslintrc would create a danger of using the global
+	// Defining this global in .eslintrc.json would create a danger of using the global
 	// unguarded in another place, it seems safer to define global only for this module
 
 
 
 	var
-		version = "3.1.0",
+		version = "3.1.1",
 
 		// Define a local copy of jQuery
 		jQuery = function( selector, context ) {
@@ -657,13 +658,14 @@
 		// Get the Nth element in the matched element set OR
 		// Get the whole matched element set as a clean array
 		get: function( num ) {
-			return num != null ?
 
-				// Return just the one element from the set
-				( num < 0 ? this[ num + this.length ] : this[ num ] ) :
+			// Return all the elements in a clean array
+			if ( num == null ) {
+				return slice.call( this );
+			}
 
-				// Return all the elements in a clean array
-				slice.call( this );
+			// Return just the one element from the set
+			return num < 0 ? this[ num + this.length ] : this[ num ];
 		},
 
 		// Take an array of elements and push it onto the stack
@@ -1071,14 +1073,14 @@
 	}
 	var Sizzle =
 	/*!
-	 * Sizzle CSS Selector Engine v2.3.0
+	 * Sizzle CSS Selector Engine v2.3.3
 	 * https://sizzlejs.com/
 	 *
 	 * Copyright jQuery Foundation and other contributors
 	 * Released under the MIT license
 	 * http://jquery.org/license
 	 *
-	 * Date: 2016-01-04
+	 * Date: 2016-08-08
 	 */
 	(function( window ) {
 
@@ -1224,7 +1226,7 @@
 
 		// CSS string/identifier serialization
 		// https://drafts.csswg.org/cssom/#common-serializing-idioms
-		rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\x80-\uFFFF\w-]/g,
+		rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\0-\x1f\x7f-\uFFFF\w-]/g,
 		fcssescape = function( ch, asCodePoint ) {
 			if ( asCodePoint ) {
 
@@ -1251,7 +1253,7 @@
 
 		disabledAncestor = addCombinator(
 			function( elem ) {
-				return elem.disabled === true;
+				return elem.disabled === true && ("form" in elem || "label" in elem);
 			},
 			{ dir: "parentNode", next: "legend" }
 		);
@@ -1537,26 +1539,54 @@
 	 * @param {Boolean} disabled true for :disabled; false for :enabled
 	 */
 	function createDisabledPseudo( disabled ) {
-		// Known :disabled false positives:
-		// IE: *[disabled]:not(button, input, select, textarea, optgroup, option, menuitem, fieldset)
-		// not IE: fieldset[disabled] > legend:nth-of-type(n+2) :can-disable
+
+		// Known :disabled false positives: fieldset[disabled] > legend:nth-of-type(n+2) :can-disable
 		return function( elem ) {
 
-			// Check form elements and option elements for explicit disabling
-			return "label" in elem && elem.disabled === disabled ||
-				"form" in elem && elem.disabled === disabled ||
+			// Only certain elements can match :enabled or :disabled
+			// https://html.spec.whatwg.org/multipage/scripting.html#selector-enabled
+			// https://html.spec.whatwg.org/multipage/scripting.html#selector-disabled
+			if ( "form" in elem ) {
 
-				// Check non-disabled form elements for fieldset[disabled] ancestors
-				"form" in elem && elem.disabled === false && (
-					// Support: IE6-11+
-					// Ancestry is covered for us
-					elem.isDisabled === disabled ||
+				// Check for inherited disabledness on relevant non-disabled elements:
+				// * listed form-associated elements in a disabled fieldset
+				//   https://html.spec.whatwg.org/multipage/forms.html#category-listed
+				//   https://html.spec.whatwg.org/multipage/forms.html#concept-fe-disabled
+				// * option elements in a disabled optgroup
+				//   https://html.spec.whatwg.org/multipage/forms.html#concept-option-disabled
+				// All such elements have a "form" property.
+				if ( elem.parentNode && elem.disabled === false ) {
 
-					// Otherwise, assume any non-<option> under fieldset[disabled] is disabled
-					/* jshint -W018 */
-					elem.isDisabled !== !disabled &&
-						("label" in elem || !disabledAncestor( elem )) !== disabled
-				);
+					// Option elements defer to a parent optgroup if present
+					if ( "label" in elem ) {
+						if ( "label" in elem.parentNode ) {
+							return elem.parentNode.disabled === disabled;
+						} else {
+							return elem.disabled === disabled;
+						}
+					}
+
+					// Support: IE 6 - 11
+					// Use the isDisabled shortcut property to check for disabled fieldset ancestors
+					return elem.isDisabled === disabled ||
+
+						// Where there is no isDisabled, check manually
+						/* jshint -W018 */
+						elem.isDisabled !== !disabled &&
+							disabledAncestor( elem ) === disabled;
+				}
+
+				return elem.disabled === disabled;
+
+			// Try to winnow out elements that can't be disabled before trusting the disabled property.
+			// Some victims get caught in our net (label, legend, menu, track), but it shouldn't
+			// even exist on them, let alone have a boolean value.
+			} else if ( "label" in elem ) {
+				return elem.disabled === disabled;
+			}
+
+			// Remaining elements are neither :enabled nor :disabled
+			return false;
 		};
 	}
 
@@ -1672,25 +1702,21 @@
 			return !document.getElementsByName || !document.getElementsByName( expando ).length;
 		});
 
-		// ID find and filter
+		// ID filter and find
 		if ( support.getById ) {
-			Expr.find["ID"] = function( id, context ) {
-				if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
-					var m = context.getElementById( id );
-					return m ? [ m ] : [];
-				}
-			};
 			Expr.filter["ID"] = function( id ) {
 				var attrId = id.replace( runescape, funescape );
 				return function( elem ) {
 					return elem.getAttribute("id") === attrId;
 				};
 			};
+			Expr.find["ID"] = function( id, context ) {
+				if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
+					var elem = context.getElementById( id );
+					return elem ? [ elem ] : [];
+				}
+			};
 		} else {
-			// Support: IE6/7
-			// getElementById is not reliable as a find shortcut
-			delete Expr.find["ID"];
-
 			Expr.filter["ID"] =  function( id ) {
 				var attrId = id.replace( runescape, funescape );
 				return function( elem ) {
@@ -1698,6 +1724,36 @@
 						elem.getAttributeNode("id");
 					return node && node.value === attrId;
 				};
+			};
+
+			// Support: IE 6 - 7 only
+			// getElementById is not reliable as a find shortcut
+			Expr.find["ID"] = function( id, context ) {
+				if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
+					var node, i, elems,
+						elem = context.getElementById( id );
+
+					if ( elem ) {
+
+						// Verify the id attribute
+						node = elem.getAttributeNode("id");
+						if ( node && node.value === id ) {
+							return [ elem ];
+						}
+
+						// Fall back on getElementsByName
+						elems = context.getElementsByName( id );
+						i = 0;
+						while ( (elem = elems[i++]) ) {
+							node = elem.getAttributeNode("id");
+							if ( node && node.value === id ) {
+								return [ elem ];
+							}
+						}
+					}
+
+					return [];
+				}
 			};
 		}
 
@@ -2739,6 +2795,7 @@
 						return matcher( elem, context, xml );
 					}
 				}
+				return false;
 			} :
 
 			// Check against all ancestor/preceding elements
@@ -2783,6 +2840,7 @@
 						}
 					}
 				}
+				return false;
 			};
 	}
 
@@ -3145,8 +3203,7 @@
 			// Reduce context if the leading compound selector is an ID
 			tokens = match[0] = match[0].slice( 0 );
 			if ( tokens.length > 2 && (token = tokens[0]).type === "ID" &&
-					support.getById && context.nodeType === 9 && documentIsHTML &&
-					Expr.relative[ tokens[1].type ] ) {
+					context.nodeType === 9 && documentIsHTML && Expr.relative[ tokens[1].type ] ) {
 
 				context = ( Expr.find["ID"]( token.matches[0].replace(runescape, funescape), context ) || [] )[0];
 				if ( !context ) {
@@ -3328,24 +3385,29 @@
 			return jQuery.grep( elements, function( elem, i ) {
 				return !!qualifier.call( elem, i, elem ) !== not;
 			} );
-
 		}
 
+		// Single element
 		if ( qualifier.nodeType ) {
 			return jQuery.grep( elements, function( elem ) {
 				return ( elem === qualifier ) !== not;
 			} );
-
 		}
 
-		if ( typeof qualifier === "string" ) {
-			if ( risSimple.test( qualifier ) ) {
-				return jQuery.filter( qualifier, elements, not );
-			}
-
-			qualifier = jQuery.filter( qualifier, elements );
+		// Arraylike of elements (jQuery, arguments, Array)
+		if ( typeof qualifier !== "string" ) {
+			return jQuery.grep( elements, function( elem ) {
+				return ( indexOf.call( qualifier, elem ) > -1 ) !== not;
+			} );
 		}
 
+		// Simple selector that can be filtered directly, removing non-Elements
+		if ( risSimple.test( qualifier ) ) {
+			return jQuery.filter( qualifier, elements, not );
+		}
+
+		// Complex selector, compare the two sets, removing non-Elements
+		qualifier = jQuery.filter( qualifier, elements );
 		return jQuery.grep( elements, function( elem ) {
 			return ( indexOf.call( qualifier, elem ) > -1 ) !== not && elem.nodeType === 1;
 		} );
@@ -3358,11 +3420,13 @@
 			expr = ":not(" + expr + ")";
 		}
 
-		return elems.length === 1 && elem.nodeType === 1 ?
-			jQuery.find.matchesSelector( elem, expr ) ? [ elem ] : [] :
-			jQuery.find.matches( expr, jQuery.grep( elems, function( elem ) {
-				return elem.nodeType === 1;
-			} ) );
+		if ( elems.length === 1 && elem.nodeType === 1 ) {
+			return jQuery.find.matchesSelector( elem, expr ) ? [ elem ] : [];
+		}
+
+		return jQuery.find.matches( expr, jQuery.grep( elems, function( elem ) {
+			return elem.nodeType === 1;
+		} ) );
 	};
 
 	jQuery.fn.extend( {
@@ -3690,14 +3754,14 @@
 			return this.pushStack( matched );
 		};
 	} );
-	var rnotwhite = ( /\S+/g );
+	var rnothtmlwhite = ( /[^\x20\t\r\n\f]+/g );
 
 
 
 	// Convert String-formatted options into Object-formatted ones
 	function createOptions( options ) {
 		var object = {};
-		jQuery.each( options.match( rnotwhite ) || [], function( _, flag ) {
+		jQuery.each( options.match( rnothtmlwhite ) || [], function( _, flag ) {
 			object[ flag ] = true;
 		} );
 		return object;
@@ -4462,13 +4526,16 @@
 			}
 		}
 
-		return chainable ?
-			elems :
+		if ( chainable ) {
+			return elems;
+		}
 
-			// Gets
-			bulk ?
-				fn.call( elems ) :
-				len ? fn( elems[ 0 ], key ) : emptyGet;
+		// Gets
+		if ( bulk ) {
+			return fn.call( elems );
+		}
+
+		return len ? fn( elems[ 0 ], key ) : emptyGet;
 	};
 	var acceptData = function( owner ) {
 
@@ -4605,7 +4672,7 @@
 					// Otherwise, create an array by matching non-whitespace
 					key = key in cache ?
 						[ key ] :
-						( key.match( rnotwhite ) || [] );
+						( key.match( rnothtmlwhite ) || [] );
 				}
 
 				i = key.length;
@@ -4653,6 +4720,31 @@
 	var rbrace = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,
 		rmultiDash = /[A-Z]/g;
 
+	function getData( data ) {
+		if ( data === "true" ) {
+			return true;
+		}
+
+		if ( data === "false" ) {
+			return false;
+		}
+
+		if ( data === "null" ) {
+			return null;
+		}
+
+		// Only convert to a number if it doesn't change the string
+		if ( data === +data + "" ) {
+			return +data;
+		}
+
+		if ( rbrace.test( data ) ) {
+			return JSON.parse( data );
+		}
+
+		return data;
+	}
+
 	function dataAttr( elem, key, data ) {
 		var name;
 
@@ -4664,14 +4756,7 @@
 
 			if ( typeof data === "string" ) {
 				try {
-					data = data === "true" ? true :
-						data === "false" ? false :
-						data === "null" ? null :
-
-						// Only convert to a number if it doesn't change the string
-						+data + "" === data ? +data :
-						rbrace.test( data ) ? JSON.parse( data ) :
-						data;
+					data = getData( data );
 				} catch ( e ) {}
 
 				// Make sure we set the data so it isn't changed later
@@ -5048,7 +5133,7 @@
 			return display;
 		}
 
-		temp = doc.body.appendChild( doc.createElement( nodeName ) ),
+		temp = doc.body.appendChild( doc.createElement( nodeName ) );
 		display = jQuery.css( temp, "display" );
 
 		temp.parentNode.removeChild( temp );
@@ -5166,15 +5251,23 @@
 
 		// Support: IE <=9 - 11 only
 		// Use typeof to avoid zero-argument method invocation on host objects (#15151)
-		var ret = typeof context.getElementsByTagName !== "undefined" ?
-				context.getElementsByTagName( tag || "*" ) :
-				typeof context.querySelectorAll !== "undefined" ?
-					context.querySelectorAll( tag || "*" ) :
-				[];
+		var ret;
 
-		return tag === undefined || tag && jQuery.nodeName( context, tag ) ?
-			jQuery.merge( [ context ], ret ) :
-			ret;
+		if ( typeof context.getElementsByTagName !== "undefined" ) {
+			ret = context.getElementsByTagName( tag || "*" );
+
+		} else if ( typeof context.querySelectorAll !== "undefined" ) {
+			ret = context.querySelectorAll( tag || "*" );
+
+		} else {
+			ret = [];
+		}
+
+		if ( tag === undefined || tag && jQuery.nodeName( context, tag ) ) {
+			return jQuery.merge( [ context ], ret );
+		}
+
+		return ret;
 	}
 
 
@@ -5448,7 +5541,7 @@
 			}
 
 			// Handle multiple events separated by a space
-			types = ( types || "" ).match( rnotwhite ) || [ "" ];
+			types = ( types || "" ).match( rnothtmlwhite ) || [ "" ];
 			t = types.length;
 			while ( t-- ) {
 				tmp = rtypenamespace.exec( types[ t ] ) || [];
@@ -5530,7 +5623,7 @@
 			}
 
 			// Once for each type.namespace in types; type may be omitted
-			types = ( types || "" ).match( rnotwhite ) || [ "" ];
+			types = ( types || "" ).match( rnothtmlwhite ) || [ "" ];
 			t = types.length;
 			while ( t-- ) {
 				tmp = rtypenamespace.exec( types[ t ] ) || [];
@@ -5656,51 +5749,58 @@
 		},
 
 		handlers: function( event, handlers ) {
-			var i, matches, sel, handleObj,
+			var i, handleObj, sel, matchedHandlers, matchedSelectors,
 				handlerQueue = [],
 				delegateCount = handlers.delegateCount,
 				cur = event.target;
 
-			// Support: IE <=9
 			// Find delegate handlers
-			// Black-hole SVG <use> instance trees (#13180)
-			//
-			// Support: Firefox <=42
-			// Avoid non-left-click in FF but don't block IE radio events (#3861, gh-2343)
-			if ( delegateCount && cur.nodeType &&
-				( event.type !== "click" || isNaN( event.button ) || event.button < 1 ) ) {
+			if ( delegateCount &&
+
+				// Support: IE <=9
+				// Black-hole SVG <use> instance trees (trac-13180)
+				cur.nodeType &&
+
+				// Support: Firefox <=42
+				// Suppress spec-violating clicks indicating a non-primary pointer button (trac-3861)
+				// https://www.w3.org/TR/DOM-Level-3-Events/#event-type-click
+				// Support: IE 11 only
+				// ...but not arrow key "clicks" of radio inputs, which can have `button` -1 (gh-2343)
+				!( event.type === "click" && event.button >= 1 ) ) {
 
 				for ( ; cur !== this; cur = cur.parentNode || this ) {
 
 					// Don't check non-elements (#13208)
 					// Don't process clicks on disabled elements (#6911, #8165, #11382, #11764)
-					if ( cur.nodeType === 1 && ( cur.disabled !== true || event.type !== "click" ) ) {
-						matches = [];
+					if ( cur.nodeType === 1 && !( event.type === "click" && cur.disabled === true ) ) {
+						matchedHandlers = [];
+						matchedSelectors = {};
 						for ( i = 0; i < delegateCount; i++ ) {
 							handleObj = handlers[ i ];
 
 							// Don't conflict with Object.prototype properties (#13203)
 							sel = handleObj.selector + " ";
 
-							if ( matches[ sel ] === undefined ) {
-								matches[ sel ] = handleObj.needsContext ?
+							if ( matchedSelectors[ sel ] === undefined ) {
+								matchedSelectors[ sel ] = handleObj.needsContext ?
 									jQuery( sel, this ).index( cur ) > -1 :
 									jQuery.find( sel, this, null, [ cur ] ).length;
 							}
-							if ( matches[ sel ] ) {
-								matches.push( handleObj );
+							if ( matchedSelectors[ sel ] ) {
+								matchedHandlers.push( handleObj );
 							}
 						}
-						if ( matches.length ) {
-							handlerQueue.push( { elem: cur, handlers: matches } );
+						if ( matchedHandlers.length ) {
+							handlerQueue.push( { elem: cur, handlers: matchedHandlers } );
 						}
 					}
 				}
 			}
 
 			// Add the remaining (directly-bound) handlers
+			cur = this;
 			if ( delegateCount < handlers.length ) {
-				handlerQueue.push( { elem: this, handlers: handlers.slice( delegateCount ) } );
+				handlerQueue.push( { elem: cur, handlers: handlers.slice( delegateCount ) } );
 			}
 
 			return handlerQueue;
@@ -5934,7 +6034,19 @@
 
 			// Add which for click: 1 === left; 2 === middle; 3 === right
 			if ( !event.which && button !== undefined && rmouseEvent.test( event.type ) ) {
-				return ( button & 1 ? 1 : ( button & 2 ? 3 : ( button & 4 ? 2 : 0 ) ) );
+				if ( button & 1 ) {
+					return 1;
+				}
+
+				if ( button & 2 ) {
+					return 3;
+				}
+
+				if ( button & 4 ) {
+					return 2;
+				}
+
+				return 0;
 			}
 
 			return event.which;
@@ -6690,15 +6802,17 @@
 	}
 
 	function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
-		var i = extra === ( isBorderBox ? "border" : "content" ) ?
-
-			// If we already have the right measurement, avoid augmentation
-			4 :
-
-			// Otherwise initialize for horizontal or vertical properties
-			name === "width" ? 1 : 0,
-
+		var i,
 			val = 0;
+
+		// If we already have the right measurement, avoid augmentation
+		if ( extra === ( isBorderBox ? "border" : "content" ) ) {
+			i = 4;
+
+		// Otherwise initialize for horizontal or vertical properties
+		} else {
+			i = name === "width" ? 1 : 0;
+		}
 
 		for ( ; i < 4; i += 2 ) {
 
@@ -7552,7 +7666,7 @@
 				callback = props;
 				props = [ "*" ];
 			} else {
-				props = props.match( rnotwhite );
+				props = props.match( rnothtmlwhite );
 			}
 
 			var prop,
@@ -7590,9 +7704,14 @@
 			opt.duration = 0;
 
 		} else {
-			opt.duration = typeof opt.duration === "number" ?
-				opt.duration : opt.duration in jQuery.fx.speeds ?
-					jQuery.fx.speeds[ opt.duration ] : jQuery.fx.speeds._default;
+			if ( typeof opt.duration !== "number" ) {
+				if ( opt.duration in jQuery.fx.speeds ) {
+					opt.duration = jQuery.fx.speeds[ opt.duration ];
+
+				} else {
+					opt.duration = jQuery.fx.speeds._default;
+				}
+			}
 		}
 
 		// Normalize opt.queue - true/undefined/null -> "fx"
@@ -7942,7 +8061,10 @@
 		removeAttr: function( elem, value ) {
 			var name,
 				i = 0,
-				attrNames = value && value.match( rnotwhite );
+
+				// Attribute names can contain non-HTML whitespace characters
+				// https://html.spec.whatwg.org/multipage/syntax.html#attributes-2
+				attrNames = value && value.match( rnothtmlwhite );
 
 			if ( attrNames && elem.nodeType === 1 ) {
 				while ( ( name = attrNames[ i++ ] ) ) {
@@ -8049,12 +8171,19 @@
 					// Use proper attribute retrieval(#12072)
 					var tabindex = jQuery.find.attr( elem, "tabindex" );
 
-					return tabindex ?
-						parseInt( tabindex, 10 ) :
+					if ( tabindex ) {
+						return parseInt( tabindex, 10 );
+					}
+
+					if (
 						rfocusable.test( elem.nodeName ) ||
-							rclickable.test( elem.nodeName ) && elem.href ?
-								0 :
-								-1;
+						rclickable.test( elem.nodeName ) &&
+						elem.href
+					) {
+						return 0;
+					}
+
+					return -1;
 				}
 			}
 		},
@@ -8071,9 +8200,14 @@
 	// on the option
 	// The getter ensures a default option is selected
 	// when in an optgroup
+	// eslint rule "no-unused-expressions" is disabled for this code
+	// since it considers such accessions noop
 	if ( !support.optSelected ) {
 		jQuery.propHooks.selected = {
 			get: function( elem ) {
+
+				/* eslint no-unused-expressions: "off" */
+
 				var parent = elem.parentNode;
 				if ( parent && parent.parentNode ) {
 					parent.parentNode.selectedIndex;
@@ -8081,6 +8215,9 @@
 				return null;
 			},
 			set: function( elem ) {
+
+				/* eslint no-unused-expressions: "off" */
+
 				var parent = elem.parentNode;
 				if ( parent ) {
 					parent.selectedIndex;
@@ -8111,7 +8248,13 @@
 
 
 
-	var rclass = /[\t\r\n\f]/g;
+		// Strip and collapse whitespace according to HTML spec
+		// https://html.spec.whatwg.org/multipage/infrastructure.html#strip-and-collapse-whitespace
+		function stripAndCollapse( value ) {
+			var tokens = value.match( rnothtmlwhite ) || [];
+			return tokens.join( " " );
+		}
+
 
 	function getClass( elem ) {
 		return elem.getAttribute && elem.getAttribute( "class" ) || "";
@@ -8129,12 +8272,11 @@
 			}
 
 			if ( typeof value === "string" && value ) {
-				classes = value.match( rnotwhite ) || [];
+				classes = value.match( rnothtmlwhite ) || [];
 
 				while ( ( elem = this[ i++ ] ) ) {
 					curValue = getClass( elem );
-					cur = elem.nodeType === 1 &&
-						( " " + curValue + " " ).replace( rclass, " " );
+					cur = elem.nodeType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
 
 					if ( cur ) {
 						j = 0;
@@ -8145,7 +8287,7 @@
 						}
 
 						// Only assign if different to avoid unneeded rendering.
-						finalValue = jQuery.trim( cur );
+						finalValue = stripAndCollapse( cur );
 						if ( curValue !== finalValue ) {
 							elem.setAttribute( "class", finalValue );
 						}
@@ -8171,14 +8313,13 @@
 			}
 
 			if ( typeof value === "string" && value ) {
-				classes = value.match( rnotwhite ) || [];
+				classes = value.match( rnothtmlwhite ) || [];
 
 				while ( ( elem = this[ i++ ] ) ) {
 					curValue = getClass( elem );
 
 					// This expression is here for better compressibility (see addClass)
-					cur = elem.nodeType === 1 &&
-						( " " + curValue + " " ).replace( rclass, " " );
+					cur = elem.nodeType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
 
 					if ( cur ) {
 						j = 0;
@@ -8191,7 +8332,7 @@
 						}
 
 						// Only assign if different to avoid unneeded rendering.
-						finalValue = jQuery.trim( cur );
+						finalValue = stripAndCollapse( cur );
 						if ( curValue !== finalValue ) {
 							elem.setAttribute( "class", finalValue );
 						}
@@ -8226,7 +8367,7 @@
 					// Toggle individual class names
 					i = 0;
 					self = jQuery( this );
-					classNames = value.match( rnotwhite ) || [];
+					classNames = value.match( rnothtmlwhite ) || [];
 
 					while ( ( className = classNames[ i++ ] ) ) {
 
@@ -8269,10 +8410,8 @@
 			className = " " + selector + " ";
 			while ( ( elem = this[ i++ ] ) ) {
 				if ( elem.nodeType === 1 &&
-					( " " + getClass( elem ) + " " ).replace( rclass, " " )
-						.indexOf( className ) > -1
-				) {
-					return true;
+					( " " + stripAndCollapse( getClass( elem ) ) + " " ).indexOf( className ) > -1 ) {
+						return true;
 				}
 			}
 
@@ -8283,8 +8422,7 @@
 
 
 
-	var rreturn = /\r/g,
-		rspaces = /[\x20\t\r\n\f]+/g;
+	var rreturn = /\r/g;
 
 	jQuery.fn.extend( {
 		val: function( value ) {
@@ -8305,13 +8443,13 @@
 
 					ret = elem.value;
 
-					return typeof ret === "string" ?
+					// Handle most common string cases
+					if ( typeof ret === "string" ) {
+						return ret.replace( rreturn, "" );
+					}
 
-						// Handle most common string cases
-						ret.replace( rreturn, "" ) :
-
-						// Handle cases where value is null/undef or number
-						ret == null ? "" : ret;
+					// Handle cases where value is null/undef or number
+					return ret == null ? "" : ret;
 				}
 
 				return;
@@ -8368,20 +8506,24 @@
 						// option.text throws exceptions (#14686, #14858)
 						// Strip and collapse whitespace
 						// https://html.spec.whatwg.org/#strip-and-collapse-whitespace
-						jQuery.trim( jQuery.text( elem ) ).replace( rspaces, " " );
+						stripAndCollapse( jQuery.text( elem ) );
 				}
 			},
 			select: {
 				get: function( elem ) {
-					var value, option,
+					var value, option, i,
 						options = elem.options,
 						index = elem.selectedIndex,
 						one = elem.type === "select-one",
 						values = one ? null : [],
-						max = one ? index + 1 : options.length,
-						i = index < 0 ?
-							max :
-							one ? index : 0;
+						max = one ? index + 1 : options.length;
+
+					if ( index < 0 ) {
+						i = max;
+
+					} else {
+						i = one ? index : 0;
+					}
 
 					// Loop through all the selected options
 					for ( ; i < max; i++ ) {
@@ -8835,13 +8977,17 @@
 			.map( function( i, elem ) {
 				var val = jQuery( this ).val();
 
-				return val == null ?
-					null :
-					jQuery.isArray( val ) ?
-						jQuery.map( val, function( val ) {
-							return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
-						} ) :
-						{ name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
+				if ( val == null ) {
+					return null;
+				}
+
+				if ( jQuery.isArray( val ) ) {
+					return jQuery.map( val, function( val ) {
+						return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
+					} );
+				}
+
+				return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
 			} ).get();
 		}
 	} );
@@ -8850,7 +8996,7 @@
 	var
 		r20 = /%20/g,
 		rhash = /#.*$/,
-		rts = /([?&])_=[^&]*/,
+		rantiCache = /([?&])_=[^&]*/,
 		rheaders = /^(.*?):[ \t]*([^\r\n]*)$/mg,
 
 		// #7653, #8125, #8152: local protocol detection
@@ -8896,7 +9042,7 @@
 
 			var dataType,
 				i = 0,
-				dataTypes = dataTypeExpression.toLowerCase().match( rnotwhite ) || [];
+				dataTypes = dataTypeExpression.toLowerCase().match( rnothtmlwhite ) || [];
 
 			if ( jQuery.isFunction( func ) ) {
 
@@ -9364,7 +9510,7 @@
 			s.type = options.method || options.type || s.method || s.type;
 
 			// Extract dataTypes list
-			s.dataTypes = ( s.dataType || "*" ).toLowerCase().match( rnotwhite ) || [ "" ];
+			s.dataTypes = ( s.dataType || "*" ).toLowerCase().match( rnothtmlwhite ) || [ "" ];
 
 			// A cross-domain request is in order when the origin doesn't match the current origin.
 			if ( s.crossDomain == null ) {
@@ -9436,9 +9582,9 @@
 					delete s.data;
 				}
 
-				// Add anti-cache in uncached url if needed
+				// Add or update anti-cache param if needed
 				if ( s.cache === false ) {
-					cacheURL = cacheURL.replace( rts, "" );
+					cacheURL = cacheURL.replace( rantiCache, "$1" );
 					uncached = ( rquery.test( cacheURL ) ? "&" : "?" ) + "_=" + ( nonce++ ) + uncached;
 				}
 
@@ -10177,7 +10323,7 @@
 			off = url.indexOf( " " );
 
 		if ( off > -1 ) {
-			selector = jQuery.trim( url.slice( off ) );
+			selector = stripAndCollapse( url.slice( off ) );
 			url = url.slice( 0, off );
 		}
 
@@ -10569,7 +10715,6 @@
 
 
 
-
 	var
 
 		// Map over jQuery in case of overwrite
@@ -10596,6 +10741,9 @@
 	if ( !noGlobal ) {
 		window.jQuery = window.$ = jQuery;
 	}
+
+
+
 
 
 	return jQuery;
@@ -14178,7 +14326,7 @@
 	module.exports = function(obj){
 	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 	with(obj||{}){
-	__p+='<table class="simple-little-table" border="2">\n    <thead>\n    <tr>\n        <th style="width: 20%">Новости</th>\n    </tr>\n    </thead>\n    <tbody></tbody>\n</table>';
+	__p+='<table class="simple-little-table" border="2">\r\n    <thead>\r\n    <tr>\r\n        <th style="width: 20%">Новости</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody></tbody>\r\n</table>';
 	}
 	return __p;
 	};
@@ -14374,8 +14522,7 @@
 
 	var feedList = _backbone2.default.View.extend({
 	  events: {
-	    "click .menuButton": "showMenu",
-	    "click .logoutButton": "logout"
+	    "click .menuButton": "showMenu"
 	  },
 
 	  template: _headerTemplate2.default,
@@ -14384,14 +14531,8 @@
 	    this.$el.html(this.template());
 	  },
 
-	  logout: function logout() {
-	    sessionStorage.removeItem("User.token");
-	    sessionStorage.removeItem("User.login");
-	    _backbone2.default.history.navigate("auth", { trigger: true });
-	  },
-
 	  showMenu: function showMenu() {
-	    console.log("show menu");
+	    (0, _jquery2.default)(".menu").addClass("show");
 	  }
 	});
 
@@ -14404,7 +14545,7 @@
 	module.exports = function(obj){
 	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 	with(obj||{}){
-	__p+='<button class="menuButton"><div class="menuLabel rotate90">|||</div></button>\n<span class="headerTitle">Новости</span>\n<button class="headerRightButton logoutButton">Выйти</button>';
+	__p+='<button class="menuButton"><div class="menuLabel rotate90">|||</div></button>\r\n<span class="headerTitle">Новости</span>';
 	}
 	return __p;
 	};
@@ -14438,13 +14579,61 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var offset;
+	var offsetDelta;
 	var feedList = _backbone2.default.View.extend({
-	  events: {},
+	  events: {
+	    "click .menuShadow": "hideMenu",
+	    "touchend .menuShadow": "hideMenu",
+	    "touchstart .menuContent": "moveMenuStart",
+	    "touchmove .menuContent": "moveMenu",
+	    "touchend .menuContent": "moveMenuEnd",
+	    "click .logoutItem": "logout"
+	  },
 
 	  template: _menuTemplate2.default,
 
 	  initialize: function initialize() {
 	    this.$el.html(this.template());
+	    (0, _jquery2.default)("#userName").html(sessionStorage.getItem("User.login"));
+	  },
+
+	  moveMenuStart: function moveMenuStart(e) {
+	    offset = e.changedTouches[0].clientX - 340;
+	  },
+
+	  hideMenu: function hideMenu() {
+	    (0, _jquery2.default)(".menu.show").toggleClass("show");
+	  },
+
+	  moveMenu: function moveMenu(e) {
+	    offsetDelta = offset - (e.changedTouches[0].clientX - 340);
+	    offset = e.changedTouches[0].clientX - 340;
+	    if (offset > 0) offset = 0;
+	    if (offset < -320) offset = -320;
+	    (0, _jquery2.default)(".menuContent").addClass("moved");
+	    (0, _jquery2.default)(".moved").css({ "transform": "translate(" + offset + "px,0)" });
+	  },
+
+	  moveMenuEnd: function moveMenuEnd(e) {
+	    var mc = (0, _jquery2.default)(".menuContent");
+	    if (mc.hasClass("moved")) {
+	      offsetDelta = offset - (e.changedTouches[0].clientX - 340);
+	      (0, _jquery2.default)(".moved").css({ "transform": "" });
+	      mc.removeClass("moved");
+	      if (offset < -125 || offsetDelta > 3) {
+	        this.hideMenu();
+	      }
+	    }
+	  },
+
+	  logout: function logout() {
+	    this.hideMenu();
+	    _underscore2.default.delay(function () {
+	      sessionStorage.removeItem("User.token");
+	      sessionStorage.removeItem("User.login");
+	      _backbone2.default.history.navigate("auth", { trigger: true });
+	    }, 350);
 	  }
 
 	});
@@ -14458,7 +14647,7 @@
 	module.exports = function(obj){
 	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 	with(obj||{}){
-	__p+='<div class = "menu">\n    <div class="menuShadow"></div>\n    <div class="menuContent"></div>\n</div>';
+	__p+='<div class = "menu">\r\n    <div class="menuShadow"></div>\r\n    <div class="menuContent">\r\n        <div class="menuProfile">\r\n            <div class="userImg"></div>\r\n            <div class="userInfo">Пользователь: <span id="userName"></span></div>\r\n        </div>\r\n        <div class="menuItemsList">\r\n            <div class="menuTopBlocks">\r\n                <ul>Пункт1</ul>\r\n                <ul>Пункт2</ul>\r\n                <ul>Пункт3</ul>\r\n                <ul>Пункт4</ul>\r\n            </div>\r\n            <div class="menuBottomBlocks">\r\n                <ul class="logoutItem">Выйти</ul>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>';
 	}
 	return __p;
 	};
@@ -14640,7 +14829,7 @@
 	module.exports = function(obj){
 	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 	with(obj||{}){
-	__p+='<form class="authForm styledForm">\n    <span class="styledLabel">Логин</span>\n    <input type="text" class="loginField inputField" required>\n    <span class="styledLabel">Пароль</span>\n    <input type="password" class="passField inputField" required>\n    <button type="submit"  class="authButton styledButton">Войти</button>\n    <button type="button"  class="regButton styledButton">Регистрация</button>\n    <div class="styledLabel warning"></div>\n</form>';
+	__p+='<form class="authForm styledForm">\r\n    <span class="styledLabel">Логин</span>\r\n    <input type="text" class="loginField inputField" required>\r\n    <span class="styledLabel">Пароль</span>\r\n    <input type="password" class="passField inputField" required>\r\n    <button type="submit"  class="authButton styledButton">Войти</button>\r\n    <button type="button"  class="regButton styledButton">Регистрация</button>\r\n    <div class="styledLabel warning"></div>\r\n</form>';
 	}
 	return __p;
 	};
@@ -17386,6 +17575,7 @@
 
 	'use strict'
 
+	exports.byteLength = byteLength
 	exports.toByteArray = toByteArray
 	exports.fromByteArray = fromByteArray
 
@@ -17393,23 +17583,17 @@
 	var revLookup = []
 	var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
 
-	function init () {
-	  var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-	  for (var i = 0, len = code.length; i < len; ++i) {
-	    lookup[i] = code[i]
-	    revLookup[code.charCodeAt(i)] = i
-	  }
-
-	  revLookup['-'.charCodeAt(0)] = 62
-	  revLookup['_'.charCodeAt(0)] = 63
+	var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+	for (var i = 0, len = code.length; i < len; ++i) {
+	  lookup[i] = code[i]
+	  revLookup[code.charCodeAt(i)] = i
 	}
 
-	init()
+	revLookup['-'.charCodeAt(0)] = 62
+	revLookup['_'.charCodeAt(0)] = 63
 
-	function toByteArray (b64) {
-	  var i, j, l, tmp, placeHolders, arr
+	function placeHoldersCount (b64) {
 	  var len = b64.length
-
 	  if (len % 4 > 0) {
 	    throw new Error('Invalid string. Length must be a multiple of 4')
 	  }
@@ -17419,9 +17603,19 @@
 	  // represent one byte
 	  // if there is only one, then the three characters before it represent 2 bytes
 	  // this is just a cheap hack to not do indexOf twice
-	  placeHolders = b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
+	  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
+	}
 
+	function byteLength (b64) {
 	  // base64 is 4/3 + up to two characters of the original data
+	  return b64.length * 3 / 4 - placeHoldersCount(b64)
+	}
+
+	function toByteArray (b64) {
+	  var i, j, l, tmp, placeHolders, arr
+	  var len = b64.length
+	  placeHolders = placeHoldersCount(b64)
+
 	  arr = new Arr(len * 3 / 4 - placeHolders)
 
 	  // if there are placeholders, only get up to the last complete 4 chars
@@ -19747,7 +19941,7 @@
 	module.exports = function(obj){
 	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 	with(obj||{}){
-	__p+='<form class="regForm styledForm">\n    <span class="styledLabel">Логин</span>\n    <input type="text" class="loginField inputField" required>\n    <span class="styledLabel">Пароль</span>\n    <input type="password" class="passField inputField" required>\n    <span class="styledLabel">Повторите пароль</span>\n    <input type="password" class="rePassField inputField" required>\n    <button type="submit" class="regButton styledButton">Регистрация</button>\n    <button type="button" class="backButton styledButton">Назад</button>\n    <div class="styledLabel warning"></div>\n</form>';
+	__p+='<form class="regForm styledForm">\r\n    <span class="styledLabel">Логин</span>\r\n    <input type="text" class="loginField inputField" required>\r\n    <span class="styledLabel">Пароль</span>\r\n    <input type="password" class="passField inputField" required>\r\n    <span class="styledLabel">Повторите пароль</span>\r\n    <input type="password" class="rePassField inputField" required>\r\n    <button type="submit" class="regButton styledButton">Регистрация</button>\r\n    <button type="button" class="backButton styledButton">Назад</button>\r\n    <div class="styledLabel warning"></div>\r\n</form>';
 	}
 	return __p;
 	};

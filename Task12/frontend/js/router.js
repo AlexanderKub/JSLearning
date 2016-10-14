@@ -37,6 +37,7 @@ export default Router.extend({
     var router = this;
     router.isAuth().then(function (response) {
       if (!response) {
+        $("#menu-wrapper").html("");
         var view = new Auth({el : router.$el, state: state});
         router.openNewPage(view);
         return;
@@ -49,6 +50,7 @@ export default Router.extend({
     var router = this;
     router.isAuth().then(function (response) {
       if (!response) {
+        $("#menu-wrapper").html("");
         var view = new Reg({el: router.$el});
         router.openNewPage(view);
         return;
