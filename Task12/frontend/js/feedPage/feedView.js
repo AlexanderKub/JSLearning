@@ -2,9 +2,12 @@ import $ from "jquery";
 import Backbone from "backbone";
 import _ from "underscore";
 
-import tmpl from "./templates/index.ejs";
+import tmpl from "./templates/feedWindowTemplate.ejs";
 import FeedCollection from "../collections/feeds";
 import FeedView from "./feedItem";
+import FeedsHeader from "./feedHeader";
+import Menu from "../menu/menuView";
+import BasicFooter from "../basic/basicFooter";
 
 let feedList = Backbone.View.extend({
   events: {
@@ -22,8 +25,11 @@ let feedList = Backbone.View.extend({
   },
 
   render: function () {
-    $("tbody").html("");
+    this.header = new FeedsHeader({el: $("header")});
+    this.menu = new Menu({el: $("#menu-wrapper")});
+    this.footer = new BasicFooter({el: $("footer")});
     const tbody = this.$("tbody");
+    tbody.html("");
     _.each(this.coll.models, function (model) {
       const modelView = new FeedView({
         model: model
@@ -31,6 +37,9 @@ let feedList = Backbone.View.extend({
       modelView.render();
       tbody.append(modelView.$el);
     }, this);
+    for (var i = 0; i<100; i++){
+      tbody.append("<tr><td>TEST"+i+"</td></tr>");
+    }
   },
 
   navigation: function () {

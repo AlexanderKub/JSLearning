@@ -2,12 +2,12 @@ import $ from "jquery";
 import Backbone from "backbone";
 import _ from "underscore";
 
-import tmpl from "./templates/header.ejs";
+import tmpl from "./templates/headerTemplate.ejs";
 
 let feedList = Backbone.View.extend({
   events: {
-    "click .logoutButton": "logout",
-    "click .menuButton": "showMenu"
+    "click .menuButton": "showMenu",
+    "click .logoutButton": "logout"
   },
 
   template: tmpl,
