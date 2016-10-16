@@ -18,12 +18,12 @@ let authPage = Backbone.View.extend({
   template: tmpl,
 
   initialize: function () {
-
+    this.header = new BasicHeader({el: $("header")});
+    this.footer = new BasicFooter({el: $("footer")});
+    this.render();
   },
 
   render: function () {
-    this.header = new BasicHeader({el: $("header")});
-    this.footer = new BasicFooter({el: $("footer")});
     this.$el.html(this.template());
     var form = this.$el.find(".styledForm");
     form.css("left",(parseFloat($("html").css("width"))-parseFloat(form.css("width"))-parseFloat(form.css("padding"))*2)*0.5);
@@ -74,6 +74,13 @@ let authPage = Backbone.View.extend({
 
   back: function () {
     Backbone.history.navigate("auth",  {trigger: true});
+  },
+
+  close: function () {
+    this.header.undelegateEvents();
+    this.header.$el.empty();
+    this.footer.undelegateEvents();
+    this.footer.$el.empty();
   }
 });
 

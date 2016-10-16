@@ -1,3 +1,7 @@
+html{
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
 body{
   overflow: hidden;
   font-family: cursive;
@@ -227,7 +231,7 @@ header, footer{
   width: 90vw;
   max-width: 340px;
   height: 100vh;
-  background: #e8d066;
+  background: linear-gradient(to top left, #e8d066 30%, #f5e972 60%, #e8d066 90%);
 }
 .menu.show .menuContent {
   transform: translate(0, 0);
@@ -276,6 +280,11 @@ header, footer{
 
 .menuItemsList ul:hover {
   margin-right: -5px;
+  transition: margin-right 110ms linear;
+}
+
+.menuItemsList ul:active {
+  background: #e3e3ea;
 }
 
 .userImg{
@@ -284,15 +293,119 @@ header, footer{
   width: 40%;
   height: 65%;
   background: ghostwhite;
+  background-image: url("http://127.0.0.1:4000/images/defaultProfile.jpg");
+  background-size: 100% 100%;
   margin: 30px;
   margin-right: 10px;
+  max-height: 140px;
 }
 
-.userInfo{
+.profileInfo{
   color: #2b2b2d;
   font-weight: bolder;
   margin-top: 30px;
   margin-bottom: 30px;
   margin-right: 5px;
   height: 65%;
+}
+
+#profileName{
+  font-size: 22px;
+}
+
+.scrollTopButton{
+  cursor: pointer;
+  visibility: hidden;
+  position: absolute;
+  left: 15px;
+  bottom: 60px;
+  background: #e8d066;
+  width: 60px;
+  height: 60px;
+  border-radius: 60px;
+  border: none;
+  color: ghostwhite;
+  font-size: 38px;
+  font-weight: bolder;
+}
+
+.scrollTopButton.show {
+  visibility: visible;
+}
+
+.loader {
+  text-align: -webkit-center;
+  background: linear-gradient(to top left, #e8d066 30%, #f5e972 60%, #e8d066 90%);
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 8;
+  opacity: 0;
+  -webkit-transition: opacity 250ms linear, visibility 250ms;
+  transition: opacity 250ms linear, visibility 250ms;
+  visibility: hidden;
+}
+
+.loader.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.loaderCirc {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  top: calc(50vh - 40px);
+  left: calc(50vw - 40px);
+}
+
+.loader.show .loaderCirc {
+  animation-name: spin;
+  animation-duration: 700ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.loaderBar {
+  width: 5px;
+  height: 20px;
+  background: ghostwhite;
+  position: absolute;
+}
+
+.loaderBar.left {
+  top: 125px;
+  left: 50px;
+
+}
+
+.loaderBar.right {
+  bottom: 125px;
+}
+
+@keyframes spin {
+  from {
+    transform:rotate(0deg);
+  }
+  to {
+    transform:rotate(360deg);
+  }
+}
+
+.defaultProfileImg{
+  float: left;
+  text-align: center;
+  background-image: url("http://127.0.0.1:4000/images/defaultProfile.jpg");
+  background-size: 100% 100%;
+  width: 40px;
+  height: 40px;
+}
+
+.nameInList {
+  padding: 5px;
+}
+
+.userListRow {
+
 }

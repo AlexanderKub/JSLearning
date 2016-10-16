@@ -1,26 +1,29 @@
 {
   "ids": {
-    "userAuth": 4,
-    "userData": 4,
-    "userInfo": 4,
+    "userAuth": 5,
+    "userData": 5,
+    "userInfo": 5,
     "post": 3,
     "like": 5
   },
   "models": {
     "userAuth": {
-      "1": "{\"login\":\"qwer\",\"password\":\"962012d09b8170d912f0669f6d7d9d07\",\"id\":1,\"session\":\"2016-10-14T21:25:55.795Z\",\"token\":\"MiktG8LDebClm8F5A\"}",
+      "1": "{\"login\":\"qwer\",\"password\":\"962012d09b8170d912f0669f6d7d9d07\",\"id\":1,\"session\":\"2016-10-15T20:24:46.131Z\",\"token\":\"mGPcdU9qhXWE3fmEU\"}",
       "2": "{\"login\":\"loree3l\",\"password\":\"lol\",\"id\":2,\"session\":\"2016-10-07T00:00:00.000Z\",\"token\":\"cG8SZ3PSDriXXf28F\"}",
-      "3": "{\"login\":\"qwerty\",\"password\":\"d8578edf8458ce06fbc5bb76a58c5ca4\",\"id\":3,\"session\":\"2016-10-08T01:02:47.738Z\",\"token\":\"0opYYhKwQEtWDfZi1\"}"
+      "3": "{\"login\":\"qwerty\",\"password\":\"d8578edf8458ce06fbc5bb76a58c5ca4\",\"id\":3,\"session\":\"2016-10-08T01:02:47.738Z\",\"token\":\"0opYYhKwQEtWDfZi1\"}",
+      "4": "{\"login\":\"hello\",\"password\":\"5d41402abc4b2a76b9719d911017c592\",\"id\":4,\"session\":\"2016-10-15T17:29:04.518Z\",\"token\":\"gXP3uIUM3ecPb1y0J\"}"
     },
     "userData": {
-      "1": "{\"subs\":[],\"folowers\":[],\"userAuthId\":1,\"id\":1}",
+      "1": "{\"subs\":[3,4],\"folowers\":[2,3,4],\"userAuthId\":1,\"id\":1}",
       "2": "{\"subs\":[],\"folowers\":[],\"userAuthId\":2,\"id\":2}",
-      "3": "{\"subs\":[],\"folowers\":[],\"userAuthId\":3,\"id\":3}"
+      "3": "{\"subs\":[],\"folowers\":[],\"userAuthId\":3,\"id\":3}",
+      "4": "{\"subs\":[],\"folowers\":[],\"userAuthId\":4,\"id\":4}"
     },
     "userInfo": {
       "1": "{\"name\":\"User1\",\"userAuthId\":1,\"id\":1}",
       "2": "{\"name\":\"User2\",\"userAuthId\":2,\"id\":2}",
-      "3": "{\"name\":\"User3\",\"userAuthId\":3,\"id\":3}"
+      "3": "{\"name\":\"User3\",\"userAuthId\":3,\"id\":3}",
+      "4": "{\"name\":\"User4\",\"userAuthId\":4,\"id\":4}"
     },
     "post": {
       "1": "{\"date\":\"2016-10-06T00:00:00.000Z\",\"content\":\"Helloo World\",\"likes\":0,\"reposts\":0,\"repostOf\":0,\"userId\":1,\"userDataId\":1,\"id\":1}",

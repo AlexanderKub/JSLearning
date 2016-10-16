@@ -2,10 +2,10 @@ import $ from "jquery";
 import Backbone from "backbone";
 import _ from "underscore";
 
-import tmpl from "./templates/feedWindowTemplate.ejs";
-import FeedCollection from "../collections/feeds";
-import FeedView from "./feedItem";
-import FeedsHeader from "../basic/menuHeader";
+import tmpl from "./templates/subsTemplate.ejs";
+import SubsCollection from "../collections/subs";
+import SubsView from "./sub";
+import Header from "../basic/menuHeader";
 import Menu from "../menu/menuView";
 import BasicFooter from "../basic/basicFooter";
 
@@ -19,30 +19,25 @@ let feedList = Backbone.View.extend({
 
   initialize: function (options) {
     this.$el.html(this.template());
-    this.header = new FeedsHeader({el: $("header"), title: "Лента"});
+    this.header = new Header({el: $("header"),title: "Подписки"});
     this.menu = new Menu({el: $("#menu-wrapper")});
     this.footer = new BasicFooter({el: $("footer")});
-    this.coll = new FeedCollection({subs:options.userSubs});
+    this.coll = new SubsCollection({subs:options.subs});
     this.listenTo(this.coll, "sync", this.render);
     this.listenTo(this.coll, "create", this.render);
     this.coll.fetch();
-
-    $("#scroll-content").on("scroll",this.scrollButton);
   },
 
   render: function () {
     const tbody = this.$("tbody");
     tbody.html("");
     _.each(this.coll.models, function (model) {
-      const modelView = new FeedView({
+      const modelView = new SubsView({
         model: model
       });
       modelView.render();
       tbody.append(modelView.$el);
     }, this);
-    for (var i = 0; i<100; i++){
-      tbody.append("<tr><td>TEST"+i+"</td></tr>");
-    }
     $(".loader").removeClass("show");
   },
 

@@ -1,7 +1,6 @@
 import "../css/style.css";
 import Router from "./router";
-
-new Router();
-
 import Backbone from "backbone";
+
+var router = new Router();
 Backbone.history.start({pushState: true});

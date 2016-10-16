@@ -58,8 +58,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	new _router2.default();
-
+	var router = new _router2.default();
 	_backbone2.default.history.start({ pushState: true });
 
 /***/ },
@@ -97,7 +96,7 @@
 
 
 	// module
-	exports.push([module.id, "body{\r\n  overflow: hidden;\r\n  font-family: cursive;\r\n  background: ghostwhite;\r\n  margin: 0;\r\n}\r\n\r\nheader{\r\n  position:fixed;\r\n  z-index:2;\r\n  top:0; left:0;\r\n  width:100%;\r\n  height:45px;\r\n  padding:0;\r\n}\r\n\r\n.headerTitle{\r\n\r\n}\r\n\r\nfooter {\r\n  position:fixed;\r\n  z-index:2;\r\n  bottom:0; left:0;\r\n  width:100%;\r\n  height:48px;\r\n  padding:0;\r\n}\r\n\r\nheader, footer{\r\n  font-size:20px;\r\n  text-align:center;\r\n  background-color:#e8d066;\r\n  color:#f3f3f3;\r\n  font-weight:bold;\r\n  text-shadow:0 -1px 0 rgba(0,0,0,0.5);\r\n  line-height:45px;\r\n}\r\n\r\n#wrapper {\r\n  z-index:1;\r\n  padding: 47px 0 47px 0;\r\n  width:100%;\r\n}\r\n#menu-wrapper {\r\n\r\n}\r\n\r\n#scroll-content {\r\n  z-index:1;\r\n  padding:0;\r\n  -webkit-overflow-scrolling:touch;\r\n  overflow:auto;\r\n  height: calc(100vh - 98px);\r\n}\r\n\r\n.content{\r\n  width: 100%;\r\n  text-align: center;\r\n  background: ghostwhite;\r\n}\r\n\r\n.styledForm{\r\n  display: table;\r\n  position: absolute;\r\n  width: 35vw;\r\n  min-width: 280px;\r\n  left: 50%;\r\n  transform: translate(0,100vh);\r\n  padding: 8px;\r\n  border-radius: 10px;\r\n  text-align: center;\r\n  background: #ebf7e0;\r\n  border: 2px solid #828180;\r\n}\r\n\r\n.inputField{\r\n  padding: 5px;\r\n  margin-top: 5px;\r\n  margin-bottom: 5px;\r\n  font-family: cursive;\r\n  font-size: 20px;\r\n  width: 100%;\r\n}\r\n\r\n.authButton{\r\n  margin: 5px;\r\n}\r\n\r\n.styledButton{\r\n  font-size: 17px;\r\n  font-family: cursive;\r\n  cursor: pointer;\r\n  border-radius: 5px;\r\n  border-style: double;\r\n  padding: 5px;\r\n  background: #e3f5e4;\r\n}\r\n\r\n.styledButton:active{\r\n  border-radius: 5px;\r\n  border-style: inset;\r\n  padding: 5px;\r\n  background: #ddf5f5;\r\n}\r\n\r\n.headerRightButton{\r\n  font-family: cursive;\r\n  cursor: pointer;\r\n  border-style: none;\r\n  border-left-style: double;\r\n  padding: 5px;\r\n  position: fixed;\r\n  right: 0;\r\n  font-size: 20px;\r\n  background-color: #e8d066;\r\n  text-align: center;\r\n  color: #f3f3f3;\r\n  font-weight: bold;\r\n  text-shadow: 0 -1px 0 rgba(0,0,0,0.5);\r\n  height: 45px;\r\n}\r\n\r\n.headerRightButton:active{\r\n  border-radius: 5px;\r\n  border-style: inset;\r\n  padding: 5px;\r\n  background: #ddf5f5;\r\n}\r\n\r\n.logoutButton{\r\n  width: 110px;\r\n}\r\n\r\n.menuButton{\r\n  font-family: cursive;\r\n  cursor: pointer;\r\n  border-style: none;\r\n  border-right-style: double;\r\n  padding: 5px;\r\n  position: fixed;\r\n  left: 0;\r\n  width: 60px;\r\n  font-size: 20px;\r\n  background-color: #e8d066;\r\n  text-align: center;\r\n  color: #f3f3f3;\r\n  font-weight: bold;\r\n  text-shadow: 0 -1px 0 rgba(0,0,0,0.5);\r\n  height: 45px;\r\n}\r\n\r\n.menuButton :active{\r\n  border-radius: 5px;\r\n  border-style: inset;\r\n  padding: 5px;\r\n  background: #ddf5f5;\r\n}\r\n\r\n.menuLabel{\r\n  width: 45px;\r\n}\r\n\r\n.styledLabel{\r\n  color: #828180;\r\n  font-weight: bolder;\r\n  font-size: 20px;\r\n}\r\n\r\n.styledLabel.message{\r\n  color: forestgreen;\r\n  height: 1.5em;\r\n}\r\n\r\n.styledLabel.warning{\r\n  color: #be0000;\r\n  height: 1.5em;\r\n}\r\n\r\n.showForm{\r\n  transform: translate(0,calc(50vh - 180px));\r\n  -webkit-transition: -webkit-transform 350ms linear;\r\n  transition: transform 350ms linear;\r\n}\r\n\r\n.rotate90{\r\n  transform: rotate(90deg);\r\n  -webkit-transform: rotate(90deg);\r\n}\r\n\r\n.simple-little-table{\r\n  display: inline-block;\r\n}\r\n\r\n.menu{\r\n  z-index: 4;\r\n  position: fixed;\r\n}\r\n\r\n.menu.show{\r\n\r\n}\r\n\r\n.menuShadow{\r\n  visibility: hidden;\r\n  position: fixed;\r\n  height: 100vh;\r\n  width: 100vw;\r\n  background: black;\r\n  opacity: 0;\r\n  -webkit-transition: opacity 250ms linear, visibility 250ms;\r\n  transition: opacity 250ms linear, visibility 250ms;\r\n}\r\n\r\n.menu.show .menuShadow{\r\n  visibility: visible;\r\n  opacity: 0.5;\r\n  -webkit-transition: opacity 150ms linear;\r\n  transition: opacity 150ms linear;\r\n}\r\n\r\n.menuContent{\r\n  transform: translate(-100vw, 0);\r\n  -webkit-transition: -webkit-transform 350ms linear;\r\n  transition: transform 350ms linear;\r\n  position: fixed;\r\n  width: 90vw;\r\n  max-width: 340px;\r\n  height: 100vh;\r\n  background: #e8d066;\r\n}\r\n.menu.show .menuContent {\r\n  transform: translate(0, 0);\r\n  -webkit-transition: -webkit-transform 350ms linear;\r\n  transition: transform 350ms linear;\r\n}\r\n\r\n.menuProfile{\r\n  position: absolute;\r\n  top: 0;\r\n  height: 30vh;\r\n  width: 100%;\r\n}\r\n\r\n.menuItemsList{\r\n  position: absolute;\r\n  bottom: 0;\r\n  height: 70vh;\r\n  width: 100%;\r\n}\r\n\r\n.menuTopBlocks {\r\n  position: absolute;\r\n  bottom: 20vh;\r\n  height: 50vh;\r\n  width: 100%;\r\n}\r\n\r\n.menuBottomBlocks{\r\n  position: absolute;\r\n  bottom: 0;\r\n  height: 20vh;\r\n  width: 100%;\r\n}\r\n\r\n.menuItemsList ul {\r\n  margin: 0;\r\n  margin-bottom: 4px;\r\n  padding: 12px;\r\n  padding-left: 55px;\r\n  padding-right: 0;\r\n  background: ghostwhite;\r\n  color: #2b2b2d;\r\n  font-weight: bolder;\r\n}\r\n\r\n.menuItemsList ul:hover {\r\n  margin-right: -5px;\r\n}\r\n\r\n.userImg{\r\n  float: left;\r\n  text-align: center;\r\n  width: 40%;\r\n  height: 65%;\r\n  background: ghostwhite;\r\n  margin: 30px;\r\n  margin-right: 10px;\r\n}\r\n\r\n.userInfo{\r\n  color: #2b2b2d;\r\n  font-weight: bolder;\r\n  margin-top: 30px;\r\n  margin-bottom: 30px;\r\n  margin-right: 5px;\r\n  height: 65%;\r\n}\r\n", ""]);
+	exports.push([module.id, "html{\r\n  -webkit-font-smoothing: subpixel-antialiased;\r\n}\r\n\r\nbody{\r\n  overflow: hidden;\r\n  font-family: cursive;\r\n  background: ghostwhite;\r\n  margin: 0;\r\n}\r\n\r\nheader{\r\n  position:fixed;\r\n  z-index:2;\r\n  top:0; left:0;\r\n  width:100%;\r\n  height:45px;\r\n  padding:0;\r\n}\r\n\r\n.headerTitle{\r\n\r\n}\r\n\r\nfooter {\r\n  position:fixed;\r\n  z-index:2;\r\n  bottom:0; left:0;\r\n  width:100%;\r\n  height:48px;\r\n  padding:0;\r\n}\r\n\r\nheader, footer{\r\n  font-size:20px;\r\n  text-align:center;\r\n  background-color:#e8d066;\r\n  color:#f3f3f3;\r\n  font-weight:bold;\r\n  text-shadow:0 -1px 0 rgba(0,0,0,0.5);\r\n  line-height:45px;\r\n}\r\n\r\n#wrapper {\r\n  z-index:1;\r\n  padding: 47px 0 47px 0;\r\n  width:100%;\r\n}\r\n#menu-wrapper {\r\n\r\n}\r\n\r\n#scroll-content {\r\n  z-index:1;\r\n  padding:0;\r\n  -webkit-overflow-scrolling:touch;\r\n  overflow:auto;\r\n  height: calc(100vh - 98px);\r\n}\r\n\r\n.content{\r\n  width: 100%;\r\n  text-align: center;\r\n  background: ghostwhite;\r\n}\r\n\r\n.styledForm{\r\n  display: table;\r\n  position: absolute;\r\n  width: 35vw;\r\n  min-width: 280px;\r\n  left: 50%;\r\n  transform: translate(0,100vh);\r\n  padding: 8px;\r\n  border-radius: 10px;\r\n  text-align: center;\r\n  background: #ebf7e0;\r\n  border: 2px solid #828180;\r\n}\r\n\r\n.inputField{\r\n  padding: 5px;\r\n  margin-top: 5px;\r\n  margin-bottom: 5px;\r\n  font-family: cursive;\r\n  font-size: 20px;\r\n  width: 100%;\r\n}\r\n\r\n.authButton{\r\n  margin: 5px;\r\n}\r\n\r\n.styledButton{\r\n  font-size: 17px;\r\n  font-family: cursive;\r\n  cursor: pointer;\r\n  border-radius: 5px;\r\n  border-style: double;\r\n  padding: 5px;\r\n  background: #e3f5e4;\r\n}\r\n\r\n.styledButton:active{\r\n  border-radius: 5px;\r\n  border-style: inset;\r\n  padding: 5px;\r\n  background: #ddf5f5;\r\n}\r\n\r\n.headerRightButton{\r\n  font-family: cursive;\r\n  cursor: pointer;\r\n  border-style: none;\r\n  border-left-style: double;\r\n  padding: 5px;\r\n  position: fixed;\r\n  right: 0;\r\n  font-size: 20px;\r\n  background-color: #e8d066;\r\n  text-align: center;\r\n  color: #f3f3f3;\r\n  font-weight: bold;\r\n  text-shadow: 0 -1px 0 rgba(0,0,0,0.5);\r\n  height: 45px;\r\n}\r\n\r\n.headerRightButton:active{\r\n  border-radius: 5px;\r\n  border-style: inset;\r\n  padding: 5px;\r\n  background: #ddf5f5;\r\n}\r\n\r\n.logoutButton{\r\n  width: 110px;\r\n}\r\n\r\n.menuButton{\r\n  font-family: cursive;\r\n  cursor: pointer;\r\n  border-style: none;\r\n  border-right-style: double;\r\n  padding: 5px;\r\n  position: fixed;\r\n  left: 0;\r\n  width: 60px;\r\n  font-size: 20px;\r\n  background-color: #e8d066;\r\n  text-align: center;\r\n  color: #f3f3f3;\r\n  font-weight: bold;\r\n  text-shadow: 0 -1px 0 rgba(0,0,0,0.5);\r\n  height: 45px;\r\n}\r\n\r\n.menuButton :active{\r\n  border-radius: 5px;\r\n  border-style: inset;\r\n  padding: 5px;\r\n  background: #ddf5f5;\r\n}\r\n\r\n.menuLabel{\r\n  width: 45px;\r\n}\r\n\r\n.styledLabel{\r\n  color: #828180;\r\n  font-weight: bolder;\r\n  font-size: 20px;\r\n}\r\n\r\n.styledLabel.message{\r\n  color: forestgreen;\r\n  height: 1.5em;\r\n}\r\n\r\n.styledLabel.warning{\r\n  color: #be0000;\r\n  height: 1.5em;\r\n}\r\n\r\n.showForm{\r\n  transform: translate(0,calc(50vh - 180px));\r\n  -webkit-transition: -webkit-transform 350ms linear;\r\n  transition: transform 350ms linear;\r\n}\r\n\r\n.rotate90{\r\n  transform: rotate(90deg);\r\n  -webkit-transform: rotate(90deg);\r\n}\r\n\r\n.simple-little-table{\r\n  display: inline-block;\r\n}\r\n\r\n.menu{\r\n  z-index: 4;\r\n  position: fixed;\r\n}\r\n\r\n.menu.show{\r\n\r\n}\r\n\r\n.menuShadow{\r\n  visibility: hidden;\r\n  position: fixed;\r\n  height: 100vh;\r\n  width: 100vw;\r\n  background: black;\r\n  opacity: 0;\r\n  -webkit-transition: opacity 250ms linear, visibility 250ms;\r\n  transition: opacity 250ms linear, visibility 250ms;\r\n}\r\n\r\n.menu.show .menuShadow{\r\n  visibility: visible;\r\n  opacity: 0.5;\r\n  -webkit-transition: opacity 150ms linear;\r\n  transition: opacity 150ms linear;\r\n}\r\n\r\n.menuContent{\r\n  transform: translate(-100vw, 0);\r\n  -webkit-transition: -webkit-transform 350ms linear;\r\n  transition: transform 350ms linear;\r\n  position: fixed;\r\n  width: 90vw;\r\n  max-width: 340px;\r\n  height: 100vh;\r\n  background: linear-gradient(to top left, #e8d066 30%, #f5e972 60%, #e8d066 90%);\r\n}\r\n.menu.show .menuContent {\r\n  transform: translate(0, 0);\r\n  -webkit-transition: -webkit-transform 350ms linear;\r\n  transition: transform 350ms linear;\r\n}\r\n\r\n.menuProfile{\r\n  position: absolute;\r\n  top: 0;\r\n  height: 30vh;\r\n  width: 100%;\r\n}\r\n\r\n.menuItemsList{\r\n  position: absolute;\r\n  bottom: 0;\r\n  height: 70vh;\r\n  width: 100%;\r\n}\r\n\r\n.menuTopBlocks {\r\n  position: absolute;\r\n  bottom: 20vh;\r\n  height: 50vh;\r\n  width: 100%;\r\n}\r\n\r\n.menuBottomBlocks{\r\n  position: absolute;\r\n  bottom: 0;\r\n  height: 20vh;\r\n  width: 100%;\r\n}\r\n\r\n.menuItemsList ul {\r\n  margin: 0;\r\n  margin-bottom: 4px;\r\n  padding: 12px;\r\n  padding-left: 55px;\r\n  padding-right: 0;\r\n  background: ghostwhite;\r\n  color: #2b2b2d;\r\n  font-weight: bolder;\r\n}\r\n\r\n.menuItemsList ul:hover {\r\n  margin-right: -5px;\r\n  transition: margin-right 110ms linear;\r\n}\r\n\r\n.menuItemsList ul:active {\r\n  background: #e3e3ea;\r\n}\r\n\r\n.userImg{\r\n  float: left;\r\n  text-align: center;\r\n  width: 40%;\r\n  height: 65%;\r\n  background: ghostwhite;\r\n  background-image: url(\"http://127.0.0.1:4000/images/defaultProfile.jpg\");\r\n  background-size: 100% 100%;\r\n  margin: 30px;\r\n  margin-right: 10px;\r\n  max-height: 140px;\r\n}\r\n\r\n.profileInfo{\r\n  color: #2b2b2d;\r\n  font-weight: bolder;\r\n  margin-top: 30px;\r\n  margin-bottom: 30px;\r\n  margin-right: 5px;\r\n  height: 65%;\r\n}\r\n\r\n#profileName{\r\n  font-size: 22px;\r\n}\r\n\r\n.scrollTopButton{\r\n  cursor: pointer;\r\n  visibility: hidden;\r\n  position: absolute;\r\n  left: 15px;\r\n  bottom: 60px;\r\n  background: #e8d066;\r\n  width: 60px;\r\n  height: 60px;\r\n  border-radius: 60px;\r\n  border: none;\r\n  color: ghostwhite;\r\n  font-size: 38px;\r\n  font-weight: bolder;\r\n}\r\n\r\n.scrollTopButton.show {\r\n  visibility: visible;\r\n}\r\n\r\n.loader {\r\n  text-align: -webkit-center;\r\n  background: linear-gradient(to top left, #e8d066 30%, #f5e972 60%, #e8d066 90%);\r\n  position: absolute;\r\n  top: 0;\r\n  width: 100vw;\r\n  height: 100vh;\r\n  z-index: 8;\r\n  opacity: 0;\r\n  -webkit-transition: opacity 250ms linear, visibility 250ms;\r\n  transition: opacity 250ms linear, visibility 250ms;\r\n  visibility: hidden;\r\n}\r\n\r\n.loader.show {\r\n  opacity: 1;\r\n  visibility: visible;\r\n}\r\n\r\n.loaderCirc {\r\n  position: absolute;\r\n  width: 80px;\r\n  height: 80px;\r\n  top: calc(50vh - 40px);\r\n  left: calc(50vw - 40px);\r\n}\r\n\r\n.loader.show .loaderCirc {\r\n  animation-name: spin;\r\n  animation-duration: 700ms;\r\n  animation-iteration-count: infinite;\r\n  animation-timing-function: linear;\r\n}\r\n\r\n.loaderBar {\r\n  width: 5px;\r\n  height: 20px;\r\n  background: ghostwhite;\r\n  position: absolute;\r\n}\r\n\r\n.loaderBar.left {\r\n  top: 125px;\r\n  left: 50px;\r\n\r\n}\r\n\r\n.loaderBar.right {\r\n  bottom: 125px;\r\n}\r\n\r\n@keyframes spin {\r\n  from {\r\n    transform:rotate(0deg);\r\n  }\r\n  to {\r\n    transform:rotate(360deg);\r\n  }\r\n}\r\n\r\n.defaultProfileImg{\r\n  float: left;\r\n  text-align: center;\r\n  background-image: url(\"http://127.0.0.1:4000/images/defaultProfile.jpg\");\r\n  background-size: 100% 100%;\r\n  width: 40px;\r\n  height: 40px;\r\n}\r\n\r\n.nameInList {\r\n  padding: 5px;\r\n}\r\n\r\n.userListRow {\r\n\r\n}", ""]);
 
 	// exports
 
@@ -428,7 +427,7 @@
 
 	var _feedView2 = _interopRequireDefault(_feedView);
 
-	var _authView = __webpack_require__(23);
+	var _authView = __webpack_require__(49);
 
 	var _authView2 = _interopRequireDefault(_authView);
 
@@ -436,25 +435,36 @@
 
 	var _regView2 = _interopRequireDefault(_regView);
 
+	var _followersWindow = __webpack_require__(56);
+
+	var _followersWindow2 = _interopRequireDefault(_followersWindow);
+
+	var _subsWindow = __webpack_require__(62);
+
+	var _subsWindow2 = _interopRequireDefault(_subsWindow);
+
 	var _backbone = __webpack_require__(8);
 
-	var _usersData = __webpack_require__(25);
+	var _usersData = __webpack_require__(20);
 
 	var _usersData2 = _interopRequireDefault(_usersData);
 
-	var _index = __webpack_require__(56);
+	var _index = __webpack_require__(67);
 
 	var _index2 = _interopRequireDefault(_index);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	(0, _jquery2.default)("#scroll-content").html((0, _index2.default)({}));
+	var loader = (0, _jquery2.default)(".loader");
 
 	exports.default = _backbone.Router.extend({
 	  routes: {
 	    "auth(/:state)": "authPage",
 	    "registration": "regPage",
 	    "feeds": "navigateFeeds",
+	    "followers": "followersPage",
+	    "subs": "subsPage",
 	    "*path": "redirectSections"
 	  },
 
@@ -463,7 +473,13 @@
 	  $el: (0, _jquery2.default)(".content"),
 
 	  closeOld: function closeOld() {
+	    if (this.oldView.close) this.oldView.close();
 	    this.oldView.remove();
+	    (0, _jquery2.default)("#scroll-content").html((0, _index2.default)({}));
+	  },
+
+	  loaderBar: function loaderBar() {
+	    loader.addClass("show");
 	  },
 
 	  redirectSections: function redirectSections() {
@@ -477,9 +493,8 @@
 	    var router = this;
 	    router.isAuth().then(function (response) {
 	      if (!response) {
-	        (0, _jquery2.default)("#menu-wrapper").html("");
-	        var view = new _authView2.default({ el: router.$el, state: state });
-	        router.openNewPage(view);
+	        if (router.oldView) router.closeOld();
+	        router.oldView = new _authView2.default({ el: (0, _jquery2.default)(".content"), state: state });
 	        return;
 	      }
 	      router.navigate("feeds", { trigger: true });
@@ -490,9 +505,8 @@
 	    var router = this;
 	    router.isAuth().then(function (response) {
 	      if (!response) {
-	        (0, _jquery2.default)("#menu-wrapper").html("");
-	        var view = new _regView2.default({ el: router.$el });
-	        router.openNewPage(view);
+	        if (router.oldView) router.closeOld();
+	        router.oldView = new _regView2.default({ el: (0, _jquery2.default)(".content") });
 	        return;
 	      }
 	      router.navigate("feeds", { trigger: true });
@@ -501,11 +515,38 @@
 
 	  navigateFeeds: function navigateFeeds() {
 	    var router = this;
+	    router.loaderBar();
 	    router.isAuth().then(function (response) {
 	      if (response > 0) {
-	        _usersData2.default.GetUserSubs(response).then(function (response) {
-	          var view = new _feedView2.default({ el: router.$el, userSubs: response || [] });
-	          router.openNewPage(view);
+	        _usersData2.default.getUserSubs(response).then(function (response) {
+	          if (router.oldView) router.closeOld();
+	          router.oldView = new _feedView2.default({ el: (0, _jquery2.default)(".content"), userSubs: response || [] });
+	        });
+	      } else router.navigate("auth", { trigger: true });
+	    });
+	  },
+
+	  followersPage: function followersPage() {
+	    var router = this;
+	    router.loaderBar();
+	    router.isAuth().then(function (response) {
+	      if (response > 0) {
+	        _usersData2.default.getUserFollowers(response).then(function (response) {
+	          if (router.oldView) router.closeOld();
+	          router.oldView = new _followersWindow2.default({ el: (0, _jquery2.default)(".content"), followers: response || [] });
+	        });
+	      } else router.navigate("auth", { trigger: true });
+	    });
+	  },
+
+	  subsPage: function subsPage() {
+	    var router = this;
+	    router.loaderBar();
+	    router.isAuth().then(function (response) {
+	      if (response > 0) {
+	        _usersData2.default.getUserSubs(response).then(function (response) {
+	          if (router.oldView) router.closeOld();
+	          router.oldView = new _subsWindow2.default({ el: (0, _jquery2.default)(".content"), subs: response || [] });
 	        });
 	      } else router.navigate("auth", { trigger: true });
 	    });
@@ -515,13 +556,8 @@
 	    if (sessionStorage.getItem("User.token")) return _usersData2.default.isAuthUser(sessionStorage.getItem("User.login"), sessionStorage.getItem("User.token"));else return new Promise(function (resolve) {
 	      resolve(0);
 	    });
-	  },
-
-	  openNewPage: function openNewPage(view) {
-	    var router = this;
-	    if (router.oldView) router.closeOld();
-	    router.oldView = view.setElement(this.$el).render();
 	  }
+
 	});
 
 /***/ },
@@ -10784,15 +10820,15 @@
 
 	var _feedItem2 = _interopRequireDefault(_feedItem);
 
-	var _feedHeader = __webpack_require__(17);
+	var _menuHeader = __webpack_require__(17);
 
-	var _feedHeader2 = _interopRequireDefault(_feedHeader);
+	var _menuHeader2 = _interopRequireDefault(_menuHeader);
 
 	var _menuView = __webpack_require__(19);
 
 	var _menuView2 = _interopRequireDefault(_menuView);
 
-	var _basicFooter = __webpack_require__(21);
+	var _basicFooter = __webpack_require__(47);
 
 	var _basicFooter2 = _interopRequireDefault(_basicFooter);
 
@@ -10800,23 +10836,26 @@
 
 	var feedList = _backbone2.default.View.extend({
 	  events: {
-	    "click td": "navigation"
+	    "click td": "navigation",
+	    "click .scrollTopButton": "scrollTop"
 	  },
 
 	  template: _feedWindowTemplate2.default,
 
 	  initialize: function initialize(options) {
 	    this.$el.html(this.template());
+	    this.header = new _menuHeader2.default({ el: (0, _jquery2.default)("header"), title: "Лента" });
+	    this.menu = new _menuView2.default({ el: (0, _jquery2.default)("#menu-wrapper") });
+	    this.footer = new _basicFooter2.default({ el: (0, _jquery2.default)("footer") });
 	    this.coll = new _feeds2.default({ subs: options.userSubs });
 	    this.listenTo(this.coll, "sync", this.render);
 	    this.listenTo(this.coll, "create", this.render);
 	    this.coll.fetch();
+
+	    (0, _jquery2.default)("#scroll-content").on("scroll", this.scrollButton);
 	  },
 
 	  render: function render() {
-	    this.header = new _feedHeader2.default({ el: (0, _jquery2.default)("header") });
-	    this.menu = new _menuView2.default({ el: (0, _jquery2.default)("#menu-wrapper") });
-	    this.footer = new _basicFooter2.default({ el: (0, _jquery2.default)("footer") });
 	    var tbody = this.$("tbody");
 	    tbody.html("");
 	    _underscore2.default.each(this.coll.models, function (model) {
@@ -10829,10 +10868,34 @@
 	    for (var i = 0; i < 100; i++) {
 	      tbody.append("<tr><td>TEST" + i + "</td></tr>");
 	    }
+	    (0, _jquery2.default)(".loader").removeClass("show");
 	  },
 
 	  navigation: function navigation() {
 	    console.log("test");
+	  },
+
+	  close: function close() {
+	    this.header.undelegateEvents();
+	    this.header.$el.empty();
+	    this.footer.undelegateEvents();
+	    this.footer.$el.empty();
+	    this.menu.undelegateEvents();
+	    this.menu.$el.empty();
+	  },
+
+	  scrollButton: function scrollButton() {
+	    var target = (0, _jquery2.default)("#scroll-content");
+	    var topButton = (0, _jquery2.default)(".scrollTopButton");
+	    if (target.prop("scrollTop") < 100) {
+	      if (topButton.hasClass("show")) topButton.removeClass("show");
+	    } else {
+	      if (!topButton.hasClass("show")) topButton.addClass("show");
+	    }
+	  },
+
+	  scrollTop: function scrollTop() {
+	    (0, _jquery2.default)("#scroll-content").stop().animate({ scrollTop: 0 }, "500", "swing", function () {});
 	  }
 	});
 
@@ -14326,7 +14389,7 @@
 	module.exports = function(obj){
 	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 	with(obj||{}){
-	__p+='<table class="simple-little-table" border="2">\r\n    <thead>\r\n    <tr>\r\n        <th style="width: 20%">Новости</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody></tbody>\r\n</table>';
+	__p+='<button class="scrollTopButton">^</button>\r\n<table class="simple-little-table" border="2">\r\n    <thead>\r\n    <tr>\r\n        <th style="width: 20%">Новости</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody></tbody>\r\n</table>';
 	}
 	return __p;
 	};
@@ -14527,11 +14590,12 @@
 
 	  template: _headerTemplate2.default,
 
-	  initialize: function initialize() {
-	    this.$el.html(this.template());
+	  initialize: function initialize(options) {
+	    this.$el.html(this.template({ title: options.title }));
 	  },
 
 	  showMenu: function showMenu() {
+	    console.log("ShowMenu");
 	    (0, _jquery2.default)(".menu").addClass("show");
 	  }
 	});
@@ -14540,16 +14604,19 @@
 
 /***/ },
 /* 18 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = function(obj){
+	/* WEBPACK VAR INJECTION */(function(_) {module.exports = function(obj){
 	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
 	with(obj||{}){
-	__p+='<button class="menuButton"><div class="menuLabel rotate90">|||</div></button>\r\n<span class="headerTitle">Новости</span>';
+	__p+='<button class="menuButton"><div class="menuLabel rotate90">|||</div></button>\r\n<span class="headerTitle">'+
+	((__t=(title))==null?'':_.escape(__t))+
+	'</span>';
 	}
 	return __p;
 	};
 
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ },
 /* 19 */
@@ -14573,33 +14640,40 @@
 
 	var _underscore2 = _interopRequireDefault(_underscore);
 
-	var _menuTemplate = __webpack_require__(20);
+	var _usersData = __webpack_require__(20);
+
+	var _usersData2 = _interopRequireDefault(_usersData);
+
+	var _menuTemplate = __webpack_require__(46);
 
 	var _menuTemplate2 = _interopRequireDefault(_menuTemplate);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var offset;
+	var offsetStart;
 	var offsetDelta;
 	var feedList = _backbone2.default.View.extend({
 	  events: {
 	    "click .menuShadow": "hideMenu",
+	    "click .menuItemsList ul": "clickItem",
 	    "touchend .menuShadow": "hideMenu",
 	    "touchstart .menuContent": "moveMenuStart",
 	    "touchmove .menuContent": "moveMenu",
-	    "touchend .menuContent": "moveMenuEnd",
-	    "click .logoutItem": "logout"
+	    "touchend .menuContent": "moveMenuEnd"
 	  },
 
 	  template: _menuTemplate2.default,
 
 	  initialize: function initialize() {
 	    this.$el.html(this.template());
-	    (0, _jquery2.default)("#userName").html(sessionStorage.getItem("User.login"));
+	    _usersData2.default.getUserInfo(sessionStorage.getItem("User.id")).then(function (response) {
+	      (0, _jquery2.default)("#profileName").html(response ? response.name : "Неизвестный");
+	    });
 	  },
 
 	  moveMenuStart: function moveMenuStart(e) {
-	    offset = e.changedTouches[0].clientX - 340;
+	    offsetStart = e.changedTouches[0].clientX;
 	  },
 
 	  hideMenu: function hideMenu() {
@@ -14607,33 +14681,63 @@
 	  },
 
 	  moveMenu: function moveMenu(e) {
-	    offsetDelta = offset - (e.changedTouches[0].clientX - 340);
-	    offset = e.changedTouches[0].clientX - 340;
+	    e.preventDefault();
+	    offsetDelta = offsetStart - e.changedTouches[0].clientX;
+	    offset = -offsetDelta;
 	    if (offset > 0) offset = 0;
 	    if (offset < -320) offset = -320;
 	    (0, _jquery2.default)(".menuContent").addClass("moved");
 	    (0, _jquery2.default)(".moved").css({ "transform": "translate(" + offset + "px,0)" });
 	  },
 
-	  moveMenuEnd: function moveMenuEnd(e) {
+	  moveMenuEnd: function moveMenuEnd() {
 	    var mc = (0, _jquery2.default)(".menuContent");
 	    if (mc.hasClass("moved")) {
-	      offsetDelta = offset - (e.changedTouches[0].clientX - 340);
 	      (0, _jquery2.default)(".moved").css({ "transform": "" });
 	      mc.removeClass("moved");
-	      if (offset < -125 || offsetDelta > 3) {
+	      if (offset < -125 || offsetDelta > 30) {
 	        this.hideMenu();
 	      }
 	    }
 	  },
-
-	  logout: function logout() {
+	  clickItem: function clickItem(e) {
+	    var self = this;
+	    var target = (0, _jquery2.default)(e.target);
 	    this.hideMenu();
 	    _underscore2.default.delay(function () {
-	      sessionStorage.removeItem("User.token");
-	      sessionStorage.removeItem("User.login");
-	      _backbone2.default.history.navigate("auth", { trigger: true });
+	      self.action(target);
 	    }, 350);
+	  },
+
+	  action: function action(target) {
+	    if (target.hasClass("myItem")) {
+	      console.log("myItem");
+	      return;
+	    }
+	    if (target.hasClass("feedsItem")) {
+	      _backbone2.default.history.navigate("feeds", { trigger: true });
+	      return;
+	    }
+	    if (target.hasClass("searchItem")) {
+	      console.log("searchItem");
+	      return;
+	    }
+	    if (target.hasClass("subsItem")) {
+	      _backbone2.default.history.navigate("subs", { trigger: true });
+	      return;
+	    }
+	    if (target.hasClass("folowersItem")) {
+	      _backbone2.default.history.navigate("followers", { trigger: true });
+	      return;
+	    }
+	    if (target.hasClass("settingsItem")) {
+	      console.log("settingsItem");
+	      return;
+	    }
+	    if (target.hasClass("logoutItem")) {
+	      _usersData2.default.logout();
+	      _backbone2.default.history.navigate("auth", { trigger: true });
+	    }
 	  }
 
 	});
@@ -14642,207 +14746,12 @@
 
 /***/ },
 /* 20 */
-/***/ function(module, exports) {
-
-	module.exports = function(obj){
-	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
-	with(obj||{}){
-	__p+='<div class = "menu">\r\n    <div class="menuShadow"></div>\r\n    <div class="menuContent">\r\n        <div class="menuProfile">\r\n            <div class="userImg"></div>\r\n            <div class="userInfo">Пользователь: <span id="userName"></span></div>\r\n        </div>\r\n        <div class="menuItemsList">\r\n            <div class="menuTopBlocks">\r\n                <ul>Пункт1</ul>\r\n                <ul>Пункт2</ul>\r\n                <ul>Пункт3</ul>\r\n                <ul>Пункт4</ul>\r\n            </div>\r\n            <div class="menuBottomBlocks">\r\n                <ul class="logoutItem">Выйти</ul>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>';
-	}
-	return __p;
-	};
-
-
-/***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _jquery = __webpack_require__(6);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
-	var _backbone = __webpack_require__(8);
-
-	var _backbone2 = _interopRequireDefault(_backbone);
-
-	var _underscore = __webpack_require__(9);
-
-	var _underscore2 = _interopRequireDefault(_underscore);
-
-	var _basicFooter = __webpack_require__(22);
-
-	var _basicFooter2 = _interopRequireDefault(_basicFooter);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var feedList = _backbone2.default.View.extend({
-	  events: {},
-
-	  template: _basicFooter2.default,
-
-	  initialize: function initialize() {
-	    this.$el.html(this.template());
-	  }
-
-	});
-
-	exports.default = feedList;
-
-/***/ },
-/* 22 */
-/***/ function(module, exports) {
-
-	module.exports = function(obj){
-	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
-	with(obj||{}){
-	__p+='';
-	}
-	return __p;
-	};
-
-
-/***/ },
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _jquery = __webpack_require__(6);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
-	var _underscore = __webpack_require__(9);
-
-	var _underscore2 = _interopRequireDefault(_underscore);
-
-	var _backbone = __webpack_require__(8);
-
-	var _backbone2 = _interopRequireDefault(_backbone);
-
-	var _authFormTemplate = __webpack_require__(24);
-
-	var _authFormTemplate2 = _interopRequireDefault(_authFormTemplate);
-
-	var _usersData = __webpack_require__(25);
-
-	var _usersData2 = _interopRequireDefault(_usersData);
-
-	var _validation = __webpack_require__(51);
-
-	var _validation2 = _interopRequireDefault(_validation);
-
-	var _basicHeader = __webpack_require__(52);
-
-	var _basicHeader2 = _interopRequireDefault(_basicHeader);
-
-	var _basicFooter = __webpack_require__(21);
-
-	var _basicFooter2 = _interopRequireDefault(_basicFooter);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var authPage = _backbone2.default.View.extend({
-	  events: {
-	    "submit .authForm": "authorize",
-	    "click .regButton": "registrationForm"
-	  },
-
-	  template: _authFormTemplate2.default,
-	  initialize: function initialize(options) {
-	    this.optionFlag = options;
-	  },
-
-	  render: function render() {
-	    this.header = new _basicHeader2.default({ el: (0, _jquery2.default)("header") });
-	    this.footer = new _basicFooter2.default({ el: (0, _jquery2.default)("footer") });
-	    this.$el.html(this.template());
-	    var form = this.$el.find(".styledForm");
-	    form.css("left", (parseFloat((0, _jquery2.default)("html").css("width")) - parseFloat(form.css("width")) - parseFloat(form.css("padding")) * 2) * 0.5);
-	    if (this.optionFlag.state == "ok") {
-	      var message = this.$el.find(".warning");
-	      message.removeClass("warning");
-	      message.addClass("message");
-	      message.html("Успешная регистрация");
-	    }
-	    var el = this.$el;
-	    _underscore2.default.delay(function () {
-	      el.find(".styledForm").addClass("showForm");
-	    }, 0);
-	  },
-
-	  authorize: function authorize(event) {
-	    event.preventDefault();
-	    var login = (0, _jquery2.default)(".loginField").val();
-	    var password = (0, _jquery2.default)(".passField").val();
-
-	    if (!_validation2.default.check("login", login)) {
-	      this.warning(_validation2.default.warningText("login"));
-	      return;
-	    }
-
-	    if (!_validation2.default.check("pass", password)) {
-	      this.warning(_validation2.default.warningText("pass"));
-	      return;
-	    }
-
-	    var view = this;
-	    _usersData2.default.AuthUser(login, password).then(function (response) {
-	      if (!response) {
-	        view.warning("Неверный логин или пароль");
-	        return;
-	      }
-	      _backbone2.default.history.navigate("feeds", { trigger: true });
-	    });
-	  },
-
-	  registrationForm: function registrationForm() {
-	    _backbone2.default.history.navigate("registration", { trigger: true });
-	  },
-
-	  warning: function warning(text) {
-	    var message = this.$el.find(".warning");
-	    if (message.length == 0) {
-	      message = this.$el.find(".message");
-	      message.removeClass("message");
-	      message.addClass("warning");
-	    }
-	    message.html(text);
-	  }
-	});
-
-	exports.default = authPage;
-
-/***/ },
-/* 24 */
-/***/ function(module, exports) {
-
-	module.exports = function(obj){
-	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
-	with(obj||{}){
-	__p+='<form class="authForm styledForm">\r\n    <span class="styledLabel">Логин</span>\r\n    <input type="text" class="loginField inputField" required>\r\n    <span class="styledLabel">Пароль</span>\r\n    <input type="password" class="passField inputField" required>\r\n    <button type="submit"  class="authButton styledButton">Войти</button>\r\n    <button type="button"  class="regButton styledButton">Регистрация</button>\r\n    <div class="styledLabel warning"></div>\r\n</form>';
-	}
-	return __p;
-	};
-
-
-/***/ },
-/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	var ajax = __webpack_require__(16);
-	var md5 = __webpack_require__(26);
+	var md5 = __webpack_require__(21);
 
 	exports.AuthUser = function (login, password) {
 	  var queryParam = {
@@ -14857,10 +14766,12 @@
 	  };
 	  return ajax("userAuth?filter=" + JSON.stringify(queryParam), "GET").then(function (response) {
 	    if (response.length != 1) return false;
+	    var id = response[0].id;
 	    return ajax("userAuth/update?where=" + JSON.stringify(params), "POST", {}).then(function (response) {
 	      if (!response.token) return false;
 	      sessionStorage.setItem("User.token", response.token);
 	      sessionStorage.setItem("User.login", params.login);
+	      sessionStorage.setItem("User.id", id);
 	      return response.token;
 	    });
 	  });
@@ -14879,7 +14790,7 @@
 	  });
 	};
 
-	exports.GetUserSubs = function (id) {
+	exports.getUserSubs = function (id) {
 	  var queryParam = {
 	    "where": {
 	      "userAuthId": id
@@ -14894,6 +14805,21 @@
 	  });
 	};
 
+	exports.getUserFollowers = function (id) {
+	  var queryParam = {
+	    "where": {
+	      "userAuthId": id
+	    },
+	    "fields": {
+	      "folowers": true
+	    }
+	  };
+	  return ajax("userData?filter=" + JSON.stringify(queryParam), "GET").then(function (response) {
+	    if (response.length != 1) return false;
+	    return response[0].folowers;
+	  });
+	};
+
 	exports.createUser = function (object) {
 	  var SData = {
 	    "login": object["login"].toLowerCase(),
@@ -14904,9 +14830,27 @@
 	    return response.id > 0 ? response.id : false;
 	  });
 	};
+	exports.logout = function () {
+	  sessionStorage.removeItem("User.token");
+	  sessionStorage.removeItem("User.login");
+	  sessionStorage.removeItem("User.id");
+	};
+
+	exports.getUserInfo = function (id) {
+	  var queryParam = {
+	    "where": {
+	      "userAuthId": id
+	    }
+	  };
+
+	  return ajax("userInfo?filter=" + JSON.stringify(queryParam), "GET").then(function (response) {
+	    if (response.length != 1) return false;
+	    return "name" in response[0] ? response[0] : false;
+	  });
+	};
 
 /***/ },
-/* 26 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global) {/**
@@ -14926,7 +14870,7 @@
 	    root = global;
 	  }
 	  var COMMON_JS = !root.JS_MD5_TEST && typeof module == 'object' && module.exports;
-	  var AMD = "function" == 'function' && __webpack_require__(28);
+	  var AMD = "function" == 'function' && __webpack_require__(23);
 	  var ARRAY_BUFFER = !root.JS_MD5_TEST && typeof ArrayBuffer != 'undefined';
 	  var HEX_CHARS = '0123456789abcdef'.split('');
 	  var EXTRA = [128, 32768, 8388608, -2147483648];
@@ -15038,8 +14982,8 @@
 	      if (root.JS_MD5_TEST) {
 	        throw 'JS_MD5_TEST';
 	      }
-	      crypto = __webpack_require__(29);
-	      Buffer = __webpack_require__(30).Buffer;
+	      crypto = __webpack_require__(24);
+	      Buffer = __webpack_require__(25).Buffer;
 	    } catch (e) {
 	      console.log(e);
 	      return method;
@@ -15517,10 +15461,10 @@
 	  }
 	}(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(22), (function() { return this; }())))
 
 /***/ },
-/* 27 */
+/* 22 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -15706,7 +15650,7 @@
 
 
 /***/ },
-/* 28 */
+/* 23 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {module.exports = __webpack_amd_options__;
@@ -15714,10 +15658,10 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ },
-/* 29 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(34)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(29)
 
 	function error () {
 	  var m = [].slice.call(arguments).join(' ')
@@ -15728,9 +15672,9 @@
 	    ].join('\n'))
 	}
 
-	exports.createHash = __webpack_require__(36)
+	exports.createHash = __webpack_require__(31)
 
-	exports.createHmac = __webpack_require__(48)
+	exports.createHmac = __webpack_require__(43)
 
 	exports.randomBytes = function(size, callback) {
 	  if (callback && callback.call) {
@@ -15751,7 +15695,7 @@
 	  return ['sha1', 'sha256', 'sha512', 'md5', 'rmd160']
 	}
 
-	var p = __webpack_require__(49)(exports)
+	var p = __webpack_require__(44)(exports)
 	exports.pbkdf2 = p.pbkdf2
 	exports.pbkdf2Sync = p.pbkdf2Sync
 
@@ -15771,10 +15715,10 @@
 	  }
 	})
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25).Buffer))
 
 /***/ },
-/* 30 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer, global) {/*!
@@ -15787,9 +15731,9 @@
 
 	'use strict'
 
-	var base64 = __webpack_require__(31)
-	var ieee754 = __webpack_require__(32)
-	var isArray = __webpack_require__(33)
+	var base64 = __webpack_require__(26)
+	var ieee754 = __webpack_require__(27)
+	var isArray = __webpack_require__(28)
 
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -17567,10 +17511,10 @@
 	  return val !== val // eslint-disable-line no-self-compare
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30).Buffer, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25).Buffer, (function() { return this; }())))
 
 /***/ },
-/* 31 */
+/* 26 */
 /***/ function(module, exports) {
 
 	'use strict'
@@ -17690,7 +17634,7 @@
 
 
 /***/ },
-/* 32 */
+/* 27 */
 /***/ function(module, exports) {
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -17780,7 +17724,7 @@
 
 
 /***/ },
-/* 33 */
+/* 28 */
 /***/ function(module, exports) {
 
 	var toString = {}.toString;
@@ -17791,13 +17735,13 @@
 
 
 /***/ },
-/* 34 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, Buffer) {(function() {
 	  var g = ('undefined' === typeof window ? global : window) || {}
 	  _crypto = (
-	    g.crypto || g.msCrypto || __webpack_require__(35)
+	    g.crypto || g.msCrypto || __webpack_require__(30)
 	  )
 	  module.exports = function(size) {
 	    // Modern Browsers
@@ -17821,22 +17765,22 @@
 	  }
 	}())
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(30).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(25).Buffer))
 
 /***/ },
-/* 35 */
+/* 30 */
 /***/ function(module, exports) {
 
 	/* (ignored) */
 
 /***/ },
-/* 36 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(37)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(32)
 
-	var md5 = toConstructor(__webpack_require__(45))
-	var rmd160 = toConstructor(__webpack_require__(47))
+	var md5 = toConstructor(__webpack_require__(40))
+	var rmd160 = toConstructor(__webpack_require__(42))
 
 	function toConstructor (fn) {
 	  return function () {
@@ -17864,10 +17808,10 @@
 	  return createHash(alg)
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25).Buffer))
 
 /***/ },
-/* 37 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var exports = module.exports = function (alg) {
@@ -17876,16 +17820,16 @@
 	  return new Alg()
 	}
 
-	var Buffer = __webpack_require__(30).Buffer
-	var Hash   = __webpack_require__(38)(Buffer)
+	var Buffer = __webpack_require__(25).Buffer
+	var Hash   = __webpack_require__(33)(Buffer)
 
-	exports.sha1 = __webpack_require__(39)(Buffer, Hash)
-	exports.sha256 = __webpack_require__(43)(Buffer, Hash)
-	exports.sha512 = __webpack_require__(44)(Buffer, Hash)
+	exports.sha1 = __webpack_require__(34)(Buffer, Hash)
+	exports.sha256 = __webpack_require__(38)(Buffer, Hash)
+	exports.sha512 = __webpack_require__(39)(Buffer, Hash)
 
 
 /***/ },
-/* 38 */
+/* 33 */
 /***/ function(module, exports) {
 
 	module.exports = function (Buffer) {
@@ -17968,7 +17912,7 @@
 
 
 /***/ },
-/* 39 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -17980,7 +17924,7 @@
 	 * See http://pajhome.org.uk/crypt/md5 for details.
 	 */
 
-	var inherits = __webpack_require__(40).inherits
+	var inherits = __webpack_require__(35).inherits
 
 	module.exports = function (Buffer, Hash) {
 
@@ -18112,7 +18056,7 @@
 
 
 /***/ },
-/* 40 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -18640,7 +18584,7 @@
 	}
 	exports.isPrimitive = isPrimitive;
 
-	exports.isBuffer = __webpack_require__(41);
+	exports.isBuffer = __webpack_require__(36);
 
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -18684,7 +18628,7 @@
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(42);
+	exports.inherits = __webpack_require__(37);
 
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -18702,10 +18646,10 @@
 	  return Object.prototype.hasOwnProperty.call(obj, prop);
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(27)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(22)))
 
 /***/ },
-/* 41 */
+/* 36 */
 /***/ function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
@@ -18716,7 +18660,7 @@
 	}
 
 /***/ },
-/* 42 */
+/* 37 */
 /***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -18745,7 +18689,7 @@
 
 
 /***/ },
-/* 43 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -18757,7 +18701,7 @@
 	 *
 	 */
 
-	var inherits = __webpack_require__(40).inherits
+	var inherits = __webpack_require__(35).inherits
 
 	module.exports = function (Buffer, Hash) {
 
@@ -18898,10 +18842,10 @@
 
 
 /***/ },
-/* 44 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var inherits = __webpack_require__(40).inherits
+	var inherits = __webpack_require__(35).inherits
 
 	module.exports = function (Buffer, Hash) {
 	  var K = [
@@ -19148,7 +19092,7 @@
 
 
 /***/ },
-/* 45 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -19160,7 +19104,7 @@
 	 * See http://pajhome.org.uk/crypt/md5 for more info.
 	 */
 
-	var helpers = __webpack_require__(46);
+	var helpers = __webpack_require__(41);
 
 	/*
 	 * Calculate the MD5 of an array of little-endian words, and a bit length
@@ -19309,7 +19253,7 @@
 
 
 /***/ },
-/* 46 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {var intSize = 4;
@@ -19347,10 +19291,10 @@
 
 	module.exports = { hash: hash };
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25).Buffer))
 
 /***/ },
-/* 47 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {
@@ -19559,13 +19503,13 @@
 
 
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25).Buffer))
 
 /***/ },
-/* 48 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(36)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(31)
 
 	var zeroBuffer = new Buffer(128)
 	zeroBuffer.fill(0)
@@ -19609,13 +19553,13 @@
 	}
 
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25).Buffer))
 
 /***/ },
-/* 49 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var pbkdf2Export = __webpack_require__(50)
+	var pbkdf2Export = __webpack_require__(45)
 
 	module.exports = function (crypto, exports) {
 	  exports = exports || {}
@@ -19630,7 +19574,7 @@
 
 
 /***/ },
-/* 50 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {module.exports = function(crypto) {
@@ -19718,7 +19662,210 @@
 	  }
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25).Buffer))
+
+/***/ },
+/* 46 */
+/***/ function(module, exports) {
+
+	module.exports = function(obj){
+	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+	with(obj||{}){
+	__p+='<div class = "menu">\r\n    <div class="menuShadow"></div>\r\n    <div class="menuContent">\r\n        <div class="menuProfile">\r\n            <div class="userImg"></div>\r\n            <div class="profileInfo">Пользователь: <span id="profileName"></span></div>\r\n        </div>\r\n        <div class="menuItemsList">\r\n            <div class="menuTopBlocks">\r\n                <ul class="myItem">Страница</ul>\r\n                <ul class="feedsItem">Лента</ul>\r\n                <ul class="searchItem">Поиск</ul>\r\n                <ul class="subsItem">Подписки</ul>\r\n                <ul class="folowersItem">Подписчики</ul>\r\n            </div>\r\n            <div class="menuBottomBlocks">\r\n                <ul class="settingsItem">Настройки</ul>\r\n                <ul class="logoutItem">Выйти</ul>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>';
+	}
+	return __p;
+	};
+
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _jquery = __webpack_require__(6);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _backbone = __webpack_require__(8);
+
+	var _backbone2 = _interopRequireDefault(_backbone);
+
+	var _underscore = __webpack_require__(9);
+
+	var _underscore2 = _interopRequireDefault(_underscore);
+
+	var _basicFooter = __webpack_require__(48);
+
+	var _basicFooter2 = _interopRequireDefault(_basicFooter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var feedList = _backbone2.default.View.extend({
+	  events: {},
+
+	  template: _basicFooter2.default,
+
+	  initialize: function initialize() {
+	    this.$el.html(this.template());
+	  }
+
+	});
+
+	exports.default = feedList;
+
+/***/ },
+/* 48 */
+/***/ function(module, exports) {
+
+	module.exports = function(obj){
+	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+	with(obj||{}){
+	__p+='';
+	}
+	return __p;
+	};
+
+
+/***/ },
+/* 49 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _jquery = __webpack_require__(6);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _underscore = __webpack_require__(9);
+
+	var _underscore2 = _interopRequireDefault(_underscore);
+
+	var _backbone = __webpack_require__(8);
+
+	var _backbone2 = _interopRequireDefault(_backbone);
+
+	var _authFormTemplate = __webpack_require__(50);
+
+	var _authFormTemplate2 = _interopRequireDefault(_authFormTemplate);
+
+	var _usersData = __webpack_require__(20);
+
+	var _usersData2 = _interopRequireDefault(_usersData);
+
+	var _validation = __webpack_require__(51);
+
+	var _validation2 = _interopRequireDefault(_validation);
+
+	var _basicHeader = __webpack_require__(52);
+
+	var _basicHeader2 = _interopRequireDefault(_basicHeader);
+
+	var _basicFooter = __webpack_require__(47);
+
+	var _basicFooter2 = _interopRequireDefault(_basicFooter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var authPage = _backbone2.default.View.extend({
+	  events: {
+	    "submit .authForm": "authorize",
+	    "click .regButton": "registrationForm"
+	  },
+
+	  template: _authFormTemplate2.default,
+	  initialize: function initialize(options) {
+	    this.optionFlag = options;
+	    this.header = new _basicHeader2.default({ el: (0, _jquery2.default)("header") });
+	    this.footer = new _basicFooter2.default({ el: (0, _jquery2.default)("footer") });
+	    this.render();
+	  },
+
+	  render: function render() {
+	    this.$el.html(this.template());
+	    var form = this.$el.find(".styledForm");
+	    form.css("left", (parseFloat((0, _jquery2.default)("html").css("width")) - parseFloat(form.css("width")) - parseFloat(form.css("padding")) * 2) * 0.5);
+	    if (this.optionFlag.state == "ok") {
+	      var message = this.$el.find(".warning");
+	      message.removeClass("warning");
+	      message.addClass("message");
+	      message.html("Успешная регистрация");
+	    }
+	    var el = this.$el;
+	    _underscore2.default.delay(function () {
+	      el.find(".styledForm").addClass("showForm");
+	    }, 0);
+	  },
+
+	  authorize: function authorize(event) {
+	    event.preventDefault();
+	    var login = (0, _jquery2.default)(".loginField").val();
+	    var password = (0, _jquery2.default)(".passField").val();
+
+	    if (!_validation2.default.check("login", login)) {
+	      this.warning(_validation2.default.warningText("login"));
+	      return;
+	    }
+
+	    if (!_validation2.default.check("pass", password)) {
+	      this.warning(_validation2.default.warningText("pass"));
+	      return;
+	    }
+
+	    var view = this;
+	    _usersData2.default.AuthUser(login, password).then(function (response) {
+	      if (!response) {
+	        view.warning("Неверный логин или пароль");
+	        return;
+	      }
+	      _backbone2.default.history.navigate("feeds", { trigger: true });
+	    });
+	  },
+
+	  registrationForm: function registrationForm() {
+	    _backbone2.default.history.navigate("registration", { trigger: true });
+	  },
+
+	  warning: function warning(text) {
+	    var message = this.$el.find(".warning");
+	    if (message.length == 0) {
+	      message = this.$el.find(".message");
+	      message.removeClass("message");
+	      message.addClass("warning");
+	    }
+	    message.html(text);
+	  },
+
+	  close: function close() {
+	    this.header.undelegateEvents();
+	    this.header.$el.empty();
+	    this.footer.undelegateEvents();
+	    this.footer.$el.empty();
+	  }
+	});
+
+	exports.default = authPage;
+
+/***/ },
+/* 50 */
+/***/ function(module, exports) {
+
+	module.exports = function(obj){
+	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+	with(obj||{}){
+	__p+='<form class="authForm styledForm">\r\n    <span class="styledLabel">Логин</span>\r\n    <input type="text" class="loginField inputField" required>\r\n    <span class="styledLabel">Пароль</span>\r\n    <input type="password" class="passField inputField" required>\r\n    <button type="submit"  class="authButton styledButton">Войти</button>\r\n    <button type="button"  class="regButton styledButton">Регистрация</button>\r\n    <div class="styledLabel warning"></div>\r\n</form>';
+	}
+	return __p;
+	};
+
 
 /***/ },
 /* 51 */
@@ -19850,7 +19997,7 @@
 
 	var _ajax2 = _interopRequireDefault(_ajax);
 
-	var _usersData = __webpack_require__(25);
+	var _usersData = __webpack_require__(20);
 
 	var _usersData2 = _interopRequireDefault(_usersData);
 
@@ -19858,7 +20005,7 @@
 
 	var _basicHeader2 = _interopRequireDefault(_basicHeader);
 
-	var _basicFooter = __webpack_require__(21);
+	var _basicFooter = __webpack_require__(47);
 
 	var _basicFooter2 = _interopRequireDefault(_basicFooter);
 
@@ -19876,11 +20023,13 @@
 
 	  template: _regFormTemplate2.default,
 
-	  initialize: function initialize() {},
-
-	  render: function render() {
+	  initialize: function initialize() {
 	    this.header = new _basicHeader2.default({ el: (0, _jquery2.default)("header") });
 	    this.footer = new _basicFooter2.default({ el: (0, _jquery2.default)("footer") });
+	    this.render();
+	  },
+
+	  render: function render() {
 	    this.$el.html(this.template());
 	    var form = this.$el.find(".styledForm");
 	    form.css("left", (parseFloat((0, _jquery2.default)("html").css("width")) - parseFloat(form.css("width")) - parseFloat(form.css("padding")) * 2) * 0.5);
@@ -19929,6 +20078,13 @@
 
 	  back: function back() {
 	    _backbone2.default.history.navigate("auth", { trigger: true });
+	  },
+
+	  close: function close() {
+	    this.header.undelegateEvents();
+	    this.header.$el.empty();
+	    this.footer.undelegateEvents();
+	    this.footer.$el.empty();
 	  }
 	});
 
@@ -19949,6 +20105,452 @@
 
 /***/ },
 /* 56 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _jquery = __webpack_require__(6);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _backbone = __webpack_require__(8);
+
+	var _backbone2 = _interopRequireDefault(_backbone);
+
+	var _underscore = __webpack_require__(9);
+
+	var _underscore2 = _interopRequireDefault(_underscore);
+
+	var _followersTemplate = __webpack_require__(57);
+
+	var _followersTemplate2 = _interopRequireDefault(_followersTemplate);
+
+	var _followers = __webpack_require__(58);
+
+	var _followers2 = _interopRequireDefault(_followers);
+
+	var _follower = __webpack_require__(60);
+
+	var _follower2 = _interopRequireDefault(_follower);
+
+	var _menuHeader = __webpack_require__(17);
+
+	var _menuHeader2 = _interopRequireDefault(_menuHeader);
+
+	var _menuView = __webpack_require__(19);
+
+	var _menuView2 = _interopRequireDefault(_menuView);
+
+	var _basicFooter = __webpack_require__(47);
+
+	var _basicFooter2 = _interopRequireDefault(_basicFooter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var feedList = _backbone2.default.View.extend({
+	  events: {
+	    "click tr": "navigation",
+	    "click .scrollTopButton": "scrollTop"
+	  },
+
+	  template: _followersTemplate2.default,
+
+	  initialize: function initialize(options) {
+	    this.$el.html(this.template());
+	    this.header = new _menuHeader2.default({ el: (0, _jquery2.default)("header"), title: "Подписчики" });
+	    this.menu = new _menuView2.default({ el: (0, _jquery2.default)("#menu-wrapper") });
+	    this.footer = new _basicFooter2.default({ el: (0, _jquery2.default)("footer") });
+	    this.coll = new _followers2.default({ followers: options.followers });
+	    this.listenTo(this.coll, "sync", this.render);
+	    this.listenTo(this.coll, "create", this.render);
+	    this.coll.fetch();
+	  },
+
+	  render: function render() {
+	    var tbody = this.$("tbody");
+	    tbody.html("");
+	    _underscore2.default.each(this.coll.models, function (model) {
+	      var modelView = new _follower2.default({
+	        model: model
+	      });
+	      modelView.render();
+	      tbody.append(modelView.$el);
+	    }, this);
+	    (0, _jquery2.default)(".loader").removeClass("show");
+	  },
+
+	  navigation: function navigation() {
+	    console.log("test");
+	  },
+
+	  close: function close() {
+	    this.header.undelegateEvents();
+	    this.header.$el.empty();
+	    this.footer.undelegateEvents();
+	    this.footer.$el.empty();
+	    this.menu.undelegateEvents();
+	    this.menu.$el.empty();
+	  },
+
+	  scrollButton: function scrollButton() {
+	    var target = (0, _jquery2.default)("#scroll-content");
+	    var topButton = (0, _jquery2.default)(".scrollTopButton");
+	    if (target.prop("scrollTop") < 100) {
+	      if (topButton.hasClass("show")) topButton.removeClass("show");
+	    } else {
+	      if (!topButton.hasClass("show")) topButton.addClass("show");
+	    }
+	  },
+
+	  scrollTop: function scrollTop() {
+	    (0, _jquery2.default)("#scroll-content").stop().animate({ scrollTop: 0 }, "500", "swing", function () {});
+	  }
+	});
+
+	exports.default = feedList;
+
+/***/ },
+/* 57 */
+/***/ function(module, exports) {
+
+	module.exports = function(obj){
+	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+	with(obj||{}){
+	__p+='<button class="scrollTopButton">^</button>\r\n<table class="simple-little-table" border="2">\r\n    <tbody></tbody>\r\n</table>';
+	}
+	return __p;
+	};
+
+
+/***/ },
+/* 58 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _backbone = __webpack_require__(8);
+
+	var _userInfo = __webpack_require__(59);
+
+	var _userInfo2 = _interopRequireDefault(_userInfo);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _backbone.Collection.extend({
+	  model: _userInfo2.default,
+	  comparator: "name",
+	  initialize: function initialize(options) {
+	    this.followers = options.followers;
+	  },
+	  url: function url() {
+	    var filter = {
+	      "where": {
+	        "id": {
+	          "inq": this.followers
+
+	        }
+	      }
+	    };
+	    return ("http://127.0.0.1:4000") + "/api/userInfo?filter=" + JSON.stringify(filter);
+	  }
+	});
+
+/***/ },
+/* 59 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _backbone = __webpack_require__(8);
+
+	exports.default = _backbone.Model.extend({
+	  defaults: {
+	    name: "name",
+	    id: "date",
+	    userAuthId: 0
+	  }
+	});
+
+/***/ },
+/* 60 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _backbone = __webpack_require__(8);
+
+	var _jquery = __webpack_require__(6);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _followerTemplate = __webpack_require__(61);
+
+	var _followerTemplate2 = _interopRequireDefault(_followerTemplate);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _backbone.View.extend({
+	  tagName: "tr",
+	  class: "userListRow",
+	  initialize: function initialize() {
+	    this.template = _followerTemplate2.default;
+	    this.listenTo(this.model, "change", this.render);
+	    this.listenTo(this.model, "destroy", this.remove);
+	  },
+
+	  render: function render() {
+	    var html = this.template(this.model.toJSON());
+	    this.$el.append(html);
+	  }
+	});
+
+/***/ },
+/* 61 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(_) {module.exports = function(obj){
+	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+	with(obj||{}){
+	__p+='<td class="defaultProfileImg"></td><td class="nameInList">'+
+	((__t=(name))==null?'':_.escape(__t))+
+	'</td>';
+	}
+	return __p;
+	};
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+
+/***/ },
+/* 62 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _jquery = __webpack_require__(6);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _backbone = __webpack_require__(8);
+
+	var _backbone2 = _interopRequireDefault(_backbone);
+
+	var _underscore = __webpack_require__(9);
+
+	var _underscore2 = _interopRequireDefault(_underscore);
+
+	var _subsTemplate = __webpack_require__(63);
+
+	var _subsTemplate2 = _interopRequireDefault(_subsTemplate);
+
+	var _subs = __webpack_require__(64);
+
+	var _subs2 = _interopRequireDefault(_subs);
+
+	var _sub = __webpack_require__(65);
+
+	var _sub2 = _interopRequireDefault(_sub);
+
+	var _menuHeader = __webpack_require__(17);
+
+	var _menuHeader2 = _interopRequireDefault(_menuHeader);
+
+	var _menuView = __webpack_require__(19);
+
+	var _menuView2 = _interopRequireDefault(_menuView);
+
+	var _basicFooter = __webpack_require__(47);
+
+	var _basicFooter2 = _interopRequireDefault(_basicFooter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var feedList = _backbone2.default.View.extend({
+	  events: {
+	    "click td": "navigation",
+	    "click .scrollTopButton": "scrollTop"
+	  },
+
+	  template: _subsTemplate2.default,
+
+	  initialize: function initialize(options) {
+	    this.$el.html(this.template());
+	    this.header = new _menuHeader2.default({ el: (0, _jquery2.default)("header"), title: "Подписки" });
+	    this.menu = new _menuView2.default({ el: (0, _jquery2.default)("#menu-wrapper") });
+	    this.footer = new _basicFooter2.default({ el: (0, _jquery2.default)("footer") });
+	    this.coll = new _subs2.default({ subs: options.subs });
+	    this.listenTo(this.coll, "sync", this.render);
+	    this.listenTo(this.coll, "create", this.render);
+	    this.coll.fetch();
+	  },
+
+	  render: function render() {
+	    var tbody = this.$("tbody");
+	    tbody.html("");
+	    _underscore2.default.each(this.coll.models, function (model) {
+	      var modelView = new _sub2.default({
+	        model: model
+	      });
+	      modelView.render();
+	      tbody.append(modelView.$el);
+	    }, this);
+	    (0, _jquery2.default)(".loader").removeClass("show");
+	  },
+
+	  navigation: function navigation() {
+	    console.log("test");
+	  },
+
+	  close: function close() {
+	    this.header.undelegateEvents();
+	    this.header.$el.empty();
+	    this.footer.undelegateEvents();
+	    this.footer.$el.empty();
+	    this.menu.undelegateEvents();
+	    this.menu.$el.empty();
+	  },
+
+	  scrollButton: function scrollButton() {
+	    var target = (0, _jquery2.default)("#scroll-content");
+	    var topButton = (0, _jquery2.default)(".scrollTopButton");
+	    if (target.prop("scrollTop") < 100) {
+	      if (topButton.hasClass("show")) topButton.removeClass("show");
+	    } else {
+	      if (!topButton.hasClass("show")) topButton.addClass("show");
+	    }
+	  },
+
+	  scrollTop: function scrollTop() {
+	    (0, _jquery2.default)("#scroll-content").stop().animate({ scrollTop: 0 }, "500", "swing", function () {});
+	  }
+	});
+
+	exports.default = feedList;
+
+/***/ },
+/* 63 */
+/***/ function(module, exports) {
+
+	module.exports = function(obj){
+	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+	with(obj||{}){
+	__p+='<button class="scrollTopButton">^</button>\r\n<table class="simple-little-table" border="2">\r\n    <tbody></tbody>\r\n</table>';
+	}
+	return __p;
+	};
+
+
+/***/ },
+/* 64 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _backbone = __webpack_require__(8);
+
+	var _userInfo = __webpack_require__(59);
+
+	var _userInfo2 = _interopRequireDefault(_userInfo);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _backbone.Collection.extend({
+	  model: _userInfo2.default,
+	  comparator: "name",
+	  initialize: function initialize(options) {
+	    this.subs = options.subs;
+	  },
+	  url: function url() {
+	    var filter = {
+	      "where": {
+	        "id": {
+	          "inq": this.subs
+
+	        }
+	      }
+	    };
+	    return ("http://127.0.0.1:4000") + "/api/userInfo?filter=" + JSON.stringify(filter);
+	  }
+	});
+
+/***/ },
+/* 65 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _backbone = __webpack_require__(8);
+
+	var _jquery = __webpack_require__(6);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _subTemplate = __webpack_require__(66);
+
+	var _subTemplate2 = _interopRequireDefault(_subTemplate);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _backbone.View.extend({
+	  tagName: "tr",
+
+	  initialize: function initialize() {
+	    this.template = _subTemplate2.default;
+	    this.listenTo(this.model, "change", this.render);
+	    this.listenTo(this.model, "destroy", this.remove);
+	  },
+
+	  render: function render() {
+	    var html = this.template(this.model.toJSON());
+	    this.$el.append(html);
+	  }
+	});
+
+/***/ },
+/* 66 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(_) {module.exports = function(obj){
+	var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};
+	with(obj||{}){
+	__p+='<td>'+
+	((__t=(name))==null?'':_.escape(__t))+
+	'</td>';
+	}
+	return __p;
+	};
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+
+/***/ },
+/* 67 */
 /***/ function(module, exports) {
 
 	module.exports = function(obj){

@@ -26,12 +26,11 @@ module.exports = {
         loader: "underscore-template-loader"
       },
       {
-        test: /\.js$/,
-        loader: "string-replace",
-        query: {
-          search: "!host",
-          replace: "http://127.0.0.1:4000"
-        }
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loaders: [
+          "file?hash=sha512&digest=hex&name=[hash].[ext]",
+          "image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false"
+        ]
       }
     ]
   },

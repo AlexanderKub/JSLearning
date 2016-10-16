@@ -2,19 +2,24 @@ import $ from "jquery";
 import Feeds from "./feedPage/feedView";
 import Auth from "./authPage/authView";
 import Reg from "./regPage/regView";
+import Folowers from "./followers/followersWindow";
+import Subs from "./subs/subsWindow";
 
 import {Router} from "backbone";
 
 import userData from "./utils/usersData";
 import tmpl from "./index.ejs";
 $("#scroll-content").html(tmpl({}));
+var loader = $(".loader");
 
 export default Router.extend({
   routes: {
     "auth(/:state)": "authPage",
     "registration": "regPage",
     "feeds": "navigateFeeds",
-    "*path" : "redirectSections"
+    "followers": "followersPage",
+    "subs": "subsPage",
+    "*path": "redirectSections"
   },
 
   oldView : null,
@@ -22,9 +27,15 @@ export default Router.extend({
   $el: $(".content"),
 
   closeOld: function(){
+    if(this.oldView.close) this.oldView.close();
     this.oldView.remove();
+    $("#scroll-content").html(tmpl({}));
   },
-  
+
+  loaderBar: function () {
+    loader.addClass("show");
+  },
+
   redirectSections : function(){
     var router = this;
     router.isAuth().then(function (response) {
@@ -37,9 +48,8 @@ export default Router.extend({
     var router = this;
     router.isAuth().then(function (response) {
       if (!response) {
-        $("#menu-wrapper").html("");
-        var view = new Auth({el : router.$el, state: state});
-        router.openNewPage(view);
+        if (router.oldView) router.closeOld();
+        router.oldView = new Auth({el : $(".content"), state: state});
         return;
       }
       router.navigate("feeds", {trigger: true});
@@ -50,9 +60,8 @@ export default Router.extend({
     var router = this;
     router.isAuth().then(function (response) {
       if (!response) {
-        $("#menu-wrapper").html("");
-        var view = new Reg({el: router.$el});
-        router.openNewPage(view);
+        if (router.oldView) router.closeOld();
+        router.oldView = new Reg({el: $(".content")});
         return;
       }
       router.navigate("feeds", {trigger: true});
@@ -61,11 +70,38 @@ export default Router.extend({
 
   navigateFeeds: function () {
     var router = this;
+    router.loaderBar();
     router.isAuth().then(function (response) {
       if(response>0){
-        userData.GetUserSubs(response).then(function (response) {
-          var view = new Feeds({el: router.$el, userSubs: response || []});
-          router.openNewPage(view);
+        userData.getUserSubs(response).then(function (response) {
+          if (router.oldView) router.closeOld();
+          router.oldView = new Feeds({el: $(".content"), userSubs: response || []});
+        });
+      }else router.navigate("auth", {trigger: true});
+    });
+  },
+
+  followersPage: function () {
+    var router = this;
+    router.loaderBar();
+    router.isAuth().then(function (response) {
+      if(response>0){
+        userData.getUserFollowers(response).then(function (response) {
+          if (router.oldView) router.closeOld();
+          router.oldView = new Folowers({el: $(".content"), followers: response || []});
+        });
+      }else router.navigate("auth", {trigger: true});
+    });
+  },
+
+  subsPage: function () {
+    var router = this;
+    router.loaderBar();
+    router.isAuth().then(function (response) {
+      if(response>0){
+        userData.getUserSubs(response).then(function (response) {
+          if (router.oldView) router.closeOld();
+          router.oldView = new Subs({el: $(".content"), subs: response || []});
         });
       }else router.navigate("auth", {trigger: true});
     });
@@ -77,11 +113,6 @@ export default Router.extend({
     else return new Promise(function (resolve) {
       resolve(0);
     });
-  },
-
-  openNewPage(view){
-    var router = this;
-    if (router.oldView) router.closeOld();
-    router.oldView = view.setElement(this.$el).render();
   }
+
 });

@@ -11,11 +11,12 @@ let feedList = Backbone.View.extend({
 
   template: tmpl,
 
-  initialize: function () {
-    this.$el.html(this.template());
+  initialize: function (options) {
+    this.$el.html(this.template({title: options.title}));
   },
 
   showMenu: function () {
+    console.log("ShowMenu");
     $(".menu").addClass("show");
   }
 });

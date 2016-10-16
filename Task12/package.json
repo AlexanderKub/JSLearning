@@ -25,6 +25,7 @@
     "css-loader": "^0.25.0",
     "es6-promise": "^3.3.1",
     "eslint": "^3.5.0",
+    "image-webpack-loader": "^2.0.0",
     "loopback": "^2.34.1",
     "string-replace-loader": "^1.0.5",
     "style-loader": "^0.13.1",
