@@ -9,9 +9,9 @@ import Header from "../basic/menuHeader";
 import Menu from "../menu/menuView";
 import BasicFooter from "../basic/basicFooter";
 
+import userData from "../utils/usersData";
 let feedList = Backbone.View.extend({
   events: {
-    "click tr": "navigation",
     "click .scrollTopButton": "scrollTop"
   },
 
@@ -19,13 +19,17 @@ let feedList = Backbone.View.extend({
 
   initialize: function (options) {
     this.$el.html(this.template());
-    this.header = new Header({el: $("header"),title: "Подписчики"});
+    this.header = new Header({el: $("header"),
+      title: options.uid == sessionStorage.getItem("User.id") ? " Мои подписчики" : "Подписчики"});
     this.menu = new Menu({el: $("#menu-wrapper")});
     this.footer = new BasicFooter({el: $("footer")});
-    this.coll = new FollowersCollection({followers:options.followers});
-    this.listenTo(this.coll, "sync", this.render);
-    this.listenTo(this.coll, "create", this.render);
-    this.coll.fetch();
+    var self = this;
+    userData.getUserFollowers(options.uid).then(function (response) {
+      self.coll = new FollowersCollection({followers:response || []});
+      self.listenTo(self.coll, "sync", self.render);
+      self.listenTo(self.coll, "create", self.render);
+      self.coll.fetch();
+    });
   },
 
   render: function () {
@@ -39,10 +43,6 @@ let feedList = Backbone.View.extend({
       tbody.append(modelView.$el);
     }, this);
     $(".loader").removeClass("show");
-  },
-
-  navigation: function () {
-    console.log("test");
   },
 
   close: function () {

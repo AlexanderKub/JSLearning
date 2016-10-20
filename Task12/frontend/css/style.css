@@ -368,20 +368,21 @@ header, footer{
 }
 
 .loaderBar {
-  width: 5px;
-  height: 20px;
+  width: 6px;
+  height: 25px;
   background: ghostwhite;
   position: absolute;
 }
 
 .loaderBar.left {
   top: 125px;
-  left: 50px;
+  left: 40px;
 
 }
 
 .loaderBar.right {
   bottom: 125px;
+  left: 40px;
 }
 
 @keyframes spin {

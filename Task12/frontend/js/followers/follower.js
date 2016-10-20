@@ -1,9 +1,13 @@
 import {View} from "backbone";
 import $ from "jquery";
+import Backbone from "backbone";
 import tmpl from "./templates/followerTemplate.ejs";
 
 export default View.extend({
   tagName: "tr",
+  events: {
+    "click td": "clickItem"
+  },
   class:"userListRow",
   initialize: function() {
     this.template = tmpl;
@@ -14,5 +18,9 @@ export default View.extend({
   render: function() {
     var html = this.template(this.model.toJSON());
     this.$el.append(html);
+  },
+
+  clickItem: function () {
+    Backbone.history.navigate("id"+this.model.id,  {trigger: true});
   }
 });

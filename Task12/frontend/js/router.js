@@ -4,6 +4,7 @@ import Auth from "./authPage/authView";
 import Reg from "./regPage/regView";
 import Folowers from "./followers/followersWindow";
 import Subs from "./subs/subsWindow";
+import UserPage from "./userPage/userView";
 
 import {Router} from "backbone";
 
@@ -19,6 +20,9 @@ export default Router.extend({
     "feeds": "navigateFeeds",
     "followers": "followersPage",
     "subs": "subsPage",
+    ":user": "userPage",
+    ":user/subs": "userSubsPage",
+    ":user/followers": "userFollowersPage",
     "*path": "redirectSections"
   },
 
@@ -73,11 +77,8 @@ export default Router.extend({
     router.loaderBar();
     router.isAuth().then(function (response) {
       if(response>0){
-        userData.getUserSubs(response).then(function (response) {
-          if (router.oldView) router.closeOld();
-          router.oldView = new Feeds({el: $(".content"), userSubs: response || []});
-        });
-      }else router.navigate("auth", {trigger: true});
+        router.oldView = new Feeds({el: $(".content"), uid: response});
+      } else router.navigate("auth", {trigger: true});
     });
   },
 
@@ -86,11 +87,8 @@ export default Router.extend({
     router.loaderBar();
     router.isAuth().then(function (response) {
       if(response>0){
-        userData.getUserFollowers(response).then(function (response) {
-          if (router.oldView) router.closeOld();
-          router.oldView = new Folowers({el: $(".content"), followers: response || []});
-        });
-      }else router.navigate("auth", {trigger: true});
+        router.oldView = new Folowers({el: $(".content"), uid: response});
+      } else router.navigate("auth", {trigger: true});
     });
   },
 
@@ -99,11 +97,48 @@ export default Router.extend({
     router.loaderBar();
     router.isAuth().then(function (response) {
       if(response>0){
-        userData.getUserSubs(response).then(function (response) {
-          if (router.oldView) router.closeOld();
-          router.oldView = new Subs({el: $(".content"), subs: response || []});
+        router.oldView = new Subs({el: $(".content"), uid: response});
+      } else router.navigate("auth", {trigger: true});
+    });
+  },
+
+  userPage: function(){
+    var router = this;
+    var uid = location.pathname.replace("/id","");
+    router.loaderBar();
+    router.isAuth().then(function (response) {
+      if(response>0){
+        userData.getUserInfo(uid).then(function (response) {
+          if(response) {
+            if (router.oldView) router.closeOld();
+            router.oldView = new UserPage({el: $(".content"), uid: uid, uinfo: response});
+          }else{
+            router.navigate("feeds", {trigger: true});
+          }
         });
       }else router.navigate("auth", {trigger: true});
+    });
+  },
+
+  userSubsPage: function() {
+    var router = this;
+    var uid = location.pathname.replace("/id","").split("/")[0];
+    router.loaderBar();
+    router.isAuth().then(function (response) {
+      if(response>0){
+        router.oldView = new Subs({el: $(".content"), uid: uid});
+      } else router.navigate("auth", {trigger: true});
+    });
+  },
+
+  userFollowersPage: function() {
+    var router = this;
+    var uid = location.pathname.replace("/id","").split("/")[0];
+    router.loaderBar();
+    router.isAuth().then(function (response) {
+      if(response>0){
+        router.oldView = new Folowers({el: $(".content"), uid: uid});
+      } else router.navigate("auth", {trigger: true});
     });
   },
 

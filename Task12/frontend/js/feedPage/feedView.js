@@ -9,6 +9,7 @@ import FeedsHeader from "../basic/menuHeader";
 import Menu from "../menu/menuView";
 import BasicFooter from "../basic/basicFooter";
 
+import userData from "../utils/usersData";
 let feedList = Backbone.View.extend({
   events: {
     "click td": "navigation",
@@ -22,11 +23,13 @@ let feedList = Backbone.View.extend({
     this.header = new FeedsHeader({el: $("header"), title: "Лента"});
     this.menu = new Menu({el: $("#menu-wrapper")});
     this.footer = new BasicFooter({el: $("footer")});
-    this.coll = new FeedCollection({subs:options.userSubs});
-    this.listenTo(this.coll, "sync", this.render);
-    this.listenTo(this.coll, "create", this.render);
-    this.coll.fetch();
-
+    var self = this;
+    userData.getUserSubs(options.uid).then(function (response) {
+      self.coll = new FeedCollection({subs:response || []});
+      self.listenTo(self.coll, "sync", self.render);
+      self.listenTo(self.coll, "create", self.render);
+      self.coll.fetch();
+    });
     $("#scroll-content").on("scroll",this.scrollButton);
   },
 

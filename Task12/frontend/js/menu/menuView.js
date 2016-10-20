@@ -66,7 +66,7 @@ let feedList = Backbone.View.extend({
 
   action: function (target) {
     if(target.hasClass("myItem")){
-      console.log("myItem");
+      Backbone.history.navigate("id"+sessionStorage.getItem("User.id"),  {trigger: true});
       return;
     }
     if(target.hasClass("feedsItem")){
