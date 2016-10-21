@@ -1,6 +1,6 @@
 <div class="postHeader">
     <span class="author"><%-userId%></span>
-    <span class="date"><%=Date.ToPrettyString(date)%></span>
+    <span class="date"><%=new Date(date).formatDate()%></span>
 </div>
 
 <div class="postContent">
