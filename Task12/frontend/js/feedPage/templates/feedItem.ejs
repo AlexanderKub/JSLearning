@@ -1,1 +1,13 @@
-<td><%-content%><button class="like">like</button><span class="likeCount">0</span></td>
+<div class="postHeader">
+    <span class="author"><%-userId%></span>
+    <span class="date"><%=Date.ToPrettyString(date)%></span>
+</div>
+
+<div class="postContent">
+    <%-content%>
+</div>
+
+<div class="postFooter">
+    <button class="like">like</button>
+    <span class="likeCount">0</span>
+</div>

@@ -13,13 +13,16 @@ import BasicFooter from "../basic/basicFooter";
 let feedList = Backbone.View.extend({
   events: {
     "click td": "navigation",
-    "click .scrollTopButton": "scrollTop"
+    "click .scrollTopButton": "scrollTop",
+    "click .subsLink": "subsLink",
+    "click .folsLink": "folsLink"
   },
 
   template: tmpl,
 
   initialize: function (options) {
-    this.$el.html(this.template());
+    this.uid = options.uid;
+    this.$el.html(this.template({data: options.uinfo}));
     this.header = new Header({el: $("header"),
       title: options.uid == sessionStorage.getItem("User.id") ? "Моя страница" : "Пользователь"});
     this.menu = new Menu({el: $("#menu-wrapper")});
@@ -31,7 +34,7 @@ let feedList = Backbone.View.extend({
   },
 
   render: function () {
-    const tbody = this.$("tbody");
+    const tbody = this.$(".postsList");
     tbody.html("");
     _.each(this.coll.models, function (model) {
       const modelView = new FeedView({
@@ -45,6 +48,14 @@ let feedList = Backbone.View.extend({
 
   navigation: function () {
     console.log("test");
+  },
+
+  subsLink: function(){
+    Backbone.history.navigate("id"+this.uid+"/subs",  {trigger: true});
+  },
+
+  folsLink: function(){
+    Backbone.history.navigate("id"+this.uid+"/followers",  {trigger: true});
   },
 
   close: function () {

@@ -4,7 +4,8 @@ import tmpl from "./templates/feedItem.ejs";
 
 import postsData from "../utils/postsData";
 export default View.extend({
-  tagName: "tr",
+  tagName: "li",
+  className: "postItem",
   events: {
     "click .like": "like"
   },
