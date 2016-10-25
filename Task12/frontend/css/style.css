@@ -448,30 +448,42 @@ header, footer{
 }
 
 .postHeader{
-  background: antiquewhite;
+  background: #f1dd88;
   height: 15px;
   padding: 8px;
-  border-radius: 10px;
+  border-radius: 80px;
 }
 
 .postHeader .author{
-  left: 30px;
-  width: calc(60% - 30px);
-  position: fixed;
-  text-align: left;
+  float: left;
+  margin-left: 10px;
 }
 
 .postHeader .date{
-  right: 30px;
-  width: calc(40% - 30px);
-  position: fixed;
-  text-align: right;
+  float: right;
+  margin-right: 10px;
 }
 
 .postFooter{
-
+  background: #f1dd88;
+  height: 15px;
+  padding: 8px;
+  border-radius: 80px;
 }
 
 .postContent{
+  background: #e8d066;
+  padding: 8px;
+  margin-right: Calc(5% - 4px);
+  margin-left: Calc(5% - 4px);
+}
 
+.leftFloat{
+  float: left;
+  margin-left: 10px;
+}
+
+.rightFloat{
+  float: right;
+  margin-right: 10px;
 }
